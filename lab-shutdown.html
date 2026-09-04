@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research Laboratory Shutdown - Emergency Escape Game</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .digital-font { font-family: 'Orbitron', monospace; }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between">
+
+  <!-- TOP HEADER -->
+  <header class="bg-slate-800 border-b border-slate-700 py-4 px-6 shadow-lg">
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <div>
+        <h1 class="text-xl sm:text-2xl font-black text-amber-400 tracking-wider flex items-center gap-2">
+          🧪 RESEARCH LABORATORY SHUTDOWN
+        </h1>
+        <p class="text-xs text-slate-400">9-Step Chronological Language & Communication Escape Game (A2/B1)</p>
+      </div>
+
+      <!-- 3x3 PASSCODE PROGRESS CARD -->
+      <div class="bg-slate-900 border border-slate-700 rounded-lg p-3 flex items-center gap-3 shadow-inner">
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider text-center">3x3 Grid<br>Passcode:</span>
+        <div class="grid grid-cols-3 gap-1 digital-font text-base font-bold">
+          <span id="grid-d1" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d2" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d3" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d4" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d5" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d6" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d7" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d8" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d9" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-4xl mx-auto w-full px-4 py-6 flex-grow space-y-6">
+
+    <!-- LANDING PAGE REFERENCE GUIDE / PHRASEBOOK -->
+    <details class="bg-slate-800/90 border border-slate-700 rounded-xl overflow-hidden shadow-md group">
+      <summary class="bg-slate-800 p-4 cursor-pointer font-bold text-amber-400 hover:text-amber-300 flex justify-between items-center text-sm md:text-base">
+        <span>📖 LANDING PAGE REFERENCE GUIDE: Research Lab Safety & Evacuation Phrasebook</span>
+        <span class="text-xs bg-slate-700 text-slate-300 px-2.5 py-1 rounded-full group-open:rotate-180 transition-transform">▼ Click to Toggle Reference</span>
+      </summary>
+      <div class="p-5 text-sm text-slate-300 border-t border-slate-700 space-y-4 bg-slate-900/50">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- SECTION 1 -->
+          <div class="bg-slate-800 p-3.5 rounded-lg border border-slate-700">
+            <h4 class="font-bold text-amber-400 mb-2 text-xs uppercase tracking-wide">1. Safety Procedures & Shutdown Enquiries</h4>
+            <ul class="list-disc list-inside text-xs space-y-1 text-slate-300">
+              <li>"Could you tell me where the emergency shutdown procedure guide is?"</li>
+              <li>"Could you confirm if the ventilation system is still operating?"</li>
+              <li>"Which corridor leads directly to the authorized exit airlock?"</li>
+              <li>"Is there a safety bypass switch open in Sector B?"</li>
+              <li>"What time do the automatic containment doors lock down?"</li>
+            </ul>
+          </div>
+
+          <!-- SECTION 2 -->
+          <div class="bg-slate-800 p-3.5 rounded-lg border border-slate-700">
+            <h4 class="font-bold text-amber-400 mb-2 text-xs uppercase tracking-wide">2. Lab Directions & Prepositions of Movement</h4>
+            <ul class="list-disc list-inside text-xs space-y-1 text-slate-300">
+              <li>"Go straight through the containment zone and turn right past the safety shower."</li>
+              <li>"Head down the central service corridor toward the decontamination airlock."</li>
+              <li>"Walk carefully along the marked yellow safety pathway."</li>
+              <li>"Which glass door leads to the cold sample vault?"</li>
+              <li>"Follow the green exit indicators through the bio-safety passage."</li>
+            </ul>
+          </div>
+
+          <!-- SECTION 3 -->
+          <div class="bg-slate-800 p-3.5 rounded-lg border border-slate-700">
+            <h4 class="font-bold text-amber-400 mb-2 text-xs uppercase tracking-wide">3. Urgent Requests & Modals of Necessity</h4>
+            <ul class="list-disc list-inside text-xs space-y-1 text-slate-300">
+              <li>"We have to clear the main corridor before the airlock seals!"</li>
+              <li>"Is it okay if we pass through this service passage now?"</li>
+              <li>"Could you please help us secure this chemical storage locker?"</li>
+              <li>"I need to pick up my research samples from freezer 9."</li>
+              <li>"Please hurry, the automatic seal is closing in five minutes!"</li>
+            </ul>
+          </div>
+
+          <!-- SECTION 4 -->
+          <div class="bg-slate-800 p-3.5 rounded-lg border border-slate-700">
+            <h4 class="font-bold text-amber-400 mb-2 text-xs uppercase tracking-wide">4. Malfunction Reporting & Formal Statements</h4>
+            <ul class="list-disc list-inside text-xs space-y-1 text-slate-300">
+              <li>"Excuse me, the automatic airlock door isn't opening."</li>
+              <li>"Could you tell me if the authorized exit door has already locked?"</li>
+              <li>"We do not have any hazardous materials in our possession."</li>
+              <li>"Is the main exhaust system clear of technical obstructions?"</li>
+              <li>"There is an electronic door sensor failure in Sector A."</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </details>
+
+    <!-- STAGE CONTENT CARD -->
+    <div id="game-card" class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-2xl relative">
+      
+      <!-- Stage Header -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-700 pb-4 mb-5 gap-2">
+        <div>
+          <span id="stage-number" class="text-xs font-bold text-amber-400 uppercase tracking-widest">STAGE 1 OF 9</span>
+          <h2 id="stage-title" class="text-xl md:text-2xl font-bold text-white mt-0.5">Main Lab Control Station</h2>
+        </div>
+        <span id="location-tag" class="text-xs font-medium bg-slate-700 text-slate-300 px-3 py-1 rounded-full">Sector A Control (20:50 PM)</span>
+      </div>
+
+      <!-- Dialogue Section -->
+      <div class="bg-slate-900/80 border-l-4 border-amber-500 rounded-r-xl p-4 mb-6">
+        <p id="character-name" class="text-xs font-bold text-amber-400 uppercase mb-1">Laboratory Automated Siren</p>
+        <p id="character-dialogue" class="text-slate-200 italic text-sm leading-relaxed">
+          "ATTENTION LAB PERSONNEL: Automatic safety shutdown sequence initiated! System lockdown in 15 minutes. Complete safety steps and evacuate to the authorized exit." Ask the lab officer for the emergency procedure guide!
+        </p>
+      </div>
+
+      <!-- PART 1: LANGUAGE MISSION (MUST COMPLETE FIRST) -->
+      <div id="language-mission-box" class="bg-indigo-950/50 border border-indigo-800/80 rounded-xl p-5 mb-6">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="text-sm font-bold text-indigo-300 flex items-center gap-2">
+            💬 STEP 1: MAINLINE LANGUAGE MISSION (<span id="focus-skill">Asking for Safety Procedures & Instructions</span>)
+          </h3>
+          <span id="lang-status" class="text-xs font-bold bg-indigo-900 text-indigo-300 px-2.5 py-0.5 rounded">LOCKED</span>
+        </div>
+        
+        <p id="mission-instruction" class="text-sm text-indigo-100 mb-4 leading-relaxed">
+          Select the correct polite question to ask the lab officer for the safety procedure guide:
+        </p>
+
+        <div id="language-options" class="space-y-2 mb-4">
+          <!-- Options rendered dynamically -->
+        </div>
+
+        <button id="verify-lang-btn" onclick="verifyLanguageMission()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-5 py-2 rounded-lg text-sm transition">
+          Verify Language Answer
+        </button>
+        <p id="lang-feedback" class="text-xs font-semibold mt-2 hidden"></p>
+      </div>
+
+      <!-- REVISION LOOP BOX (Triggers on incorrect answer for ANY stage) -->
+      <div id="remediation-box" class="hidden bg-rose-950/80 border border-rose-700 rounded-xl p-5 mb-6">
+        <div class="border-b border-rose-800 pb-3 mb-4">
+          <h3 class="text-sm font-bold text-rose-300 flex items-center gap-2">
+            🔄 REVISION LOOP REQUIRED (4 EXERCISES)
+          </h3>
+          <p class="text-xs text-rose-200 mt-1">
+            You missed the main expression! Complete all 4 revision exercises below (Gap-fill, Multiple Choice, Correct/Incorrect) to reinforce your grammar before returning to the main escape route.
+          </p>
+        </div>
+        
+        <div id="remediation-questions" class="space-y-4 text-xs text-slate-200">
+          <!-- Dynamic 4-Exercise Revision List -->
+        </div>
+
+        <button onclick="verifyRemediation()" class="mt-5 bg-rose-700 hover:bg-rose-600 text-white font-bold px-5 py-2 rounded-lg text-xs transition">
+          Submit All 4 Revision Answers
+        </button>
+        <p id="remediation-feedback" class="text-xs font-semibold mt-2 hidden"></p>
+      </div>
+
+      <!-- PART 2: STAGE PUZZLE (REVEALED ONLY AFTER STEP 1 IS CORRECT) -->
+      <div id="puzzle-box" class="bg-slate-900 border border-slate-700 rounded-xl p-5 mb-2 opacity-50 pointer-events-none">
+        <div class="flex justify-between items-center mb-2">
+          <h3 class="text-sm font-bold text-amber-400">🧩 STEP 2: STAGE PUZZLE</h3>
+          <span id="puzzle-status" class="text-xs text-slate-500 font-bold">🔒 Complete Language Mission First</span>
+        </div>
+        
+        <p id="puzzle-desc" class="text-sm text-slate-300 leading-relaxed mb-4">
+          Complete Step 1 to unlock this puzzle clue.
+        </p>
+
+        <div id="puzzle-input-container" class="flex flex-col sm:flex-row items-center gap-3">
+          <input type="text" id="puzzle-answer" disabled placeholder="Locked" class="w-full sm:w-64 bg-slate-800 border border-slate-600 rounded-lg px-4 py-2 text-slate-100 focus:outline-none focus:border-amber-400 text-sm">
+          <button id="submit-puzzle-btn" disabled onclick="submitStageAnswer()" class="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-5 py-2 rounded-lg transition text-sm">
+            Unlock Grid Digit
+          </button>
+        </div>
+        <p id="puzzle-feedback" class="text-xs font-semibold mt-2 hidden"></p>
+      </div>
+
+    </div>
+
+    <!-- FINAL 3x3 KEYPAD SCREEN (Hidden by default) -->
+    <div id="keypad-screen" class="hidden bg-slate-800 border border-slate-700 rounded-2xl p-6 max-w-md mx-auto text-center shadow-2xl">
+      <h2 class="text-2xl font-bold text-amber-400 mb-1">AUTHORIZED EXIT AIRLOCK KEYPAD</h2>
+      <p class="text-xs text-slate-400 mb-5">Enter your collected 9-digit passcode sequence (1-9) to disarm the automatic containment lock!</p>
+
+      <!-- Display -->
+      <div id="keypad-display" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 mb-5 font-mono text-2xl font-bold tracking-widest text-emerald-400 min-h-[56px] flex items-center justify-center digital-font">
+        ---------
+      </div>
+
+      <!-- 3x3 Keypad -->
+      <div class="grid grid-cols-3 gap-2.5 mb-5 max-w-xs mx-auto">
+        <button onclick="pressKey('1')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">1</button>
+        <button onclick="pressKey('2')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">2</button>
+        <button onclick="pressKey('3')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">3</button>
+        <button onclick="pressKey('4')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">4</button>
+        <button onclick="pressKey('5')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">5</button>
+        <button onclick="pressKey('6')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">6</button>
+        <button onclick="pressKey('7')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">7</button>
+        <button onclick="pressKey('8')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">8</button>
+        <button onclick="pressKey('9')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">9</button>
+        <button onclick="clearKeypad()" class="bg-rose-900/70 hover:bg-rose-800 text-rose-200 font-bold py-3 rounded-lg text-xs">CLR</button>
+        <button onclick="pressKey('0')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">0</button>
+        <button onclick="submitKeypad()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-lg text-xs">ENTER</button>
+      </div>
+      <p id="keypad-feedback" class="text-xs font-bold min-h-[16px]"></p>
+    </div>
+
+    <!-- WIN SCREEN -->
+    <div id="win-screen" class="hidden bg-slate-800 border-2 border-emerald-500 rounded-2xl p-8 text-center space-y-5 shadow-2xl">
+      <div class="text-5xl animate-bounce">🧪🏃💨</div>
+      <h2 class="text-2xl sm:text-3xl font-black text-emerald-400 uppercase">Safely Evacuated from the Research Lab!</h2>
+      <p class="text-slate-300 text-sm max-w-lg mx-auto leading-relaxed">
+        The heavy airlock doors unlock and slide open, allowing you and your team to step safely outside into the clean air just as the laboratory completes its containment shutdown! Excellent technical communication and problem-solving skills under pressure!
+      </p>
+      <button onclick="restartGame()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-6 py-2.5 rounded-xl text-sm transition">
+        Play Challenge Again
+      </button>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 border-t border-slate-800 py-3 text-center text-xs text-slate-500">
+    Research Laboratory Shutdown • Interactive A2/B1 Adult Language Challenge
+  </footer>
+
+  <script>
+    // 9 STAGES - NARRATIVE: RESEARCH LABORATORY SHUTDOWN ESCAPE
+    // Target Passcode Sequence: 8 - 3 - 5 - 1 - 9 - 2 - 7 - 4 - 6
+    const stages = [
+      {
+        stageNum: 1,
+        title: "Main Lab Control Station",
+        location: "Sector A Control (20:50 PM)",
+        character: "Laboratory Automated Siren",
+        dialogue: `"ATTENTION LAB PERSONNEL: Automatic safety shutdown sequence initiated! System lockdown in 15 minutes. Complete safety steps and evacuate to the authorized exit." Ask the lab officer for the emergency procedure guide!`,
+        skill: "Asking for Safety Procedures & Instructions",
+        instruction: "Select the correct polite question to ask the lab officer for the emergency procedure guide:",
+        options: [
+          "Could you tell me where the emergency shutdown procedure guide is?",
+          "Where you putted the safety manual?",
+          "Tell me shutdown procedure right now!"
+        ],
+        correctOption: 0,
+        puzzleDesc: "Out of 12 chemical flasks on desk A, 4 have been placed in cabinet storage. Calculate (12 - 4 = 8). Enter 8 as Passcode Digit #1.",
+        expectedDigit: "8"
+      },
+      {
+        stageNum: 2,
+        title: "Hazardous Material Storage",
+        location: "Sector A Corridor (20:52 PM)",
+        character: "Safety Inspector Officer",
+        dialogue: `"A chemical fume hood shutter drops! The safety officer directs you. 'Follow the yellow safety line past the eyewash station!'"`,
+        skill: "Prepositions of Movement & Lab Safety",
+        instruction: "Select the sentence with the correct prepositions of movement:",
+        options: [
+          "Go straight through the containment zone and turn right past the safety shower.",
+          "Go straight into containment zone and turning right across safety shower.",
+          "Go straight under containment zone and turn right on top of safety shower."
+        ],
+        correctOption: 0,
+        puzzleDesc: "There are 7 gas cylinders in the storage bay, but 4 are locked down. Calculate (7 - 4 = 3). Enter 3 as Passcode Digit #2.",
+        expectedDigit: "3"
+      },
+      {
+        stageNum: 3,
+        title: "Chemical Exhaust Terminal",
+        location: "Sector B Terminal (20:54 PM)",
+        character: "Exhaust System Screen",
+        dialogue: `"An electronic terminal flashes ventilation updates. Confirm if the main chemical exhaust system is still operating properly."`,
+        skill: "Embedded Questions & System Operating Status",
+        instruction: "Choose the grammatically correct embedded question:",
+        options: [
+          "Could you tell me if the chemical exhaust system is still operating?",
+          "Could you tell me is the chemical exhaust system still operating?",
+          "Could you tell me if is operating the chemical exhaust system?"
+        ],
+        correctOption: 0,
+        puzzleDesc: "Exhaust Terminal 5 is operating at full capacity. Enter 5 as Passcode Digit #3.",
+        expectedDigit: "5"
+      },
+      {
+        stageNum: 4,
+        title: "Decontamination Airlock",
+        location: "Airlock Checkpoint 1 (20:56 PM)",
+        character: "Airlock Control Terminal",
+        dialogue: `"The automatic airlock door sensor flashes red! Report the door sensor error to the lab supervisor."`,
+        skill: "Reporting Equipment Malfunctions & Error Reporting",
+        instruction: "Complete the statement: 'Excuse me, the automatic airlock door ________ opening.'",
+        options: [
+          "isn't",
+          "don't",
+          "not"
+        ],
+        correctOption: 0,
+        puzzleDesc: "Sensor error code calculation: 10 divided by 10 = 1. Enter 1 as Passcode Digit #4.",
+        expectedDigit: "1"
+      },
+      {
+        stageNum: 5,
+        title: "Cold Storage & Sample Vault",
+        location: "Sector B Cryo Vault (20:58 PM)",
+        character: "Vault Attendant",
+        dialogue: `"You need to collect your research samples before the vault seals! Request your samples from freezer 9."`,
+        skill: "Phrasal Verbs for Sample Retrieval",
+        instruction: "Choose the correct expression to request your stored samples:",
+        options: [
+          "I need to pick up my research samples from freezer 9.",
+          "I need to take off my research samples from freezer 9.",
+          "I need to put out my research samples from freezer 9."
+        ],
+        correctOption: 0,
+        puzzleDesc: "Freezer locker code is 9. Enter 9 as Passcode Digit #5.",
+        expectedDigit: "5"
+      },
+      {
+        stageNum: 6,
+        title: "Main Ventilation Corridor",
+        location: "Corridor Sector C (21:00 PM)",
+        character: "Lab Safety Warden",
+        dialogue: `"Nitrogen pressure is rising in the main duct! The warden urges the team to clear the corridor before the airlock seals."`,
+        skill: "Modals of Urgent Obligation & Emergency Actions",
+        instruction: "Select the sentence showing urgent obligation:",
+        options: [
+          "We have to clear the main corridor before the airlock seals.",
+          "We must to clear main corridor before airlock seals.",
+          "We are having to clear main corridor right now."
+        ],
+        correctOption: 0,
+        puzzleDesc: "Ventilation duct calculation: 16 valves divided by 8 units (16 / 8 = 2). Enter 2 as Passcode Digit #6.",
+        expectedDigit: "2"
+      },
+      {
+        stageNum: 7,
+        title: "Bio-Safety Service Passage",
+        location: "Passage Sector C (21:02 PM)",
+        character: "Maintenance Technician",
+        dialogue: `"A technician holds a restricted bio-safety door open. Ask for permission to pass through the service passage."`,
+        skill: "Requesting Permission & Restricted Passage",
+        instruction: "Choose the best request to confirm entry permission:",
+        options: [
+          "Is it okay if we pass through this service passage now?",
+          "We are passing through, do not stop us.",
+          "Must we to pass through this service passage?"
+        ],
+        correctOption: 0,
+        puzzleDesc: "Bio-Safety Passage ID: 14 minus 7 = 7. Enter 7 as Passcode Digit #7.",
+        expectedDigit: "7"
+      },
+      {
+        stageNum: 8,
+        title: "Security Decontamination Gate",
+        location: "Ground Level Gate (21:03 PM)",
+        character: "Chief Lab Officer",
+        dialogue: `"Security officers inspect departing personnel at the decontamination gate. State your formal safety declaration."`,
+        skill: "Formal Safety Declarations & Negative Structures",
+        instruction: "Select the correct formal declaration statement:",
+        options: [
+          "We do not have any hazardous materials in our possession.",
+          "We do not have no hazardous materials in our possession.",
+          "We aren't having no hazardous materials with us."
+        ],
+        correctOption: 0,
+        puzzleDesc: "Decontamination Gate identifier calculation: 8 minus 4 = 4. Enter 4 as Passcode Digit #8.",
+        expectedDigit: "4"
+      },
+      {
+        stageNum: 9,
+        title: "Authorized Exit Airlock",
+        location: "Exterior Airlock (21:04 PM)",
+        character: "Airlock Security Guard",
+        dialogue: `"You reach the exterior authorized exit! Ask the officer if the primary door has already locked."`,
+        skill: "Present Perfect Facility Enquiries",
+        instruction: "Select the correct Present Perfect enquiry:",
+        options: [
+          "Could you tell me if the authorized exit door has already locked?",
+          "Could you tell me if the authorized exit door is already locked?",
+          "Could you tell me if the authorized exit door did already locked?"
+        ],
+        correctOption: 0,
+        puzzleDesc: "Authorized exit lock calculation: 12 minus 6 = 6. Enter 6 as Passcode Digit #9.",
+        expectedDigit: "6"
+      }
+    ];
+
+    // REVISION LOOPS (4 EXERCISES FOR EACH OF THE 9 STAGES)
+    const remediationData = {
+      1: [
+        { type: "Gap-Fill", q: "1. Complete the phrase: 'Could you tell me where the guide ________ located?'", options: ["is", "are", "does"], correct: 0 },
+        { type: "Multiple Choice", q: "2. Ask about safety procedures politely:", options: ["Could you tell me which way leads to the exit airlock?", "Where manual go?", "Why alarm ringing?"], correct: 0 },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Where did you putted the safety manual?'", options: ["Correct", "Incorrect (should be 'put')"], correct: 1 },
+        { type: "Gap-Fill", q: "4. Fill in the blank: 'Please check the laboratory safety ________.'", options: ["manual", "bill", "card"], correct: 0 }
+      ],
+      2: [
+        { type: "Gap-Fill", q: "1. Complete direction sentence: 'Go straight ________ the containment zone.'", options: ["through", "over", "under"], correct: 0 },
+        { type: "Multiple Choice", q: "2. Select the correct detour instruction:", options: ["Turn right past the safety shower.", "Turning right across shower.", "Turn right under shower."], correct: 0 },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Walk past the fume hood to find the door.'", options: ["Correct", "Incorrect"], correct: 0 },
+        { type: "Gap-Fill", q: "4. Complete: 'Follow the yellow line to ________ the airlock.'", options: ["reach", "reaching", "reaches"], correct: 0 }
+      ],
+      3: [
+        { type: "Gap-Fill", q: "1. Complete embedded question: 'Could you tell me if the exhaust ________ working?'", options: ["is", "does", "are"], correct: 0 },
+        { type: "Multiple Choice", q: "2. Inquire about ventilation status politely:", options: ["Could you tell me if Sector B is safe?", "Where ventilation is?", "Why exhaust stopped?"], correct: 0 },
+        { type: "Correct / Incorrect", q: "3. Is this question correct? 'Could you tell me is Sector B safe?'", options: ["Correct", "Incorrect (word order)"], correct: 1 },
+        { type: "Gap-Fill", q: "4. Fill in the blank: 'The electronic panel shows system ________.'", options: ["status", "ticket", "bill"], correct: 0 }
+      ],
+      4: [
+        { type: "Gap-Fill", q: "1. Complete: 'The automatic airlock door ________ working properly.'", options: ["isn't", "don't", "not"], correct: 0 },
+        { type: "Multiple Choice", q: "2. Report an airlock issue politely:", options: ["Excuse me, the airlock sensor is failing.", "Door bad now.", "Fix sensor fast!"], correct: 0 },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'The door doesn't opening.'", options: ["Correct", "Incorrect (should be 'isn't opening')"], correct: 1 },
+        { type: "Gap-Fill", q: "4. Fill in the blank: 'There is a sensor ________ in Sector A.'", options: ["failure", "failing", "failed"], correct: 0 }
+      ],
+      5: [
+        { type: "Gap-Fill", q: "1. Complete phrasal verb: 'I need to ________ up my research samples.'", options: ["pick", "take", "bring"], correct: 0 },
+        { type: "Multiple Choice", q: "2. Request sample retrieval politely:", options: ["Could I please collect my samples from freezer 9?", "Give samples now!", "Where samples are?"], correct: 0 },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I need to take off my samples from freezer 9.'", options: ["Correct", "Incorrect (should be 'pick up')"], correct: 1 },
+        { type: "Gap-Fill", q: "4. Fill in the blank: 'Please show your vault claim ________.'", options: ["tag", "bill", "cheque"], correct: 0 }
+      ],
+      6: [
+        { type: "Gap-Fill", q: "1. Complete obligation sentence: 'We ________ to evacuate Sector C immediately.'", options: ["have", "musting", "shoulded"], correct: 0 },
+        { type: "Multiple Choice", q: "2. Express urgent obligation politely:", options: ["We must leave now because of the nitrogen leak.", "We go fast bye.", "Run fast!"], correct: 0 },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'We must to leave right now.'", options: ["Correct", "Incorrect (should be 'must leave')"], correct: 1 },
+        { type: "Gap-Fill", q: "4. Fill in the blank: 'Clear the corridor before the doors ________.'", options: ["seal", "sealing", "sealed"], correct: 0 }
+      ],
+      7: [
+        { type: "Gap-Fill", q: "1. Complete permission request: 'Is it okay ________ we pass through here?'", options: ["if", "that", "where"], correct: 0 },
+        { type: "Multiple Choice", q: "2. Ask permission from a technician:", options: ["May we please use this service passage?", "We go now.", "Open door fast."], correct: 0 },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Must we to show our badges?'", options: ["Correct", "Incorrect (should be 'Must we show')"], correct: 1 },
+        { type: "Gap-Fill", q: "4. Fill in the blank: 'The technician gave us permission to ________.'", options: ["pass", "passing", "passed"], correct: 0 }
+      ],
+      8: [
+        { type: "Gap-Fill", q: "1. Complete declaration: 'We do not have ________ chemical samples.'", options: ["any", "no", "none"], correct: 0 },
+        { type: "Multiple Choice", q: "2. Make a formal safety statement:", options: ["We are not carrying any dangerous substances.", "No chemicals here.", "We fine."], correct: 0 },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'We don't have no hazardous materials.'", options: ["Correct", "Incorrect (double negative)"], correct: 1 },
+        { type: "Gap-Fill", q: "4. Fill in the blank: 'The officer checked our safety ________.'", options: ["clearance", "bill", "receipt"], correct: 0 }
+      ],
+      9: [
+        { type: "Gap-Fill", q: "1. Complete Present Perfect sentence: 'Has the exit door already ________ locked?'", options: ["been", "being", "be"], correct: 0 },
+        { type: "Multiple Choice", q: "2. Check door status with the guard:", options: ["Is the exterior airlock still unlocked?", "Why door closed?", "Can I open door?"], correct: 0 },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Could you tell me if the door is already locked?'", options: ["Correct", "Incorrect (should use 'has')"], correct: 1 },
+        { type: "Gap-Fill", q: "4. Fill in the blank: 'Step carefully through the exit ________.'", options: ["airlock", "window", "chair"], correct: 0 }
+      ]
+    };
+
+    let currentStageIndex = 0;
+    let unlockedDigits = Array(9).fill("?");
+    let selectedLangOption = null;
+    let keypadInput = "";
+    let isLanguageVerified = false;
+
+    function renderStage() {
+      const data = stages[currentStageIndex];
+      isLanguageVerified = false;
+      selectedLangOption = null;
+
+      document.getElementById('stage-number').textContent = `STAGE ${data.stageNum} OF 9`;
+      document.getElementById('stage-title').textContent = data.title;
+      document.getElementById('location-tag').textContent = data.location;
+      document.getElementById('character-name').textContent = data.character;
+      document.getElementById('character-dialogue').textContent = data.dialogue;
+      document.getElementById('focus-skill').textContent = data.skill;
+      document.getElementById('mission-instruction').textContent = data.instruction;
+      
+      // Render Language Radio Options
+      const optionsContainer = document.getElementById('language-options');
+      optionsContainer.innerHTML = '';
+      data.options.forEach((opt, idx) => {
+        const div = document.createElement('div');
+        div.className = "flex items-center gap-3 bg-slate-900/90 border border-slate-700 p-3 rounded-lg cursor-pointer hover:border-indigo-500 transition";
+        div.onclick = () => selectOption(idx, div);
+        div.innerHTML = `
+          <input type="radio" name="lang-opt" id="opt-${idx}" value="${idx}" class="text-indigo-600 focus:ring-indigo-500">
+          <label for="opt-${idx}" class="text-xs sm:text-sm text-slate-200 cursor-pointer w-full">${opt}</label>
+        `;
+        optionsContainer.appendChild(div);
+      });
+
+      // Reset Language Status
+      document.getElementById('lang-status').textContent = "LOCKED";
+      document.getElementById('lang-status').className = "text-xs font-bold bg-indigo-900 text-indigo-300 px-2.5 py-0.5 rounded";
+      document.getElementById('lang-feedback').classList.add('hidden');
+      document.getElementById('verify-lang-btn').disabled = false;
+
+      // Lock Puzzle Box
+      const puzzleBox = document.getElementById('puzzle-box');
+      puzzleBox.className = "bg-slate-900 border border-slate-700 rounded-xl p-5 mb-2 opacity-50 pointer-events-none";
+      document.getElementById('puzzle-status').textContent = "🔒 Complete Language Mission First";
+      document.getElementById('puzzle-desc').textContent = "Complete Step 1 to unlock this puzzle clue.";
+      document.getElementById('puzzle-answer').value = "";
+      document.getElementById('puzzle-answer').disabled = true;
+      document.getElementById('puzzle-answer').placeholder = "Locked";
+      document.getElementById('submit-puzzle-btn').disabled = true;
+      document.getElementById('puzzle-feedback').classList.add('hidden');
+
+      // Hide Revision Box
+      document.getElementById('remediation-box').classList.add('hidden');
+    }
+
+    function selectOption(index, el) {
+      selectedLangOption = index;
+      const radios = document.querySelectorAll('input[name="lang-opt"]');
+      radios.forEach((r, i) => r.checked = (i === index));
+    }
+
+    function verifyLanguageMission() {
+      const data = stages[currentStageIndex];
+      const feedback = document.getElementById('lang-feedback');
+      
+      if (selectedLangOption === null) {
+        feedback.textContent = "Please select an answer option first!";
+        feedback.className = "text-xs font-semibold mt-2 text-rose-400";
+        feedback.classList.remove('hidden');
+        return;
+      }
+
+      if (selectedLangOption === data.correctOption) {
+        // Correct Answer!
+        isLanguageVerified = true;
+        document.getElementById('lang-status').textContent = "UNLOCKED ✓";
+        document.getElementById('lang-status').className = "text-xs font-bold bg-emerald-900 text-emerald-300 px-2.5 py-0.5 rounded";
+        feedback.textContent = "Excellent! Mainline language mission verified. Stage puzzle is now unlocked.";
+        feedback.className = "text-xs font-semibold mt-2 text-emerald-400";
+        feedback.classList.remove('hidden');
+
+        // Unlock Puzzle Box
+        const puzzleBox = document.getElementById('puzzle-box');
+        puzzleBox.className = "bg-slate-900 border border-amber-500/50 rounded-xl p-5 mb-2 opacity-100 transition-all";
+        document.getElementById('puzzle-status').textContent = "🔓 UNLOCKED";
+        document.getElementById('puzzle-status').className = "text-xs text-amber-400 font-bold";
+        document.getElementById('puzzle-desc').textContent = data.puzzleDesc;
+        const pInput = document.getElementById('puzzle-answer');
+        pInput.disabled = false;
+        pInput.placeholder = "Enter Digit Solution";
+        document.getElementById('submit-puzzle-btn').disabled = false;
+
+      } else {
+        // Incorrect Answer -> Trigger Revision Loop on ANY Stage!
+        triggerRemediation(data.stageNum);
+      }
+    }
+
+    function triggerRemediation(stageNum) {
+      document.getElementById('language-mission-box').classList.add('hidden');
+      const remBox = document.getElementById('remediation-box');
+      remBox.classList.remove('hidden');
+
+      const questionsContainer = document.getElementById('remediation-questions');
+      questionsContainer.innerHTML = '';
+
+      const drills = remediationData[stageNum];
+      drills.forEach((drill, dIdx) => {
+        let optsHTML = drill.options.map((o, oIdx) => `
+          <label class="flex items-center gap-2 cursor-pointer mt-1 bg-slate-800/80 p-2 rounded border border-slate-700/60 hover:border-rose-500/50">
+            <input type="radio" name="rem-q-${dIdx}" value="${oIdx}" class="text-rose-600 focus:ring-rose-500">
+            <span class="text-xs text-slate-200">${o}</span>
+          </label>
+        `).join('');
+
+        questionsContainer.innerHTML += `
+          <div class="bg-slate-900/90 p-3.5 rounded-lg border border-rose-900/60">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[10px] font-bold uppercase tracking-wider bg-rose-900/40 text-rose-300 px-2 py-0.5 rounded">${drill.type}</span>
+            </div>
+            <p class="font-semibold text-rose-100 mb-2">${drill.q}</p>
+            <div class="space-y-1">${optsHTML}</div>
+          </div>
+        `;
+      });
+    }
+
+    function verifyRemediation() {
+      const stageNum = stages[currentStageIndex].stageNum;
+      const drills = remediationData[stageNum];
+      let allCorrect = true;
+
+      drills.forEach((drill, dIdx) => {
+        const selected = document.querySelector(`input[name="rem-q-${dIdx}"]:checked`);
+        if (!selected || parseInt(selected.value) !== drill.correct) {
+          allCorrect = false;
+        }
+      });
+
+      const fb = document.getElementById('remediation-feedback');
+      if (allCorrect) {
+        fb.textContent = "All 4 revision exercises completed successfully! Returning to Mainline Mission...";
+        fb.className = "text-xs font-semibold mt-2 text-emerald-400";
+        fb.classList.remove('hidden');
+
+        setTimeout(() => {
+          document.getElementById('remediation-box').classList.add('hidden');
+          document.getElementById('language-mission-box').classList.remove('hidden');
+          document.getElementById('lang-feedback').classList.add('hidden');
+        }, 1200);
+      } else {
+        fb.textContent = "Some answers in the revision loop are incorrect. Please review and check all 4 questions!";
+        fb.className = "text-xs font-semibold mt-2 text-rose-400";
+        fb.classList.remove('hidden');
+      }
+    }
+
+    function submitStageAnswer() {
+      if (!isLanguageVerified) return;
+
+      const val = document.getElementById('puzzle-answer').value.trim();
+      const current = stages[currentStageIndex];
+      const feedback = document.getElementById('puzzle-feedback');
+
+      if (val === current.expectedDigit) {
+        unlockedDigits[currentStageIndex] = current.expectedDigit;
+        document.getElementById(`grid-d${currentStageIndex + 1}`).textContent = current.expectedDigit;
+        
+        feedback.textContent = `Correct! Passcode Digit #${current.stageNum} Unlocked: [ ${current.expectedDigit} ]`;
+        feedback.className = "text-xs font-semibold mt-2 text-emerald-400";
+        feedback.classList.remove('hidden');
+
+        setTimeout(() => {
+          currentStageIndex++;
+          if (currentStageIndex < stages.length) {
+            renderStage();
+          } else {
+            // Show 3x3 Keypad Screen
+            document.getElementById('game-card').classList.add('hidden');
+            document.getElementById('keypad-screen').classList.remove('hidden');
+          }
+        }, 1200);
+
+      } else {
+        feedback.textContent = "Incorrect digit or puzzle solution. Check your calculations and try again!";
+        feedback.className = "text-xs font-semibold mt-2 text-rose-400";
+        feedback.classList.remove('hidden');
+      }
+    }
+
+    // KEYPAD FUNCTIONS
+    function pressKey(num) {
+      if (keypadInput.length < 9) {
+        keypadInput += num;
+        updateKeypadDisplay();
+      }
+    }
+
+    function clearKeypad() {
+      keypadInput = "";
+      updateKeypadDisplay();
+      document.getElementById('keypad-feedback').textContent = "";
+    }
+
+    function updateKeypadDisplay() {
+      document.getElementById('keypad-display').textContent = keypadInput.padEnd(9, '-');
+    }
+
+    function submitKeypad() {
+      const fb = document.getElementById('keypad-feedback');
+      const targetCode = unlockedDigits.join('');
+
+      if (keypadInput === "835192746" || keypadInput === targetCode) {
+        playLabAlarmSound();
+        document.getElementById('keypad-screen').classList.add('hidden');
+        document.getElementById('win-screen').classList.remove('hidden');
+      } else {
+        fb.textContent = "ACCESS DENIED - INCORRECT PASSCODE SEQUENCE";
+        fb.className = "text-xs font-bold text-rose-500 animate-pulse";
+      }
+    }
+
+    // SYNTHESIZED LAB ALARM / DISARM SOUND (Web Audio API)
+    function playLabAlarmSound() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const now = audioCtx.currentTime;
+
+        // High-Tech Laboratory Decontamination / Disarm Sweep
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(440, now); // A4
+        osc.frequency.exponentialRampToValueAtTime(880, now + 0.3); // A5
+        osc.frequency.exponentialRampToValueAtTime(1320, now + 0.6); // E6
+
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(now);
+        osc.stop(now + 1.5);
+      } catch (e) {
+        console.log("Audio play error:", e);
+      }
+    }
+
+    function restartGame() {
+      currentStageIndex = 0;
+      unlockedDigits = Array(9).fill("?");
+      keypadInput = "";
+      for (let i = 1; i <= 9; i++) {
+        document.getElementById(`grid-d${i}`).textContent = "?";
+      }
+      document.getElementById('win-screen').classList.add('hidden');
+      document.getElementById('keypad-screen').classList.add('hidden');
+      document.getElementById('game-card').classList.remove('hidden');
+      document.getElementById('language-mission-box').classList.remove('hidden');
+      renderStage();
+    }
+
+    // Init Game
+    renderStage();
+  </script>
+</body>
+</html>
