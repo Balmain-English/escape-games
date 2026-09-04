@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wrong Bus, Wrong Place - Language Simulation</title>
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-blue: #38bdf8;
+      --accent-green: #4ade80;
+      --accent-red: #f87171;
+      --accent-yellow: #facc15;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .game-container {
+      max-width: 680px;
+      width: 100%;
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      border: 1px solid #334155;
+    }
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      background: #0f172a;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .low-batt { color: var(--accent-red); }
+    .story-card {
+      background: #334155;
+      padding: 18px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .target-lang {
+      background: rgba(56, 189, 248, 0.1);
+      border-left: 4px solid var(--accent-blue);
+      padding: 10px 14px;
+      margin-top: 10px;
+      font-size: 0.9em;
+      color: #bae6fd;
+    }
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .option-btn {
+      background: #1e293b;
+      color: var(--text-main);
+      border: 1px solid #475569;
+      padding: 14px;
+      border-radius: 8px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.95em;
+      line-height: 1.4;
+    }
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--accent-blue);
+      background: #0f172a;
+    }
+    .option-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .feedback-box {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 6px;
+      display: none;
+    }
+    .btn-next {
+      background: var(--accent-blue);
+      color: #0f172a;
+      font-weight: bold;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 15px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="game-container">
+  <div class="status-bar">
+    <div class="stat-item">⏱️ Time: <span id="time-val">25</span> min left</div>
+    <div class="stat-item">🔋 Battery: <span id="batt-val">12</span>%</div>
+    <div class="stat-item">⭐ Score: <span id="score-val">0</span> pts</div>
+  </div>
+
+  <div id="game-body">
+    <div class="story-card">
+      <div id="story-text">Loading situation...</div>
+      <div id="lang-tip" class="target-lang"></div>
+    </div>
+
+    <div id="options" class="options-grid"></div>
+    <div id="feedback" class="feedback-box"></div>
+    <button id="next-btn" class="btn-next" onclick="nextStage()">Continue →</button>
+  </div>
+</div>
+
+<script>
+  const scenario = [
+    {
+      story: "You stepped off Bus 42 at 'Oakhaven Plaza'—the wrong district! Your meeting at the Grand Central Hotel is at 10:00 AM. It's 9:35 AM. Your phone battery is at 12%. How do you find your bearing?",
+      tip: "Language Focus: Asking for directions using polite indirect structures.",
+      options: [
+        {
+          text: "Approach a newspaper vendor: 'Excuse me, could you tell me which way leads to Central Avenue?'",
+          timeCost: 3, battCost: 0, score: 10, reqBatt: 0,
+          feedback: "Great polite phrasing! The vendor points you directly toward the express transit line. (+10 Score, -3 mins)"
+        },
+        {
+          text: "Open dynamic turn-by-turn map app on your phone to calculate the route.",
+          timeCost: 2, battCost: 5, score: 5, reqBatt: 1,
+          feedback: "Quick route planning, but dynamic maps drain your battery rapidly! (+5 Score, -2 mins, -5% Battery)"
+        },
+        {
+          text: "Start walking briskly down the street hoping to recognize a landmark.",
+          timeCost: 8, battCost: 0, score: 2, reqBatt: 0,
+          feedback: "You walk for 8 minutes before realizing you are going in the opposite direction. (-8 mins)"
+        }
+      ]
+    },
+    {
+      story: "You reach a busy four-way intersection. Heavy morning traffic has come to a standstill. You must reach the hotel fast.",
+      tip: "Language Focus: Evaluating options with modals of possibility (might, could, should).",
+      options: [
+        {
+          text: "Hail a taxi, but ask first: 'Traffic looks congested; do you think we will make it downtown within 15 minutes?'",
+          timeCost: 4, battCost: 0, score: 10, reqBatt: 0,
+          feedback: "Smart move! The taxi driver warns you that main roads are blocked and advises taking the subway instead. (+10 Score, -4 mins)"
+        },
+        {
+          text: "Unlock a dockless e-scooter using your phone app.",
+          timeCost: 3, battCost: 6, score: 7, reqBatt: 6,
+          feedback: "You bypass traffic quickly, but bluetooth unlocking severely drains your remaining battery! (+7 Score, -3 mins, -6% Battery)"
+        },
+        {
+          text: "Wait at the stop for the next downtown bus line.",
+          timeCost: 11, battCost: 0, score: 3, reqBatt: 0,
+          feedback: "The bus is delayed due to traffic. You lose precious time. (-11 mins)"
+        }
+      ]
+    },
+    {
+      story: "Your colleague calls your phone. They are at the meeting venue asking where you are. Your battery is on the verge of shutting down.",
+      tip: "Language Focus: Succinct professional updates using ETA and modals of necessity.",
+      options: [
+        {
+          text: "Send a quick text: 'Took wrong bus. I'm near Central Metro, ETA 10 mins. Please start without me if necessary.'",
+          timeCost: 1, battCost: 2, score: 10, reqBatt: 1,
+          feedback: "Clear, precise communication using professional modal structures! (+10 Score, -1 min, -2% Battery)"
+        },
+        {
+          text: "Answer the phone call and explain in detail how you accidentally boarded Bus 42 instead of Bus 24.",
+          timeCost: 4, battCost: 5, score: 3, reqBatt: 5,
+          feedback: "Your detailed narrative takes 4 minutes and exhausts your battery completely! (-4 mins, -5% Battery)"
+        },
+        {
+          text: "Ignore the call completely to save your remaining battery.",
+          timeCost: 1, battCost: 0, score: 1, reqBatt: 0,
+          feedback: "Your colleague gets anxious and sends multiple follow-up messages. (+1 Score, -1 min)"
+        }
+      ]
+    },
+    {
+      story: "You arrive near the hotel district, but the entrance is hidden inside a pedestrianized shopping arcade with no vehicle street signs.",
+      tip: "Language Focus: Spotting destination cues and requesting precise clarification.",
+      options: [
+        {
+          text: "Ask a barista outside a cafe: 'Would you mind pointing me toward the Grand Central Hotel main entrance?'",
+          timeCost: 2, battCost: 0, score: 10, reqBatt: 0,
+          feedback: "The barista points to the glass elevator around the corner. Perfect directions! (+10 Score, -2 mins)"
+        },
+        {
+          text: "Turn on your phone's AR streetview navigation camera.",
+          timeCost: 2, battCost: 5, score: 6, reqBatt: 5,
+          feedback: "AR mode locates the lobby instantly, provided your phone stayed powered on! (+6 Score, -2 mins)"
+        },
+        {
+          text: "Run around the perimeter of the arcade trying every glass entrance.",
+          timeCost: 7, battCost: 0, score: 2, reqBatt: 0,
+          feedback: "You run in circles for 7 minutes before finding the lobby sign. (-7 mins)"
+        }
+      ]
+    }
+  ];
+
+  let currentStage = 0;
+  let time = 25;
+  let battery = 12;
+  let score = 0;
+
+  function renderStage() {
+    if (currentStage >= scenario.length || time <= 0) {
+      endGame();
+      return;
+    }
+
+    const data = scenario[currentStage];
+    document.getElementById('story-text').innerText = data.story;
+    document.getElementById('lang-tip').innerText = data.tip;
+    document.getElementById('feedback').style.display = 'none';
+    document.getElementById('next-btn').style.display = 'none';
+
+    const optionsContainer = document.getElementById('options');
+    optionsContainer.innerHTML = '';
+
+    data.options.forEach((opt) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerHTML = `${opt.text}`;
+      
+      if (battery < opt.reqBatt) {
+        btn.disabled = true;
+        btn.innerHTML += ` <em>(Requires ${opt.reqBatt}% battery - Phone too low)</em>`;
+      }
+
+      btn.onclick = () => selectOption(opt);
+      optionsContainer.appendChild(btn);
+    });
+  }
+
+  function selectOption(opt) {
+    time = Math.max(0, time - opt.timeCost);
+    battery = Math.max(0, battery - opt.battCost);
+    score += opt.score;
+
+    document.getElementById('time-val').innerText = time;
+    const battElem = document.getElementById('batt-val');
+    battElem.innerText = battery;
+    if (battery <= 3) battElem.classList.add('low-batt');
+    document.getElementById('score-val').innerText = score;
+
+    const feedback = document.getElementById('feedback');
+    feedback.style.display = 'block';
+    feedback.style.background = opt.score >= 7 ? 'rgba(74, 222, 128, 0.15)' : 'rgba(248, 113, 113, 0.15)';
+    feedback.style.border = opt.score >= 7 ? '1px solid #4ade80' : '1px solid #f87171';
+    feedback.style.color = opt.score >= 7 ? '#86efac' : '#fca5a5';
+    feedback.innerHTML = opt.feedback;
+
+    const btns = document.querySelectorAll('.option-btn');
+    btns.forEach(b => b.disabled = true);
+
+    document.getElementById('next-btn').style.display = 'inline-block';
+  }
+
+  function nextStage() {
+    currentStage++;
+    renderStage();
+  }
+
+  function endGame() {
+    const container = document.getElementById('game-body');
+    let title = "";
+    let msg = "";
+
+    if (time > 0) {
+      title = "🎉 Arrival Success!";
+      msg = `You made it to the meeting with <strong>${time} minutes</strong> to spare and <strong>${battery}%</strong> battery left. <br><br><strong>Final Language Score: ${score}/40 points.</strong>`;
+    } else {
+      title = "⏰ Time Ran Out!";
+      msg = `You couldn't reach the hotel in time for your 10:00 AM meeting.<br><br><strong>Final Language Score: ${score}/40 points.</strong>`;
+    }
+
+    container.innerHTML = `
+      <div style="text-align: center; padding: 20px;">
+        <h2>${title}</h2>
+        <p style="line-height: 1.6;">${msg}</p>
+        <button class="btn-next" style="display:inline-block; margin-top:15px;" onclick="location.reload()">Replay Scenario</button>
+      </div>
+    `;
+  }
+
+  renderStage();
+</script>
+</body>
+</html>
