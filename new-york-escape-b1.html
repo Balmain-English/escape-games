@@ -20,7 +20,7 @@
         <h1 class="text-xl sm:text-2xl font-black text-amber-400 tracking-wider flex items-center gap-2">
           🚨 NEW YORK EMERGENCY DEPARTURE
         </h1>
-        <p class="text-xs text-slate-400">9-Step Chronological Language & Communication Escape Game (A2/B1)</p>
+        <p class="text-xs text-slate-400">9-Step Chronological Language & Communication Escape Game (A2/B1 CEFR)</p>
       </div>
 
       <!-- 3x3 PASSCODE PROGRESS CARD -->
@@ -118,8 +118,13 @@
       </div>
 
       <!-- Dialogue Section -->
-      <div class="bg-slate-900/80 border-l-4 border-amber-500 rounded-r-xl p-4 mb-6">
-        <p id="character-name" class="text-xs font-bold text-amber-400 uppercase mb-1">Alert on Your Phone</p>
+      <div class="bg-slate-900/80 border-l-4 border-amber-500 rounded-r-xl p-4 mb-6 relative">
+        <div class="flex justify-between items-start gap-2 mb-1">
+          <p id="character-name" class="text-xs font-bold text-amber-400 uppercase">Alert on Your Phone</p>
+          <button onclick="speakDialogue()" class="bg-slate-800 hover:bg-slate-700 border border-slate-600 text-amber-300 text-[11px] px-2.5 py-1 rounded flex items-center gap-1 transition">
+            🔊 Listen Audio
+          </button>
+        </div>
         <p id="character-dialogue" class="text-slate-200 italic text-sm leading-relaxed">
           "URGENT: Urgent message from home: Family emergency! Return ASAP! You ask for your diner bill, but notice an extra charge."
         </p>
@@ -139,7 +144,7 @@
         </p>
 
         <div id="language-options" class="space-y-2 mb-4">
-          <!-- Options rendered dynamically -->
+          <!-- Dynamic Shuffled Options -->
         </div>
 
         <button id="verify-lang-btn" onclick="verifyLanguageMission()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-5 py-2 rounded-lg text-sm transition">
@@ -172,7 +177,12 @@
       <!-- PART 2: STAGE PUZZLE (REVEALED ONLY AFTER STEP 1 IS CORRECT) -->
       <div id="puzzle-box" class="bg-slate-900 border border-slate-700 rounded-xl p-5 mb-2 opacity-50 pointer-events-none">
         <div class="flex justify-between items-center mb-2">
-          <h3 class="text-sm font-bold text-amber-400">🧩 STEP 2: STAGE PUZZLE</h3>
+          <div class="flex items-center gap-3">
+            <h3 class="text-sm font-bold text-amber-400">🧩 STEP 2: STAGE PUZZLE</h3>
+            <button onclick="speakPuzzleClue()" class="bg-slate-800 hover:bg-slate-700 border border-slate-600 text-amber-300 text-[11px] px-2 py-0.5 rounded flex items-center gap-1 transition">
+              🔊 Listen Clue
+            </button>
+          </div>
           <span id="puzzle-status" class="text-xs text-slate-500 font-bold">🔒 Complete Language Mission First</span>
         </div>
         
@@ -239,7 +249,13 @@
   </footer>
 
   <script>
-    // 9 STAGES - NARRATIVE: HOME IMPERATIVE & ECONOMY FULL -> BUSINESS UPGRADE
+    // DIGIT DICTIONARY FOR FLEXIBLE PARSING
+    const digitWords = {
+      "1": "one", "2": "two", "3": "three", "4": "four", "5": "five",
+      "6": "six", "7": "seven", "8": "eight", "9": "nine"
+    };
+
+    // 9 STAGES - RAW DATA (RAW INDEX 0 IS ALWAYS THE CORRECT ANSWER)
     // Target Passcode Sequence: 3 - 8 - 1 - 5 - 4 - 9 - 2 - 7 - 6
     const stages = [
       {
@@ -249,14 +265,13 @@
         character: "Emergency Notification from Home",
         dialogue: `"An urgent text from home flashes on your screen: 'FAMILY EMERGENCY! You must come home A.S.A.P.!' You ask for your diner bill to leave, but notice a $12 duplicate charge."`,
         skill: "Bill Disputes & Financial Clarifications",
-        instruction: "Choose the polite phrase to bring the billing error to the server's attention:",
+        instruction: "Select the correct polite expression to address the server:",
         options: [
-          "Excuse me, I think there is a mistake on my bill.",
-          "Give me my money back right now!",
-          "I am leaving immediately without paying anything!"
+          "Excuse me, I think there is a mistake on my bill.", // Index 0: Correct
+          "Excuse me, where is located the cashier for to pay?", // Distractor: French L1 word-order / preposition
+          "Excuse me, I am agree that this bill is wrong." // Distractor: French L1 auxiliary error
         ],
-        correctOption: 0,
-        puzzleDesc: "The total bill is $45, but it includes an accidental duplicate charge of $12 for coffee. What is the correct total? (Enter the tens digit of $33 as Passcode Digit #1).",
+        puzzleDesc: "What is twelve divided by four? Enter the resulting number (digit or spelled out) as Passcode Digit #1.",
         expectedDigit: "3"
       },
       {
@@ -268,12 +283,11 @@
         skill: "Asking for Express Travel Directions",
         instruction: "Select the sentence with the correct verb for transit routes:",
         options: [
-          "Which line should I do to get to the airport link?",
-          "Which line should I take to get to the airport link?",
-          "Which line should I make to reach the airport link?"
+          "Which line should I take to get to the airport link?", // Index 0: Correct
+          "Which line must I to take for to go to the airport?", // Distractor: French L1 modal / preposition
+          "Where departs the express train to the airport?" // Distractor: French L1 word-order
         ],
-        correctOption: 1,
-        puzzleDesc: "The express shuttle leaves at 07:25 AM and takes 23 minutes. The arrival time is 07:48 AM. What is the units digit of the arrival minutes (48)? (Passcode Digit #2).",
+        puzzleDesc: "What is sixteen divided by two? Enter the resulting number (digit or spelled out) as Passcode Digit #2.",
         expectedDigit: "8"
       },
       {
@@ -283,14 +297,13 @@
         character: "Taxi Driver",
         dialogue: `"Subway delays are worsening! You hail a taxi. You need to urge the driver to get you to the airport as fast as possible."`,
         skill: "Making Urgent Polite Requests",
-        instruction: "Complete the statement: 'Could you please take me to the airport as ______ as possible?'",
+        instruction: "Select the correct statement to request a fast journey:",
         options: [
-          "fastly",
-          "fast",
-          "quickness"
+          "Could you please take me to the airport as fast as possible?", // Index 0: Correct
+          "Could you please take me to airport in fastness because I am in late?", // Distractor: French L1 false friend / preposition
+          "Must I to pay extra for to drive fast?" // Distractor: French L1 modal / preposition
         ],
-        correctOption: 1,
-        puzzleDesc: "The taxi fare is $3 base plus $8 for emergency tolls, totaling $11. Enter the units digit of $11 as Passcode Digit #3.",
+        puzzleDesc: "What is nine divided by nine? Enter the resulting number (digit or spelled out) as Passcode Digit #3.",
         expectedDigit: "1"
       },
       {
@@ -302,12 +315,11 @@
         skill: "Auxiliary Verbs for Express Schedules",
         instruction: "Choose the grammatically correct question to check departure timing:",
         options: [
-          "What time does the next shuttle depart?",
-          "What time is the next shuttle depart?",
-          "What time do the next shuttle depart?"
+          "What time does the next shuttle depart?", // Index 0: Correct
+          "What time departs the next shuttle for Terminal 4?", // Distractor: French L1 word-order
+          "Is the next shuttle already started since 10 minutes?" // Distractor: French L1 auxiliary / preposition
         ],
-        correctOption: 0,
-        puzzleDesc: "The terminal shuttle leaves in 15 minutes. Current time is 08:40 AM. Departure is 08:55 AM. Tens digit of 55 is Passcode Digit #4.",
+        puzzleDesc: "What is twenty-five divided by five? Enter the resulting number (digit or spelled out) as Passcode Digit #4.",
         expectedDigit: "5"
       },
       {
@@ -319,12 +331,11 @@
         skill: "Phrasal Verbs for Luggage Retrieval",
         instruction: "Choose the correct expression to request your stored luggage:",
         options: [
-          "I would like to pick up my luggage.",
-          "I would like to take off my luggage.",
-          "I would like to put out my luggage."
+          "I would like to pick up my luggage.", // Index 0: Correct
+          "I would like to recuperate my luggage from locker four.", // Distractor: French L1 false friend
+          "For to take off my luggage from the locker please?" // Distractor: French L1 preposition / phrasal verb
         ],
-        correctOption: 0,
-        puzzleDesc: "Storage Locker Key Code sequence: 1, 2, 3, [?]. Enter the missing digit as Passcode Digit #5.",
+        puzzleDesc: "What is sixteen divided by four? Enter the resulting number (digit or spelled out) as Passcode Digit #5.",
         expectedDigit: "4"
       },
       {
@@ -336,12 +347,11 @@
         skill: "Modals of Necessity & Upgrades",
         instruction: "Select the correct sentence requesting an urgent Business Class upgrade:",
         options: [
-          "I have to catch this flight due to an emergency, so please upgrade me to Business Class.",
-          "I must to catch this flight so give me Business Class.",
-          "I can to pay for Business Class if you want."
+          "I have to catch this flight due to an emergency, so please upgrade me to Business Class.", // Index 0: Correct
+          "I must to catch this flight because I am in late for home.", // Distractor: French L1 modal / preposition
+          "For to get on this flight, must I to pay Business Class?" // Distractor: French L1 preposition / modal
         ],
-        correctOption: 0,
-        puzzleDesc: "Business Class upgrade fee calculation: 18 divided by 2 = 9. Enter 9 as Passcode Digit #6.",
+        puzzleDesc: "What is eighty-one divided by nine? Enter the resulting number (digit or spelled out) as Passcode Digit #6.",
         expectedDigit: "9"
       },
       {
@@ -353,12 +363,11 @@
         skill: "Permission & Allowance Requests",
         instruction: "Choose the best request to confirm carry-on permission:",
         options: [
-          "Is it okay if I take this bag as carry-on?",
-          "I am taking this bag, do not stop me.",
-          "Must I to carry this bag on board?"
+          "Is it okay if I take this bag as carry-on?", // Index 0: Correct
+          "Must I to register this carry-on bag for the flight?", // Distractor: French L1 modal
+          "Am I allowed of taking this bag inside plane?" // Distractor: French L1 preposition
         ],
-        correctOption: 0,
-        puzzleDesc: "Maximum allowed weight is 20 kg. Your bag weighs 18 kg. The difference (20 - 18) is Passcode Digit #7.",
+        puzzleDesc: "What is eighteen divided by nine? Enter the resulting number (digit or spelled out) as Passcode Digit #7.",
         expectedDigit: "2"
       },
       {
@@ -370,12 +379,11 @@
         skill: "Official Customs & Security Declarations",
         instruction: "Select the standard declaration statement:",
         options: [
-          "I don't have anything illegal to declare.",
-          "I don't have nothing illegal to speak.",
-          "I am not declaring any bad stuff."
+          "I don't have anything illegal to declare.", // Index 0: Correct
+          "I don't have no illegal items in my bagages.", // Distractor: French L1 double negative / plural noun
+          "I am not having no informations to give." // Distractor: French L1 progressive / double negative / plural noun
         ],
-        correctOption: 0,
-        puzzleDesc: "Priority Security Terminal Identifier: Zone 7. Enter 7 as Passcode Digit #8.",
+        puzzleDesc: "What is forty-nine divided by seven? Enter the resulting number (digit or spelled out) as Passcode Digit #8.",
         expectedDigit: "7"
       },
       {
@@ -387,85 +395,120 @@
         skill: "Present Perfect Flight Enquiries",
         instruction: "Select the correct boarding status question:",
         options: [
-          "Could you tell me if boarding has already started?",
-          "Could you tell me if boarding is already started?",
-          "Could you tell me if boarding did already started?"
+          "Could you tell me if boarding has already started?", // Index 0: Correct
+          "Could you tell me if boarding is already started?", // Distractor: French L1 "is started" (être)
+          "Could you tell me since when boarding is started?" // Distractor: French L1 "since when + present"
         ],
-        correctOption: 0,
-        puzzleDesc: "Your Business Class seat row is 12. Subtract 6 from 12 = 6. Enter 6 as Passcode Digit #9.",
+        puzzleDesc: "What is thirty-six divided by six? Enter the resulting number (digit or spelled out) as Passcode Digit #9.",
         expectedDigit: "6"
       }
     ];
 
-    // REVISION LOOPS (4 EXERCISES FOR EACH OF THE 9 STAGES)
-    // Includes Gap-fill, Multiple Choice, Correct/Incorrect
+    // REVISION LOOPS (4 EXERCISES FOR EACH OF THE 9 STAGES - RAW INDEX 0 ALWAYS CORRECT)
     const remediationData = {
       1: [
-        { type: "Gap-Fill", q: "1. Complete the phrase: 'Excuse me, I think there is a ________ on my bill.'", options: ["mistake", "favour", "problematic"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Select the polite request to review a charge:", options: ["Review this bill now!", "Could you please check this charge again?", "I refuse to pay for this."], correct: 1 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I didn't ordered this extra item.'", options: ["Correct", "Incorrect (should be 'order')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Could you please recalculate the ________?'", options: ["total", "moneying", "receipts"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete the phrase: 'Excuse me, I think there is a ________ on my bill.'", options: ["mistake", "favour", "problematic"] },
+        { type: "Multiple Choice", q: "2. Select the polite request to review a charge:", options: ["Could you please check this charge again?", "Review this bill now!", "I am agree that this bill is wrong."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Where is located the cashier?'", options: ["Incorrect (word-order error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. Could you give me some ________ about this extra charge?", options: ["information", "informations", "an information"] }
       ],
       2: [
-        { type: "Gap-Fill", q: "1. Complete the transit sentence: 'Which subway line should I ________ to get to JFK?'", options: ["take", "make", "do"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Ask about train transfer requirements:", options: ["Must I change trains?", "Is this a direct train or do I need to transfer?", "Where does train go?"], correct: 1 },
-        { type: "Correct / Incorrect", q: "3. Is this question correct? 'What time does the next shuttle depart?'", options: ["Correct", "Incorrect"], correct: 0 },
-        { type: "Gap-Fill", q: "4. Complete: 'The next express leaves ________ platform 3.'", options: ["from", "into", "towards"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete the transit sentence: 'Which subway line should I ________ to get to JFK?'", options: ["take", "make", "do"] },
+        { type: "Multiple Choice", q: "2. Ask about train transfer requirements:", options: ["Is this a direct train or do I need to transfer?", "Where departs the train to JFK?", "Must I to change trains here?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I am waiting for the subway since 10 minutes.'", options: ["Incorrect (should use 'for')", "Correct"] },
+        { type: "Gap-Fill", q: "4. The express train departs ________ platform 3.", options: ["from", "into", "towards"] }
       ],
       3: [
-        { type: "Gap-Fill", q: "1. Complete the urgency phrase: 'I need to reach the terminal as ________ as possible.'", options: ["fast", "fastly", "quickness"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Express urgency politely to your taxi driver:", options: ["Drive faster or no tip!", "Could you please take me to the terminal as quickly as possible?", "I am in hurry, go fast."], correct: 1 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I must to hurry home for an emergency.'", options: ["Correct", "Incorrect (should be 'must hurry')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'My family called with an ________ situation.'", options: ["urgent", "urgency", "urgently"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete the urgency phrase: 'I need to reach the terminal as ________ as possible.'", options: ["fast", "fastly", "quickness"] },
+        { type: "Multiple Choice", q: "2. Express urgency politely to your taxi driver:", options: ["Could you please take me to the terminal as quickly as possible?", "Drive fast because I am in late!", "Must I to give you extra money for to hurry?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I must to hurry home for an emergency.'", options: ["Incorrect (should be 'must hurry')", "Correct"] },
+        { type: "Gap-Fill", q: "4. My family called with an ________ situation.", options: ["urgent", "urgency", "urgently"] }
       ],
       4: [
-        { type: "Gap-Fill", q: "1. Complete the schedule question: 'What time ________ the express bus leave?'", options: ["does", "is", "are"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Check if a connection is running on time:", options: ["Is the shuttle running on schedule?", "Does shuttle move now?", "When shuttle moves?"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'How long does the ride take?'", options: ["Correct", "Incorrect"], correct: 0 },
-        { type: "Gap-Fill", q: "4. Complete: 'Please tell me when we ________ at Terminal 4.'", options: ["arrive", "arriving", "arrived"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete the schedule question: 'What time ________ the express bus leave?'", options: ["does", "is", "are"] },
+        { type: "Multiple Choice", q: "2. Check if a connection is running on time:", options: ["Is the shuttle running on schedule right now?", "Where departs the shuttle bus?", "Is the shuttle already started since 10 minutes?"] },
+        { type: "Correct / Incorrect", q: "3. Is this question correct? 'What time departs the next shuttle?'", options: ["Incorrect (word-order error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. Please tell me when we ________ at Terminal 4.", options: ["arrive", "arriving", "arrived"] }
       ],
       5: [
-        { type: "Gap-Fill", q: "1. Complete the luggage request: 'I would like to ________ up my stored bag.'", options: ["pick", "take", "bring"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Request luggage retrieval politely:", options: ["Give luggage now", "Could I please collect my suitcase from storage?", "Where bag is?"], correct: 1 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I would like to put out my bags.'", options: ["Correct", "Incorrect (should be 'pick up')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Here is my storage locker ________.'", options: ["receipt", "bill", "ticket"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete the luggage request: 'I would like to ________ up my stored bag.'", options: ["pick", "recuperate", "take off"] },
+        { type: "Multiple Choice", q: "2. Request luggage retrieval politely:", options: ["Could I please collect my suitcase from storage?", "Could I recuperate my suitcase from storage?", "For to take off my bag from storage please?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I would like to recuperate my luggage.'", options: ["Incorrect (false friend 'recuperate')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Here is my storage locker ________.", options: ["receipt", "informations", "ticket bill"] }
       ],
       6: [
-        { type: "Gap-Fill", q: "1. Complete: 'Economy class is full, so I need to ________ to Business Class.'", options: ["upgrade", "upper", "increase"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Inquire about Business Class availability when economy is full:", options: ["Are there any Business Class seats available on tonight's flight?", "I will wait until next week.", "Why is economy full?"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I have to catch an emergency flight.'", options: ["Correct", "Incorrect"], correct: 0 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'I am willing to pay the fare ________ for Business Class.'", options: ["difference", "different", "differing"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete: 'Economy class is full, so I need to ________ to Business Class.'", options: ["upgrade", "upper", "increase"] },
+        { type: "Multiple Choice", q: "2. Inquire about Business Class availability when economy is full:", options: ["Are there any Business Class seats available on tonight's flight?", "Must I to pay extra for Business Class?", "I am in late so give me Business Class."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Must I to pay for a ticket upgrade?'", options: ["Incorrect (modal structure error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. I am willing to pay the fare ________ for Business Class.", options: ["difference", "different", "differing"] }
       ],
       7: [
-        { type: "Gap-Fill", q: "1. Complete the carry-on request: 'Is it okay if I take this bag as ________?'", options: ["carry-on", "carry-in", "hand-hold"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Ask about luggage weight allowance politely:", options: ["Does my bag exceed the weight limit?", "Is my bag too heavy for you?", "Weigh this bag now."], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Must I to check in this handbag?'", options: ["Correct", "Incorrect (should be 'Must I check')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Please place your suitcase on the ________.'", options: ["scale", "table", "desk"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete the carry-on request: 'Is it okay if I take this bag as ________?'", options: ["carry-on", "carry-in", "hand-hold"] },
+        { type: "Multiple Choice", q: "2. Ask about luggage weight allowance politely:", options: ["Does my bag exceed the cabin weight limit?", "Am I allowed of taking this bag inside?", "Must I to register this bag now?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Am I allowed of taking this carry-on?'", options: ["Incorrect (preposition error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. Please place your suitcase on the ________.", options: ["scale", "table", "desk"] }
       ],
       8: [
-        { type: "Gap-Fill", q: "1. Complete the declaration: 'I don't have anything illegal to ________.'", options: ["declare", "speak", "inform"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Confirm compliance at customs:", options: ["I am carrying only personal belongings.", "I won't show you my bag.", "Nothing in here."], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I don't have nothing to declare.'", options: ["Correct", "Incorrect (double negative)"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Please place your liquids in a clear plastic ________.'", options: ["bag", "box", "pocket"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete the declaration: 'I don't have anything illegal to ________.'", options: ["declare", "speak", "inform"] },
+        { type: "Multiple Choice", q: "2. Confirm compliance at security:", options: ["I am carrying only personal items in my bag.", "I don't have no illegal items in my bagages.", "I am not having no items to declare."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I don't have no illegal items in my bagages.'", options: ["Incorrect (double negative & plural noun error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. I need some ________ about fast-track security.", options: ["information", "informations", "an information"] }
       ],
       9: [
-        { type: "Gap-Fill", q: "1. Complete: 'Could you tell me if boarding has already ________?'", options: ["started", "starting", "start"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Ask about current boarding status at the gate:", options: ["Is row 12 boarding right now?", "Why is plane not flying?", "Can I jump the queue?"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Could you tell me if boarding is already started?'", options: ["Correct", "Incorrect (should use 'has')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Please have your boarding ________ ready.'", options: ["pass", "ticket", "card"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete: 'Could you tell me if boarding has already ________?'", options: ["started", "starting", "start"] },
+        { type: "Multiple Choice", q: "2. Ask about current boarding status at the gate:", options: ["Could you tell me if flight NY-909 has already been called?", "Could you tell me if boarding is already started?", "Since when is boarding started for this flight?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Could you tell me if boarding is already started?'", options: ["Incorrect (auxiliary verb error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. Please have your boarding ________ ready.", options: ["pass", "ticket", "card"] }
       ]
     };
 
+    // GAME STATE TRACKING
     let currentStageIndex = 0;
     let unlockedDigits = Array(9).fill("?");
-    let selectedLangOption = null;
+    let selectedMainlineIndex = null;
+    let currentMainlineShuffled = [];
+    let currentRemediationShuffled = {};
     let keypadInput = "";
     let isLanguageVerified = false;
 
+    // FISHER-YATES SHUFFLE ALGORITHM
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // WEB SPEECH API INTEGRATION
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert("Text-to-speech is not supported in this browser.");
+      }
+    }
+
+    function speakDialogue() {
+      const dialogue = document.getElementById('character-dialogue').textContent;
+      speakText(dialogue);
+    }
+
+    function speakPuzzleClue() {
+      const desc = document.getElementById('puzzle-desc').textContent;
+      speakText(desc);
+    }
+
+    // RENDER STAGE
     function renderStage() {
       const data = stages[currentStageIndex];
       isLanguageVerified = false;
-      selectedLangOption = null;
+      selectedMainlineIndex = null;
 
       document.getElementById('stage-number').textContent = `STAGE ${data.stageNum} OF 9`;
       document.getElementById('stage-title').textContent = data.title;
@@ -475,30 +518,39 @@
       document.getElementById('focus-skill').textContent = data.skill;
       document.getElementById('mission-instruction').textContent = data.instruction;
       
-      // Render Language Radio Options
+      // Shuffle Mainline Options while tracking the correct answer
+      const mappedMainline = data.options.map((opt, idx) => ({
+        text: opt,
+        isCorrect: idx === 0
+      }));
+      currentMainlineShuffled = shuffleArray(mappedMainline);
+
+      // Render Mainline Options
       const optionsContainer = document.getElementById('language-options');
       optionsContainer.innerHTML = '';
-      data.options.forEach((opt, idx) => {
+      currentMainlineShuffled.forEach((optObj, idx) => {
         const div = document.createElement('div');
         div.className = "flex items-center gap-3 bg-slate-900/90 border border-slate-700 p-3 rounded-lg cursor-pointer hover:border-indigo-500 transition";
-        div.onclick = () => selectOption(idx, div);
+        div.onclick = () => selectMainlineOption(idx);
         div.innerHTML = `
           <input type="radio" name="lang-opt" id="opt-${idx}" value="${idx}" class="text-indigo-600 focus:ring-indigo-500">
-          <label for="opt-${idx}" class="text-xs sm:text-sm text-slate-200 cursor-pointer w-full">${opt}</label>
+          <label for="opt-${idx}" class="text-xs sm:text-sm text-slate-200 cursor-pointer w-full">${optObj.text}</label>
         `;
         optionsContainer.appendChild(div);
       });
 
-      // Reset Language Status
+      // Reset Language Mission Status
       document.getElementById('lang-status').textContent = "LOCKED";
       document.getElementById('lang-status').className = "text-xs font-bold bg-indigo-900 text-indigo-300 px-2.5 py-0.5 rounded";
       document.getElementById('lang-feedback').classList.add('hidden');
       document.getElementById('verify-lang-btn').disabled = false;
+      document.getElementById('language-mission-box').classList.remove('hidden');
 
       // Lock Puzzle Box
       const puzzleBox = document.getElementById('puzzle-box');
       puzzleBox.className = "bg-slate-900 border border-slate-700 rounded-xl p-5 mb-2 opacity-50 pointer-events-none";
       document.getElementById('puzzle-status').textContent = "🔒 Complete Language Mission First";
+      document.getElementById('puzzle-status').className = "text-xs text-slate-500 font-bold";
       document.getElementById('puzzle-desc').textContent = "Complete Step 1 to unlock this puzzle clue.";
       document.getElementById('puzzle-answer').value = "";
       document.getElementById('puzzle-answer').disabled = true;
@@ -510,24 +562,25 @@
       document.getElementById('remediation-box').classList.add('hidden');
     }
 
-    function selectOption(index, el) {
-      selectedLangOption = index;
+    function selectMainlineOption(index) {
+      selectedMainlineIndex = index;
       const radios = document.querySelectorAll('input[name="lang-opt"]');
       radios.forEach((r, i) => r.checked = (i === index));
     }
 
     function verifyLanguageMission() {
-      const data = stages[currentStageIndex];
       const feedback = document.getElementById('lang-feedback');
       
-      if (selectedLangOption === null) {
+      if (selectedMainlineIndex === null) {
         feedback.textContent = "Please select an answer option first!";
         feedback.className = "text-xs font-semibold mt-2 text-rose-400";
         feedback.classList.remove('hidden');
         return;
       }
 
-      if (selectedLangOption === data.correctOption) {
+      const selectedObj = currentMainlineShuffled[selectedMainlineIndex];
+
+      if (selectedObj.isCorrect) {
         // Correct Answer!
         isLanguageVerified = true;
         document.getElementById('lang-status').textContent = "UNLOCKED ✓";
@@ -537,6 +590,7 @@
         feedback.classList.remove('hidden');
 
         // Unlock Puzzle Box
+        const data = stages[currentStageIndex];
         const puzzleBox = document.getElementById('puzzle-box');
         puzzleBox.className = "bg-slate-900 border border-amber-500/50 rounded-xl p-5 mb-2 opacity-100 transition-all";
         document.getElementById('puzzle-status').textContent = "🔓 UNLOCKED";
@@ -544,12 +598,12 @@
         document.getElementById('puzzle-desc').textContent = data.puzzleDesc;
         const pInput = document.getElementById('puzzle-answer');
         pInput.disabled = false;
-        pInput.placeholder = "Enter Digit Solution";
+        pInput.placeholder = "Enter Digit (e.g. 3 or three)";
         document.getElementById('submit-puzzle-btn').disabled = false;
 
       } else {
-        // Incorrect Answer -> Trigger Revision Loop on ANY Stage!
-        triggerRemediation(data.stageNum);
+        // Incorrect Answer -> Trigger 4-Exercise Remediation Loop
+        triggerRemediation(stages[currentStageIndex].stageNum);
       }
     }
 
@@ -562,11 +616,20 @@
       questionsContainer.innerHTML = '';
 
       const drills = remediationData[stageNum];
+      currentRemediationShuffled = {};
+
       drills.forEach((drill, dIdx) => {
-        let optsHTML = drill.options.map((o, oIdx) => `
+        // Map and shuffle options
+        const mappedDrill = drill.options.map((opt, idx) => ({
+          text: opt,
+          isCorrect: idx === 0
+        }));
+        currentRemediationShuffled[dIdx] = shuffleArray(mappedDrill);
+
+        let optsHTML = currentRemediationShuffled[dIdx].map((oObj, oIdx) => `
           <label class="flex items-center gap-2 cursor-pointer mt-1 bg-slate-800/80 p-2 rounded border border-slate-700/60 hover:border-rose-500/50">
             <input type="radio" name="rem-q-${dIdx}" value="${oIdx}" class="text-rose-600 focus:ring-rose-500">
-            <span class="text-xs text-slate-200">${o}</span>
+            <span class="text-xs text-slate-200">${oObj.text}</span>
           </label>
         `).join('');
 
@@ -589,8 +652,13 @@
 
       drills.forEach((drill, dIdx) => {
         const selected = document.querySelector(`input[name="rem-q-${dIdx}"]:checked`);
-        if (!selected || parseInt(selected.value) !== drill.correct) {
+        if (!selected) {
           allCorrect = false;
+        } else {
+          const selectedIdx = parseInt(selected.value);
+          if (!currentRemediationShuffled[dIdx][selectedIdx].isCorrect) {
+            allCorrect = false;
+          }
         }
       });
 
@@ -604,6 +672,10 @@
           document.getElementById('remediation-box').classList.add('hidden');
           document.getElementById('language-mission-box').classList.remove('hidden');
           document.getElementById('lang-feedback').classList.add('hidden');
+          // Reset mainline selection so user selects correct option
+          selectedMainlineIndex = null;
+          const radios = document.querySelectorAll('input[name="lang-opt"]');
+          radios.forEach(r => r.checked = false);
         }, 1200);
       } else {
         fb.textContent = "Some answers in the revision loop are incorrect. Please review and check all 4 questions!";
@@ -615,15 +687,19 @@
     function submitStageAnswer() {
       if (!isLanguageVerified) return;
 
-      const val = document.getElementById('puzzle-answer').value.trim();
+      const inputVal = document.getElementById('puzzle-answer').value.trim().toLowerCase();
       const current = stages[currentStageIndex];
       const feedback = document.getElementById('puzzle-feedback');
 
-      if (val === current.expectedDigit) {
-        unlockedDigits[currentStageIndex] = current.expectedDigit;
-        document.getElementById(`grid-d${currentStageIndex + 1}`).textContent = current.expectedDigit;
+      const expectedDigit = current.expectedDigit;
+      const expectedWord = digitWords[expectedDigit];
+
+      // Flexible Input Parsing (checks digit string or spelled-out word)
+      if (inputVal === expectedDigit || inputVal === expectedWord) {
+        unlockedDigits[currentStageIndex] = expectedDigit;
+        document.getElementById(`grid-d${currentStageIndex + 1}`).textContent = expectedDigit;
         
-        feedback.textContent = `Correct! Passcode Digit #${current.stageNum} Unlocked: [ ${current.expectedDigit} ]`;
+        feedback.textContent = `Correct! Passcode Digit #${current.stageNum} Unlocked: [ ${expectedDigit} ]`;
         feedback.className = "text-xs font-semibold mt-2 text-emerald-400";
         feedback.classList.remove('hidden');
 
@@ -639,7 +715,7 @@
         }, 1200);
 
       } else {
-        feedback.textContent = "Incorrect digit or puzzle solution. Check your calculations and try again!";
+        feedback.textContent = "Incorrect digit or word solution. Check your calculations and try again!";
         feedback.className = "text-xs font-semibold mt-2 text-rose-400";
         feedback.classList.remove('hidden');
       }
@@ -668,7 +744,7 @@
       const targetCode = unlockedDigits.join('');
 
       if (keypadInput === "381549276" || keypadInput === targetCode) {
-        playPlaneTakeoffSound();
+        playPlaneChimeSound();
         document.getElementById('keypad-screen').classList.add('hidden');
         document.getElementById('win-screen').classList.remove('hidden');
       } else {
@@ -677,47 +753,39 @@
       }
     }
 
-    // SYNTHESIZED PLANE TAKEOFF SOUND (Web Audio API)
-    function playPlaneTakeoffSound() {
+    // SYNTHESIZED TWO-TONE CHIME SOUND (Web Audio API)
+    function playPlaneChimeSound() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        
-        // Engine Noise Buffer
-        const bufferSize = audioCtx.sampleRate * 3.5;
-        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-        const output = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-          output[i] = Math.random() * 2 - 1;
-        }
+        const now = audioCtx.currentTime;
 
-        const whiteNoise = audioCtx.createBufferSource();
-        whiteNoise.buffer = buffer;
+        const osc1 = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+        const gain1 = audioCtx.createGain();
+        const gain2 = audioCtx.createGain();
 
-        const filter = audioCtx.createBiquadFilter();
-        filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(120, audioCtx.currentTime);
-        filter.frequency.exponentialRampToValueAtTime(1400, audioCtx.currentTime + 3.0);
-        filter.Q.setValueAtTime(2, audioCtx.currentTime);
+        osc1.type = 'sine';
+        osc2.type = 'sine';
 
-        const osc = audioCtx.createOscillator();
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(50, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(280, audioCtx.currentTime + 3.0);
+        // High tone (C5 ~ 523.25 Hz)
+        osc1.frequency.setValueAtTime(523.25, now);
+        gain1.gain.setValueAtTime(0.3, now);
+        gain1.gain.exponentialRampToValueAtTime(0.001, now + 1.0);
 
-        const gain = audioCtx.createGain();
-        gain.gain.setValueAtTime(0.01, audioCtx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 1.2);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 3.5);
+        // Low chime tone (F5 ~ 698.46 Hz)
+        osc2.frequency.setValueAtTime(698.46, now + 0.35);
+        gain2.gain.setValueAtTime(0.3, now + 0.35);
+        gain2.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
 
-        whiteNoise.connect(filter);
-        filter.connect(gain);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
+        osc1.connect(gain1);
+        gain1.connect(audioCtx.destination);
+        osc2.connect(gain2);
+        gain2.connect(audioCtx.destination);
 
-        whiteNoise.start();
-        osc.start();
-        whiteNoise.stop(audioCtx.currentTime + 3.5);
-        osc.stop(audioCtx.currentTime + 3.5);
+        osc1.start(now);
+        osc2.start(now + 0.35);
+        osc1.stop(now + 1.0);
+        osc2.stop(now + 1.5);
       } catch (e) {
         console.log("Audio play error:", e);
       }
@@ -733,11 +801,10 @@
       document.getElementById('win-screen').classList.add('hidden');
       document.getElementById('keypad-screen').classList.add('hidden');
       document.getElementById('game-card').classList.remove('hidden');
-      document.getElementById('language-mission-box').classList.remove('hidden');
       renderStage();
     }
 
-    // Init Game
+    // Initialize Game
     renderStage();
   </script>
 </body>

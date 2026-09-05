@@ -20,7 +20,7 @@
         <h1 class="text-xl sm:text-2xl font-black text-amber-400 tracking-wider flex items-center gap-2">
           🏢 LOCKED IN THE OFFICE
         </h1>
-        <p class="text-xs text-slate-400">9-Step Chronological Language & Communication Escape Game (A2/B1)</p>
+        <p class="text-xs text-slate-400">9-Step Chronological Language & Communication Escape Game (A2/B1 CEFR)</p>
       </div>
 
       <!-- 3x3 PASSCODE PROGRESS CARD -->
@@ -57,7 +57,7 @@
           <div class="bg-slate-800 p-3.5 rounded-lg border border-slate-700">
             <h4 class="font-bold text-amber-400 mb-2 text-xs uppercase tracking-wide">1. Security Protocols & Access Control</h4>
             <ul class="list-disc list-inside text-xs space-y-1 text-slate-300">
-              <li>"Could you tell me how to override the security door?"</li>
+              <li>"Could you tell me where the emergency exit keycard is kept?"</li>
               <li>"I need an emergency access badge to open this sector."</li>
               <li>"Is this exit clear or is the automatic alarm activated?"</li>
               <li>"We need to evacuate before the security system locks down."</li>
@@ -81,9 +81,9 @@
           <div class="bg-slate-800 p-3.5 rounded-lg border border-slate-700">
             <h4 class="font-bold text-amber-400 mb-2 text-xs uppercase tracking-wide">3. Urgent Workplace Requests & Modals</h4>
             <ul class="list-disc list-inside text-xs space-y-1 text-slate-300">
-              <li>"We must find the exit keycard as quickly as possible."</li>
+              <li>"We have to leave the building before the doors lock completely."</li>
               <li>"Could you please help us open this maintenance hatch?"</li>
-              <li>"We have to leave the building before 10:00 PM."</li>
+              <li>"We must find the exit keycard as quickly as possible."</li>
               <li>"Should we check the IT room for the master key?"</li>
               <li>"Please hurry, the security system locks down in minutes!"</li>
             </ul>
@@ -93,7 +93,7 @@
           <div class="bg-slate-800 p-3.5 rounded-lg border border-slate-700">
             <h4 class="font-bold text-amber-400 mb-2 text-xs uppercase tracking-wide">4. Tech & Facilities Reporting</h4>
             <ul class="list-disc list-inside text-xs space-y-1 text-slate-300">
-              <li>"Excuse me, the terminal card reader isn't responding."</li>
+              <li>"Excuse me, the terminal card reader isn't working right now."</li>
               <li>"There is an automatic lockdown alert on floor 4."</li>
               <li>"I think there is a malfunction in the digital keypad."</li>
               <li>"Please turn off the emergency security shutter."</li>
@@ -118,8 +118,13 @@
       </div>
 
       <!-- Dialogue Section -->
-      <div class="bg-slate-900/80 border-l-4 border-amber-500 rounded-r-xl p-4 mb-6">
-        <p id="character-name" class="text-xs font-bold text-amber-400 uppercase mb-1">Security Announcement</p>
+      <div class="bg-slate-900/80 border-l-4 border-amber-500 rounded-r-xl p-4 mb-6 relative">
+        <div class="flex justify-between items-start gap-2 mb-1">
+          <p id="character-name" class="text-xs font-bold text-amber-400 uppercase">Security Announcement</p>
+          <button onclick="speakDialogue()" class="bg-slate-800 hover:bg-slate-700 border border-slate-600 text-amber-300 text-[11px] px-2.5 py-1 rounded flex items-center gap-1 transition">
+            🔊 Listen Audio
+          </button>
+        </div>
         <p id="character-dialogue" class="text-slate-200 italic text-sm leading-relaxed">
           "ATTENTION: Night security protocol activated. All exits locking in 15 minutes! You need to ask your colleague where the emergency keycard is kept."
         </p>
@@ -139,7 +144,7 @@
         </p>
 
         <div id="language-options" class="space-y-2 mb-4">
-          <!-- Options rendered dynamically -->
+          <!-- Dynamic Shuffled Options -->
         </div>
 
         <button id="verify-lang-btn" onclick="verifyLanguageMission()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-5 py-2 rounded-lg text-sm transition">
@@ -172,7 +177,12 @@
       <!-- PART 2: STAGE PUZZLE (REVEALED ONLY AFTER STEP 1 IS CORRECT) -->
       <div id="puzzle-box" class="bg-slate-900 border border-slate-700 rounded-xl p-5 mb-2 opacity-50 pointer-events-none">
         <div class="flex justify-between items-center mb-2">
-          <h3 class="text-sm font-bold text-amber-400">🧩 STEP 2: STAGE PUZZLE</h3>
+          <div class="flex items-center gap-3">
+            <h3 class="text-sm font-bold text-amber-400">🧩 STEP 2: STAGE PUZZLE</h3>
+            <button onclick="speakPuzzleClue()" class="bg-slate-800 hover:bg-slate-700 border border-slate-600 text-amber-300 text-[11px] px-2 py-0.5 rounded flex items-center gap-1 transition">
+              🔊 Listen Clue
+            </button>
+          </div>
           <span id="puzzle-status" class="text-xs text-slate-500 font-bold">🔒 Complete Language Mission First</span>
         </div>
         
@@ -239,7 +249,13 @@
   </footer>
 
   <script>
-    // 9 STAGES - NARRATIVE: LOCKED IN THE OFFICE - NIGHT LOCKDOWN ESCAPE
+    // DIGIT DICTIONARY FOR FLEXIBLE PARSING
+    const digitWords = {
+      "1": "one", "2": "two", "3": "three", "4": "four", "5": "five",
+      "6": "six", "7": "seven", "8": "eight", "9": "nine"
+    };
+
+    // 9 STAGES - RAW DATA (RAW INDEX 0 IS ALWAYS THE CORRECT ANSWER)
     // Target Passcode Sequence: 4 - 2 - 9 - 1 - 7 - 3 - 8 - 5 - 6
     const stages = [
       {
@@ -251,12 +267,11 @@
         skill: "Asking for Locations & Equipment",
         instruction: "Select the correct question to ask for the keycard location:",
         options: [
-          "Could you tell me where the emergency exit keycard is kept?",
-          "Where you putted the emergency keycard?",
-          "Give me keycard now for emergency!"
+          "Could you tell me where the emergency exit keycard is kept?", // Index 0: Correct
+          "Where is located the emergency exit keycard?", // Distractor: French L1 word order error
+          "For to find the emergency keycard please?" // Distractor: French L1 preposition error
         ],
-        correctOption: 0,
-        puzzleDesc: "There are 8 desks in row A and 6 desks in row B, but 10 desks are being renovated. Calculate (8 + 6 - 10) to find Passcode Digit #1.",
+        puzzleDesc: "What is eight minus four? Enter the resulting number (digit or spelled out) as Passcode Digit #1.",
         expectedDigit: "4"
       },
       {
@@ -268,12 +283,11 @@
         skill: "Giving & Asking for Office Directions",
         instruction: "Select the sentence with the correct preposition for directions:",
         options: [
-          "Should we turn right past the conference room?",
-          "Should we turn right over the conference room?",
-          "Should we turn right inside of the conference room?"
+          "Should we turn right past the conference room?", // Index 0: Correct
+          "Should we turn right past to the conference room?", // Distractor: French L1 preposition error
+          "Should we tour right after the conference room?" // Distractor: French L1 spelling / false friend
         ],
-        correctOption: 0,
-        puzzleDesc: "The emergency stairwell door is marked Room 402. Take the units digit (2) of 402 as Passcode Digit #2.",
+        puzzleDesc: "What is four divided by two? Enter the resulting number (digit or spelled out) as Passcode Digit #2.",
         expectedDigit: "2"
       },
       {
@@ -283,14 +297,13 @@
         character: "Automated Terminal Display",
         dialogue: `"Access to the stairwell requires an admin override. You must report a malfunction to the IT automated helpbot."`,
         skill: "Reporting Malfunctions & Issues",
-        instruction: "Complete the statement: 'Excuse me, the terminal card reader ________ responding.'",
+        instruction: "Select the polite statement to report the card reader malfunction:",
         options: [
-          "isn't",
-          "don't",
-          "not"
+          "Excuse me, the terminal card reader isn't working right now.", // Index 0: Correct
+          "Excuse me, the terminal card reader is in breakdown since 10 minutes.", // Distractor: French L1 false friend / preposition
+          "Excuse me, the terminal card reader don't work already." // Distractor: French L1 auxiliary / tense
         ],
-        correctOption: 0,
-        puzzleDesc: "The IT terminal displays the equation: 12 - 3 = 9. Enter 9 as Passcode Digit #3.",
+        puzzleDesc: "What is twelve minus three? Enter the resulting number (digit or spelled out) as Passcode Digit #3.",
         expectedDigit: "9"
       },
       {
@@ -302,12 +315,11 @@
         skill: "Modals for Polite Assistance Requests",
         instruction: "Choose the grammatically correct polite request:",
         options: [
-          "Could you please help us open this maintenance hatch?",
-          "Could you please to help us open this hatch?",
-          "Can you helping us open this hatch now?"
+          "Could you please help us open this maintenance hatch?", // Index 0: Correct
+          "Could you please to help us open this maintenance hatch?", // Distractor: French L1 modal "must to / to help" error
+          "Must I to ask you for helping us open this hatch?" // Distractor: French L1 auxiliary / modal error
         ],
-        correctOption: 0,
-        puzzleDesc: "Maintenance locker code: Subtract 4 from 5 (5 - 4 = 1). Enter 1 as Passcode Digit #4.",
+        puzzleDesc: "What is five minus four? Enter the resulting number (digit or spelled out) as Passcode Digit #4.",
         expectedDigit: "1"
       },
       {
@@ -317,14 +329,13 @@
         character: "Security Camera Intercom",
         dialogue: `"The intercom crackles. Guard: 'Why are you still on floor 2?' State your urgent need to leave."`,
         skill: "Expressing Urgent Necessity",
-        instruction: "Select the correct sentence showing urgent obligation:",
+        instruction: "Select the correct sentence showing urgent obligation naturally:",
         options: [
-          "We have to leave the building before the doors lock completely.",
-          "We must to leave the building before doors lock.",
-          "We are having to leave building very quickly."
+          "We have to leave the building before the doors lock completely.", // Index 0: Correct
+          "We must to leave the building before the doors lock.", // Distractor: French L1 modal "must to"
+          "We are in late so we need leave the building now." // Distractor: French L1 "in late"
         ],
-        correctOption: 0,
-        puzzleDesc: "Executive door security clearance: Divide 14 by 2 = 7. Enter 7 as Passcode Digit #5.",
+        puzzleDesc: "What is fourteen divided by two? Enter the resulting number (digit or spelled out) as Passcode Digit #5.",
         expectedDigit: "7"
       },
       {
@@ -336,12 +347,11 @@
         skill: "Phrasal Verbs for System Controls",
         instruction: "Choose the correct phrasal verb to deactivate the barrier:",
         options: [
-          "Please turn off the emergency security shutter.",
-          "Please turn out the emergency security shutter.",
-          "Please turn down the emergency security shutter."
+          "Please turn off the emergency security shutter.", // Index 0: Correct
+          "Please turn out the emergency security shutter.", // Distractor: French L1 phrasal verb error
+          "Please take off the emergency security shutter." // Distractor: French L1 phrasal verb error
         ],
-        correctOption: 0,
-        puzzleDesc: "Shutter override calculation: 6 divided by 2 = 3. Enter 3 as Passcode Digit #6.",
+        puzzleDesc: "What is six divided by two? Enter the resulting number (digit or spelled out) as Passcode Digit #6.",
         expectedDigit: "3"
       },
       {
@@ -353,12 +363,11 @@
         skill: "Embedded Questions & Availability",
         instruction: "Select the correct embedded question:",
         options: [
-          "Could you tell me if the side fire exit is open?",
-          "Could you tell me is the side fire exit open?",
-          "Could you tell me if is open the side fire exit?"
+          "Could you tell me if the side fire exit is open?", // Index 0: Correct
+          "Could you tell me is the side fire exit open?", // Distractor: French L1 word order error
+          "Could you tell me if is open the side fire exit?" // Distractor: French L1 word order error
         ],
-        correctOption: 0,
-        puzzleDesc: "The reception rack has 12 visitor badges, 4 are missing. Subtract 4 from 12 (12 - 4 = 8). Passcode Digit #7.",
+        puzzleDesc: "What is twelve minus four? Enter the resulting number (digit or spelled out) as Passcode Digit #7.",
         expectedDigit: "8"
       },
       {
@@ -370,12 +379,11 @@
         skill: "Formal Declarations & Negative Structures",
         instruction: "Select the correct formal security declaration:",
         options: [
-          "We do not have any restricted equipment in our possession.",
-          "We do not have no restricted equipment in our possession.",
-          "We aren't having no restricted equipment with us."
+          "We do not have any restricted equipment in our possession.", // Index 0: Correct
+          "We do not have no restricted equipment in our possession.", // Distractor: French L1 double negative
+          "We aren't having any informations or restricted objects." // Distractor: French L1 plural "informations"
         ],
-        correctOption: 0,
-        puzzleDesc: "Loading Dock Freight Zone Number: Sector 5. Enter 5 as Passcode Digit #8.",
+        puzzleDesc: "What is fifteen divided by three? Enter the resulting number (digit or spelled out) as Passcode Digit #8.",
         expectedDigit: "5"
       },
       {
@@ -387,84 +395,120 @@
         skill: "Present Perfect Flight / Access Enquiries",
         instruction: "Select the correct present perfect question:",
         options: [
-          "Has the main exit gate already been locked?",
-          "Is the main exit gate already locked?",
-          "Did the main exit gate already locked?"
+          "Has the main exit gate already been locked?", // Index 0: Correct
+          "Is the main exit gate already locked?", // Distractor: French L1 "is locked" (être)
+          "Since when the main exit gate is locked?" // Distractor: French L1 "since when + present"
         ],
-        correctOption: 0,
-        puzzleDesc: "Final exit gate emergency override calculation: 10 minus 4 = 6. Enter 6 as Passcode Digit #9.",
+        puzzleDesc: "What is ten minus four? Enter the resulting number (digit or spelled out) as Passcode Digit #9.",
         expectedDigit: "6"
       }
     ];
 
-    // REVISION LOOPS (4 EXERCISES FOR EACH OF THE 9 STAGES)
+    // REVISION LOOPS (4 EXERCISES FOR EACH OF THE 9 STAGES - RAW INDEX 0 ALWAYS CORRECT)
     const remediationData = {
       1: [
-        { type: "Gap-Fill", q: "1. Complete the phrase: 'Where is the emergency keycard ________?'", options: ["kept", "keeping", "keep"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Select the polite question to locate equipment:", options: ["Could you tell me where the keycard is?", "Give keycard now!", "Where keycard?"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Where did you putted the keycard?'", options: ["Correct", "Incorrect (should be 'put')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Please check inside the desk ________.'", options: ["drawer", "paper", "chair"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete the phrase: 'Where is the emergency keycard ________?'", options: ["kept", "keeping", "keep"] },
+        { type: "Multiple Choice", q: "2. Select the polite question to locate equipment:", options: ["Could you tell me where the keycard is?", "Where is located the keycard?", "For to find the keycard please?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Where did you putted the keycard?'", options: ["Incorrect (word order / verb form error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. Could you give me some ________ about the office keycard?", options: ["information", "informations", "an information"] }
       ],
       2: [
-        { type: "Gap-Fill", q: "1. Complete direction phrase: 'Walk ________ the conference room to reach the stairs.'", options: ["past", "over", "under"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Select the correct direction request:", options: ["Should we turn right at the corner?", "Should we righting turn?", "Where right go?"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Turn right after the main office.'", options: ["Correct", "Incorrect"], correct: 0 },
-        { type: "Gap-Fill", q: "4. Complete: 'The stairwell is located ________ the end of the hall.'", options: ["at", "on", "into"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete direction phrase: 'Walk ________ the conference room to reach the stairs.'", options: ["past", "until", "for to reach"] },
+        { type: "Multiple Choice", q: "2. Select the correct direction instruction:", options: ["Turn right past the conference room.", "Turn right past to the conference room.", "Tour right after the conference room."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I am waiting here since ten minutes.'", options: ["Incorrect (should use 'for')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Follow the signs to ________ the emergency exit.", options: ["reach", "attain", "recuperate"] }
       ],
       3: [
-        { type: "Gap-Fill", q: "1. Complete the malfunction sentence: 'The card reader ________ working properly.'", options: ["isn't", "don't", "not"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Report a terminal issue politely:", options: ["The terminal screen is frozen.", "Screen bad now.", "Computer stop!"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'The system doesn't responding.'", options: ["Correct", "Incorrect (should be 'isn't responding')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'There is a system ________ in room 302.'", options: ["malfunction", "wrong", "erroring"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete the malfunction sentence: 'The card reader ________ working properly.'", options: ["isn't", "don't", "is not to be"] },
+        { type: "Multiple Choice", q: "2. Report a terminal issue politely:", options: ["Excuse me, the terminal card reader is not working.", "The card reader is in breakdown.", "The card reader don't work."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'The card reader is broken since this morning.'", options: ["Incorrect (should be 'has been broken since')", "Correct"] },
+        { type: "Gap-Fill", q: "4. There is a system ________ in room 302.", options: ["failure", "failing", "failed"] }
       ],
       4: [
-        { type: "Gap-Fill", q: "1. Complete the request: 'Could you please ________ us open this door?'", options: ["help", "helping", "to help"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Ask for assistance politely:", options: ["Could you please lend me a hand?", "You must help me!", "Help now!"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Can you to assist us with the lock?'", options: ["Correct", "Incorrect (should be 'Can you assist')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Thank you for your ________ during the emergency.'", options: ["assistance", "assist", "assisting"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete the request: 'Could you please ________ us open this door?'", options: ["help", "helping", "to help"] },
+        { type: "Multiple Choice", q: "2. Ask for assistance politely:", options: ["Could you please help us open this hatch?", "Must I to ask you for help?", "Can you to assist us with the lock?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I am agreeing with the technician.'", options: ["Incorrect (stative verb mistake)", "Correct"] },
+        { type: "Gap-Fill", q: "4. Thank you for your ________ during the emergency.", options: ["assistance", "assist", "assisting"] }
       ],
       5: [
-        { type: "Gap-Fill", q: "1. Complete necessity sentence: 'We ________ to leave before the lockdown starts.'", options: ["have", "musting", "shoulded"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Express urgent obligation politely:", options: ["We must evacuate immediately due to safety rules.", "We leaving now bye.", "Open door fast!"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'We must to exit the building now.'", options: ["Correct", "Incorrect (should be 'must exit')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Please grant us access; it is an ________ emergency.'", options: ["urgent", "urgently", "urgency"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete necessity sentence: 'We ________ to leave before the lockdown starts.'", options: ["have", "must to", "are obliged for"] },
+        { type: "Multiple Choice", q: "2. Express urgent obligation politely:", options: ["We need to leave before the doors lock.", "We must to leave right now.", "We are in late so hurry."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'We must to exit the building now.'", options: ["Incorrect (should be 'must exit')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Clear the building before the exit doors ________.", options: ["lock", "locking", "locked"] }
       ],
       6: [
-        { type: "Gap-Fill", q: "1. Complete system control verb: 'Please ________ off the security system.'", options: ["turn", "make", "do"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Choose the correct phrasal verb to stop a device:", options: ["Turn off the alarm.", "Turn out the alarm.", "Turn down the alarm."], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Please switch off the power grid.'", options: ["Correct", "Incorrect"], correct: 0 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'The security guard will ________ up the gate.'", options: ["open", "opening", "opened"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete system control verb: 'Please ________ off the security shutter.'", options: ["turn", "take", "make"] },
+        { type: "Multiple Choice", q: "2. Choose the correct phrasal verb to stop a device:", options: ["Please turn off the emergency alarm.", "Please turn out the emergency alarm.", "Please take off the emergency alarm."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Are we allowed of leaving this floor?'", options: ["Incorrect (should be 'allowed to leave')", "Correct"] },
+        { type: "Gap-Fill", q: "4. The security guard gave us permission to ________.", options: ["pass", "pass in", "penetrate"] }
       ],
       7: [
-        { type: "Gap-Fill", q: "1. Complete embedded question: 'Could you tell me if the door ________ unlocked?'", options: ["is", "does", "are"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Form an embedded question:", options: ["Could you tell me where the exit is?", "Could you tell me where is the exit?", "Tell me where exit is?"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this question correct? 'Do you know if the lobby is open?'", options: ["Correct", "Incorrect"], correct: 0 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'We are trying to find out if the corridor is ________.'", options: ["clear", "cleared", "clearing"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete embedded question: 'Could you tell me if the door ________ unlocked?'", options: ["is", "does", "are"] },
+        { type: "Multiple Choice", q: "2. Form an embedded question politely:", options: ["Could you tell me where the fire exit is?", "Could you tell me where is the fire exit?", "Where fire exit is?"] },
+        { type: "Correct / Incorrect", q: "3. Is this question correct? 'Could you tell me is the fire exit open?'", options: ["Incorrect (word order error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. We are trying to find out if the exit is ________.", options: ["clear", "cleared", "clearing"] }
       ],
       8: [
-        { type: "Gap-Fill", q: "1. Complete declaration: 'We do not have ________ forbidden items.'", options: ["any", "no", "none"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Make a formal declaration:", options: ["We have nothing illegal in our bags.", "We no carry bad stuff.", "Nothing bad here."], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'We don't have no bags with us.'", options: ["Correct", "Incorrect (double negative)"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'All staff members are ________ cleared.'", options: ["officially", "official", "office"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete declaration: 'We do not have ________ forbidden items.'", options: ["any", "no", "some"] },
+        { type: "Multiple Choice", q: "2. Make a formal declaration statement:", options: ["We do not have any restricted goods.", "We don't have no restricted goods.", "We aren't having no restricted goods."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I need some informations about the dock exit.'", options: ["Incorrect (uncountable noun error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. The security guard checked our exit ________.", options: ["clearance", "informations", "notices"] }
       ],
       9: [
-        { type: "Gap-Fill", q: "1. Complete Present Perfect sentence: 'Has the gate already ________ locked?'", options: ["been", "being", "be"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Check status using Present Perfect:", options: ["Has the lockdown procedure started?", "Is lockdown procedure start?", "Did lockdown procedure started?"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Have you already scanned your keycard?'", options: ["Correct", "Incorrect"], correct: 0 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Please confirm that everyone has ________ the building.'", options: ["left", "leave", "leaving"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete Present Perfect sentence: 'Has the gate already ________ locked?'", options: ["been", "be", "being"] },
+        { type: "Multiple Choice", q: "2. Check status using Present Perfect:", options: ["Has the lockdown procedure already started?", "Is the lockdown procedure already started?", "Did the lockdown procedure already started?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'The gate is already locked since 5 minutes.'", options: ["Incorrect (should use 'has been locked')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Step carefully through the emergency exit ________.", options: ["gate", "saloon", "hallway room"] }
       ]
     };
 
+    // GAME STATE TRACKING
     let currentStageIndex = 0;
     let unlockedDigits = Array(9).fill("?");
-    let selectedLangOption = null;
+    let selectedMainlineIndex = null;
+    let currentMainlineShuffled = [];
+    let currentRemediationShuffled = {};
     let keypadInput = "";
     let isLanguageVerified = false;
 
+    // FISHER-YATES SHUFFLE ALGORITHM
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // WEB SPEECH API INTEGRATION
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert("Text-to-speech is not supported in this browser.");
+      }
+    }
+
+    function speakDialogue() {
+      const dialogue = document.getElementById('character-dialogue').textContent;
+      speakText(dialogue);
+    }
+
+    function speakPuzzleClue() {
+      const desc = document.getElementById('puzzle-desc').textContent;
+      speakText(desc);
+    }
+
+    // RENDER STAGE
     function renderStage() {
       const data = stages[currentStageIndex];
       isLanguageVerified = false;
-      selectedLangOption = null;
+      selectedMainlineIndex = null;
 
       document.getElementById('stage-number').textContent = `STAGE ${data.stageNum} OF 9`;
       document.getElementById('stage-title').textContent = data.title;
@@ -474,30 +518,39 @@
       document.getElementById('focus-skill').textContent = data.skill;
       document.getElementById('mission-instruction').textContent = data.instruction;
       
-      // Render Language Radio Options
+      // Shuffle Mainline Options while tracking the correct answer
+      const mappedMainline = data.options.map((opt, idx) => ({
+        text: opt,
+        isCorrect: idx === 0
+      }));
+      currentMainlineShuffled = shuffleArray(mappedMainline);
+
+      // Render Mainline Options
       const optionsContainer = document.getElementById('language-options');
       optionsContainer.innerHTML = '';
-      data.options.forEach((opt, idx) => {
+      currentMainlineShuffled.forEach((optObj, idx) => {
         const div = document.createElement('div');
         div.className = "flex items-center gap-3 bg-slate-900/90 border border-slate-700 p-3 rounded-lg cursor-pointer hover:border-indigo-500 transition";
-        div.onclick = () => selectOption(idx, div);
+        div.onclick = () => selectMainlineOption(idx);
         div.innerHTML = `
           <input type="radio" name="lang-opt" id="opt-${idx}" value="${idx}" class="text-indigo-600 focus:ring-indigo-500">
-          <label for="opt-${idx}" class="text-xs sm:text-sm text-slate-200 cursor-pointer w-full">${opt}</label>
+          <label for="opt-${idx}" class="text-xs sm:text-sm text-slate-200 cursor-pointer w-full">${optObj.text}</label>
         `;
         optionsContainer.appendChild(div);
       });
 
-      // Reset Language Status
+      // Reset Language Mission Status
       document.getElementById('lang-status').textContent = "LOCKED";
       document.getElementById('lang-status').className = "text-xs font-bold bg-indigo-900 text-indigo-300 px-2.5 py-0.5 rounded";
       document.getElementById('lang-feedback').classList.add('hidden');
       document.getElementById('verify-lang-btn').disabled = false;
+      document.getElementById('language-mission-box').classList.remove('hidden');
 
       // Lock Puzzle Box
       const puzzleBox = document.getElementById('puzzle-box');
       puzzleBox.className = "bg-slate-900 border border-slate-700 rounded-xl p-5 mb-2 opacity-50 pointer-events-none";
       document.getElementById('puzzle-status').textContent = "🔒 Complete Language Mission First";
+      document.getElementById('puzzle-status').className = "text-xs text-slate-500 font-bold";
       document.getElementById('puzzle-desc').textContent = "Complete Step 1 to unlock this puzzle clue.";
       document.getElementById('puzzle-answer').value = "";
       document.getElementById('puzzle-answer').disabled = true;
@@ -509,24 +562,25 @@
       document.getElementById('remediation-box').classList.add('hidden');
     }
 
-    function selectOption(index, el) {
-      selectedLangOption = index;
+    function selectMainlineOption(index) {
+      selectedMainlineIndex = index;
       const radios = document.querySelectorAll('input[name="lang-opt"]');
       radios.forEach((r, i) => r.checked = (i === index));
     }
 
     function verifyLanguageMission() {
-      const data = stages[currentStageIndex];
       const feedback = document.getElementById('lang-feedback');
       
-      if (selectedLangOption === null) {
+      if (selectedMainlineIndex === null) {
         feedback.textContent = "Please select an answer option first!";
         feedback.className = "text-xs font-semibold mt-2 text-rose-400";
         feedback.classList.remove('hidden');
         return;
       }
 
-      if (selectedLangOption === data.correctOption) {
+      const selectedObj = currentMainlineShuffled[selectedMainlineIndex];
+
+      if (selectedObj.isCorrect) {
         // Correct Answer!
         isLanguageVerified = true;
         document.getElementById('lang-status').textContent = "UNLOCKED ✓";
@@ -536,6 +590,7 @@
         feedback.classList.remove('hidden');
 
         // Unlock Puzzle Box
+        const data = stages[currentStageIndex];
         const puzzleBox = document.getElementById('puzzle-box');
         puzzleBox.className = "bg-slate-900 border border-amber-500/50 rounded-xl p-5 mb-2 opacity-100 transition-all";
         document.getElementById('puzzle-status').textContent = "🔓 UNLOCKED";
@@ -543,12 +598,12 @@
         document.getElementById('puzzle-desc').textContent = data.puzzleDesc;
         const pInput = document.getElementById('puzzle-answer');
         pInput.disabled = false;
-        pInput.placeholder = "Enter Digit Solution";
+        pInput.placeholder = "Enter Digit (e.g. 4 or four)";
         document.getElementById('submit-puzzle-btn').disabled = false;
 
       } else {
-        // Incorrect Answer -> Trigger Revision Loop on ANY Stage!
-        triggerRemediation(data.stageNum);
+        // Incorrect Answer -> Trigger 4-Exercise Remediation Loop
+        triggerRemediation(stages[currentStageIndex].stageNum);
       }
     }
 
@@ -561,11 +616,20 @@
       questionsContainer.innerHTML = '';
 
       const drills = remediationData[stageNum];
+      currentRemediationShuffled = {};
+
       drills.forEach((drill, dIdx) => {
-        let optsHTML = drill.options.map((o, oIdx) => `
+        // Map and shuffle options
+        const mappedDrill = drill.options.map((opt, idx) => ({
+          text: opt,
+          isCorrect: idx === 0
+        }));
+        currentRemediationShuffled[dIdx] = shuffleArray(mappedDrill);
+
+        let optsHTML = currentRemediationShuffled[dIdx].map((oObj, oIdx) => `
           <label class="flex items-center gap-2 cursor-pointer mt-1 bg-slate-800/80 p-2 rounded border border-slate-700/60 hover:border-rose-500/50">
             <input type="radio" name="rem-q-${dIdx}" value="${oIdx}" class="text-rose-600 focus:ring-rose-500">
-            <span class="text-xs text-slate-200">${o}</span>
+            <span class="text-xs text-slate-200">${oObj.text}</span>
           </label>
         `).join('');
 
@@ -588,8 +652,13 @@
 
       drills.forEach((drill, dIdx) => {
         const selected = document.querySelector(`input[name="rem-q-${dIdx}"]:checked`);
-        if (!selected || parseInt(selected.value) !== drill.correct) {
+        if (!selected) {
           allCorrect = false;
+        } else {
+          const selectedIdx = parseInt(selected.value);
+          if (!currentRemediationShuffled[dIdx][selectedIdx].isCorrect) {
+            allCorrect = false;
+          }
         }
       });
 
@@ -603,6 +672,10 @@
           document.getElementById('remediation-box').classList.add('hidden');
           document.getElementById('language-mission-box').classList.remove('hidden');
           document.getElementById('lang-feedback').classList.add('hidden');
+          // Reset mainline selection so user selects correct option
+          selectedMainlineIndex = null;
+          const radios = document.querySelectorAll('input[name="lang-opt"]');
+          radios.forEach(r => r.checked = false);
         }, 1200);
       } else {
         fb.textContent = "Some answers in the revision loop are incorrect. Please review and check all 4 questions!";
@@ -614,15 +687,19 @@
     function submitStageAnswer() {
       if (!isLanguageVerified) return;
 
-      const val = document.getElementById('puzzle-answer').value.trim();
+      const inputVal = document.getElementById('puzzle-answer').value.trim().toLowerCase();
       const current = stages[currentStageIndex];
       const feedback = document.getElementById('puzzle-feedback');
 
-      if (val === current.expectedDigit) {
-        unlockedDigits[currentStageIndex] = current.expectedDigit;
-        document.getElementById(`grid-d${currentStageIndex + 1}`).textContent = current.expectedDigit;
+      const expectedDigit = current.expectedDigit;
+      const expectedWord = digitWords[expectedDigit];
+
+      // Flexible Input Parsing (checks digit string or spelled-out word)
+      if (inputVal === expectedDigit || inputVal === expectedWord) {
+        unlockedDigits[currentStageIndex] = expectedDigit;
+        document.getElementById(`grid-d${currentStageIndex + 1}`).textContent = expectedDigit;
         
-        feedback.textContent = `Correct! Passcode Digit #${current.stageNum} Unlocked: [ ${current.expectedDigit} ]`;
+        feedback.textContent = `Correct! Passcode Digit #${current.stageNum} Unlocked: [ ${expectedDigit} ]`;
         feedback.className = "text-xs font-semibold mt-2 text-emerald-400";
         feedback.classList.remove('hidden');
 
@@ -638,7 +715,7 @@
         }, 1200);
 
       } else {
-        feedback.textContent = "Incorrect digit or puzzle solution. Check your calculations and try again!";
+        feedback.textContent = "Incorrect digit or word solution. Check your calculations and try again!";
         feedback.className = "text-xs font-semibold mt-2 text-rose-400";
         feedback.classList.remove('hidden');
       }
@@ -667,7 +744,7 @@
       const targetCode = unlockedDigits.join('');
 
       if (keypadInput === "429173856" || keypadInput === targetCode) {
-        playLockReleaseSound();
+        playPlaneChimeSound();
         document.getElementById('keypad-screen').classList.add('hidden');
         document.getElementById('win-screen').classList.remove('hidden');
       } else {
@@ -676,30 +753,39 @@
       }
     }
 
-    // SYNTHESIZED LOCK RELEASE / ALARM OVERRIDE SOUND (Web Audio API)
-    function playLockReleaseSound() {
+    // SYNTHESIZED TWO-TONE CHIME SOUND (Web Audio API)
+    function playPlaneChimeSound() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        
-        // Keypad Access Granted Beeps
         const now = audioCtx.currentTime;
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
 
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(523.25, now); // C5
-        osc.frequency.setValueAtTime(659.25, now + 0.15); // E5
-        osc.frequency.setValueAtTime(783.99, now + 0.30); // G5
-        osc.frequency.setValueAtTime(1046.50, now + 0.45); // C6
+        const osc1 = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+        const gain1 = audioCtx.createGain();
+        const gain2 = audioCtx.createGain();
 
-        gain.gain.setValueAtTime(0.2, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+        osc1.type = 'sine';
+        osc2.type = 'sine';
 
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
+        // High tone (C5 ~ 523.25 Hz)
+        osc1.frequency.setValueAtTime(523.25, now);
+        gain1.gain.setValueAtTime(0.3, now);
+        gain1.gain.exponentialRampToValueAtTime(0.001, now + 1.0);
 
-        osc.start(now);
-        osc.stop(now + 1.2);
+        // Low chime tone (F5 ~ 698.46 Hz)
+        osc2.frequency.setValueAtTime(698.46, now + 0.35);
+        gain2.gain.setValueAtTime(0.3, now + 0.35);
+        gain2.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
+
+        osc1.connect(gain1);
+        gain1.connect(audioCtx.destination);
+        osc2.connect(gain2);
+        gain2.connect(audioCtx.destination);
+
+        osc1.start(now);
+        osc2.start(now + 0.35);
+        osc1.stop(now + 1.0);
+        osc2.stop(now + 1.5);
       } catch (e) {
         console.log("Audio play error:", e);
       }
@@ -715,11 +801,10 @@
       document.getElementById('win-screen').classList.add('hidden');
       document.getElementById('keypad-screen').classList.add('hidden');
       document.getElementById('game-card').classList.remove('hidden');
-      document.getElementById('language-mission-box').classList.remove('hidden');
       renderStage();
     }
 
-    // Init Game
+    // Initialize Game
     renderStage();
   </script>
 </body>

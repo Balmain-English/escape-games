@@ -20,7 +20,7 @@
         <h1 class="text-xl sm:text-2xl font-black text-amber-400 tracking-wider flex items-center gap-2">
           🛗 ELEVATOR BREAKDOWN ESCAPE
         </h1>
-        <p class="text-xs text-slate-400">9-Step Chronological Language & Communication Escape Game (A2/B1)</p>
+        <p class="text-xs text-slate-400">9-Step Chronological Language & Communication Escape Game (A2/B1 CEFR)</p>
       </div>
 
       <!-- 3x3 PASSCODE PROGRESS CARD -->
@@ -93,8 +93,8 @@
           <div class="bg-slate-800 p-3.5 rounded-lg border border-slate-700">
             <h4 class="font-bold text-amber-400 mb-2 text-xs uppercase tracking-wide">4. Incident Reporting & Formal Statements</h4>
             <ul class="list-disc list-inside text-xs space-y-1 text-slate-300">
-              <li>"Excuse me, the main passenger elevator isn't working."</li>
-              <li>"Could you tell me if our airport transfer has already arrived?"</li>
+              <li>"Excuse me, the main passenger elevator isn't working right now."</li>
+              <li>"Could you tell me if our transfer driver has already arrived?"</li>
               <li>"We do not have any hotel property in our possession."</li>
               <li>"Is the main staircase clear of cleaning equipment?"</li>
               <li>"There is an electronic door failure on Floor 14."</li>
@@ -118,8 +118,13 @@
       </div>
 
       <!-- Dialogue Section -->
-      <div class="bg-slate-900/80 border-l-4 border-amber-500 rounded-r-xl p-4 mb-6">
-        <p id="character-name" class="text-xs font-bold text-amber-400 uppercase mb-1">Elevator Intercom / Emergency Alarm</p>
+      <div class="bg-slate-900/80 border-l-4 border-amber-500 rounded-r-xl p-4 mb-6 relative">
+        <div class="flex justify-between items-start gap-2 mb-1">
+          <p id="character-name" class="text-xs font-bold text-amber-400 uppercase">Elevator Intercom / Emergency Alarm</p>
+          <button onclick="speakDialogue()" class="bg-slate-800 hover:bg-slate-700 border border-slate-600 text-amber-300 text-[11px] px-2.5 py-1 rounded flex items-center gap-1 transition">
+            🔊 Listen Audio
+          </button>
+        </div>
         <p id="character-dialogue" class="text-slate-200 italic text-sm leading-relaxed">
           "ATTENTION GUESTS: Elevator Line A has experienced a mechanical breakdown and is out of service! Please use emergency stairs to descend to reception." Ask the floor staff member where the emergency stairs are located!
         </p>
@@ -139,7 +144,7 @@
         </p>
 
         <div id="language-options" class="space-y-2 mb-4">
-          <!-- Options rendered dynamically -->
+          <!-- Dynamic Shuffled Options -->
         </div>
 
         <button id="verify-lang-btn" onclick="verifyLanguageMission()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-5 py-2 rounded-lg text-sm transition">
@@ -172,7 +177,12 @@
       <!-- PART 2: STAGE PUZZLE (REVEALED ONLY AFTER STEP 1 IS CORRECT) -->
       <div id="puzzle-box" class="bg-slate-900 border border-slate-700 rounded-xl p-5 mb-2 opacity-50 pointer-events-none">
         <div class="flex justify-between items-center mb-2">
-          <h3 class="text-sm font-bold text-amber-400">🧩 STEP 2: STAGE PUZZLE</h3>
+          <div class="flex items-center gap-3">
+            <h3 class="text-sm font-bold text-amber-400">🧩 STEP 2: STAGE PUZZLE</h3>
+            <button onclick="speakPuzzleClue()" class="bg-slate-800 hover:bg-slate-700 border border-slate-600 text-amber-300 text-[11px] px-2 py-0.5 rounded flex items-center gap-1 transition">
+              🔊 Listen Clue
+            </button>
+          </div>
           <span id="puzzle-status" class="text-xs text-slate-500 font-bold">🔒 Complete Language Mission First</span>
         </div>
         
@@ -239,7 +249,13 @@
   </footer>
 
   <script>
-    // 9 STAGES - NARRATIVE: ELEVATOR BREAKDOWN ESCAPE
+    // DIGIT DICTIONARY FOR FLEXIBLE PARSING
+    const digitWords = {
+      "1": "one", "2": "two", "3": "three", "4": "four", "5": "five",
+      "6": "six", "7": "seven", "8": "eight", "9": "nine"
+    };
+
+    // 9 STAGES - RAW DATA (RAW INDEX 0 IS ALWAYS THE CORRECT ANSWER)
     // Target Passcode Sequence: 6 - 3 - 8 - 1 - 5 - 9 - 2 - 4 - 7
     const stages = [
       {
@@ -251,12 +267,11 @@
         skill: "Enquiring about Emergency Stairs & Exits",
         instruction: "Select the correct polite question to ask the staff member about the emergency stairs:",
         options: [
-          "Excuse me, could you tell me where the emergency stairs are located?",
-          "Where you putted the emergency stairs?",
-          "Tell me stairs location right now!"
+          "Excuse me, could you tell me where the emergency stairs are located?", // Index 0: Correct
+          "Excuse me, where are located the emergency stairs?", // Distractor: French L1 word-order error
+          "Excuse me, for to go to the emergency stairs?" // Distractor: French L1 preposition error
         ],
-        correctOption: 0,
-        puzzleDesc: "You need to walk down from Floor 14 to Floor 8. Calculate (14 - 8 = 6). Enter 6 as Passcode Digit #1.",
+        puzzleDesc: "What is twelve minus six? Enter the resulting number (digit or spelled out) as Passcode Digit #1.",
         expectedDigit: "6"
       },
       {
@@ -268,12 +283,11 @@
         skill: "Prepositions of Movement & Hallway Navigation",
         instruction: "Select the sentence with the correct prepositions of movement:",
         options: [
-          "Go straight down the hallway and turn right past the ice machine.",
-          "Go straight into hallway and turning right under ice machine.",
-          "Go straight over hallway and turn right on top of ice machine."
+          "Go straight down the hallway and turn right past the ice machine.", // Index 0: Correct
+          "Go straight until the end of hallway and tour right after the ice machine.", // Distractor: French L1 false friend
+          "Go straight down the corridor for to arrive to the ice machine." // Distractor: French L1 preposition error
         ],
-        correctOption: 0,
-        puzzleDesc: "There are 8 doors in the west hallway, but 5 are locked guest rooms. Calculate (8 - 5 = 3). Enter 3 as Passcode Digit #2.",
+        puzzleDesc: "What is nine divided by three? Enter the resulting number (digit or spelled out) as Passcode Digit #2.",
         expectedDigit: "3"
       },
       {
@@ -285,12 +299,11 @@
         skill: "Embedded Questions for Directions",
         instruction: "Choose the grammatically correct embedded question:",
         options: [
-          "Could you tell me if Stairwell B leads directly to reception?",
-          "Could you tell me is Stairwell B leading directly to reception?",
-          "Could you tell me if leads Stairwell B directly to reception?"
+          "Could you tell me if Stairwell B leads directly to reception?", // Index 0: Correct
+          "Could you tell me is Stairwell B leading directly to reception?", // Distractor: French L1 word order
+          "Could you tell me if leads Stairwell B directly to reception?" // Distractor: French L1 word order
         ],
-        correctOption: 0,
-        puzzleDesc: "Stairwell door label shows: Stairwell 8. Enter 8 as Passcode Digit #3.",
+        puzzleDesc: "What is four plus four? Enter the resulting number (digit or spelled out) as Passcode Digit #3.",
         expectedDigit: "8"
       },
       {
@@ -298,17 +311,16 @@
         title: "Stairwell Door Level 12",
         location: "12th Floor Landing (09:49 AM)",
         character: "Maintenance Technician",
-        dialogue: `"The door handle feels stuck on Level 12! Report the door handle malfunction to the technician passing by."`,
+        dialogue: `"The door handle feels stuck on Level 12! Report the elevator and door malfunction to the technician passing by."`,
         skill: "Reporting Faults & Broken Equipment",
-        instruction: "Complete the statement: 'Excuse me, the main elevator ________ working.'",
+        instruction: "Select the polite statement to report the broken elevator:",
         options: [
-          "isn't",
-          "don't",
-          "not"
+          "Excuse me, the main passenger elevator isn't working right now.", // Index 0: Correct
+          "Excuse me, the main elevator is in breakdown since 10 minutes.", // Distractor: French L1 false friend/preposition
+          "Excuse me, the main elevator don't work already." // Distractor: French L1 auxiliary/already
         ],
-        correctOption: 0,
-        puzzleDesc: "Door key code calculation: 5 minus 4 = 1. Enter 1 as Passcode Digit #4.",
-        expectedDigit: "4"
+        puzzleDesc: "What is seven minus six? Enter the resulting number (digit or spelled out) as Passcode Digit #4.",
+        expectedDigit: "1"
       },
       {
         stageNum: 5,
@@ -319,12 +331,11 @@
         skill: "Phrasal Verbs for Item Retrieval",
         instruction: "Choose the correct expression to request your stored luggage:",
         options: [
-          "I would like to pick up my luggage from locker 15.",
-          "I would like to take off my luggage from locker 15.",
-          "I would like to put out my luggage from locker 15."
+          "I would like to pick up my luggage from locker 15.", // Index 0: Correct
+          "I would like to recuperate my luggage from locker 15.", // Distractor: French L1 false friend "recuperate"
+          "I am wanting to regain my luggage from locker 15." // Distractor: French L1 stative progressive
         ],
-        correctOption: 0,
-        puzzleDesc: "Storage locker calculation: 15 divided by 3 = 5. Enter 5 as Passcode Digit #5.",
+        puzzleDesc: "What is fifteen divided by three? Enter the resulting number (digit or spelled out) as Passcode Digit #5.",
         expectedDigit: "5"
       },
       {
@@ -334,14 +345,13 @@
         character: "Fellow Hotel Guest",
         dialogue: `"Your appointment starts at 10:00 AM sharp! Express the urgent need to descend to reception without delay."`,
         skill: "Modals of Urgent Obligation & Necessity",
-        instruction: "Select the sentence showing urgent obligation:",
+        instruction: "Select the sentence showing urgent obligation naturally:",
         options: [
-          "We have to reach reception before our appointment starts.",
-          "We must to reach reception before appointment starts.",
-          "We are having to reach reception right now."
+          "We have to reach reception before our appointment starts.", // Index 0: Correct
+          "We must to arrive to reception before the meeting starts.", // Distractor: French L1 modal "must to"
+          "We are in late so we need go to reception now." // Distractor: French L1 "in late"
         ],
-        correctOption: 0,
-        puzzleDesc: "Flight step count calculation: 18 steps divided by 2 = 9. Enter 9 as Passcode Digit #6.",
+        puzzleDesc: "What is eighteen divided by two? Enter the resulting number (digit or spelled out) as Passcode Digit #6.",
         expectedDigit: "9"
       },
       {
@@ -353,13 +363,12 @@
         skill: "Requesting Permission & Restricted Access",
         instruction: "Choose the best request to confirm entry permission:",
         options: [
-          "Is it okay if we pass through this service door right now?",
-          "We are passing through, do not stop us.",
-          "Must we to pass through this service door?"
+          "Is it okay if we pass through this service door right now?", // Index 0: Correct
+          "Must we to ask permission for to traverse this door?", // Distractor: French L1 "must to", "for to"
+          "Are we allowed of passing this service door?" // Distractor: French L1 "allowed of"
         ],
-        correctOption: 0,
-        puzzleDesc: "Security Zone identifier: Zone 2. Enter 2 as Passcode Digit #7.",
-        expectedDigit: "7"
+        puzzleDesc: "What is ten minus eight? Enter the resulting number (digit or spelled out) as Passcode Digit #7.",
+        expectedDigit: "2"
       },
       {
         stageNum: 8,
@@ -370,12 +379,11 @@
         skill: "Formal Declarations & Negative Structures",
         instruction: "Select the correct formal declaration statement:",
         options: [
-          "We do not have any hotel property in our possession.",
-          "We do not have no hotel property in our possession.",
-          "We aren't having no hotel property with us."
+          "We do not have any hotel property in our possession.", // Index 0: Correct
+          "We do not have no hotel property with us.", // Distractor: French L1 double negative
+          "We aren't having any informations or hotel objects." // Distractor: French L1 plural "informations"
         ],
-        correctOption: 0,
-        puzzleDesc: "Lobby Sector identifier calculation: 12 minus 8 = 4. Enter 4 as Passcode Digit #8.",
+        puzzleDesc: "What is sixteen divided by four? Enter the resulting number (digit or spelled out) as Passcode Digit #8.",
         expectedDigit: "4"
       },
       {
@@ -387,84 +395,120 @@
         skill: "Present Perfect Status Enquiries",
         instruction: "Select the correct Present Perfect enquiry:",
         options: [
-          "Could you tell me if our transfer driver has already arrived?",
-          "Could you tell me if our transfer driver is already arrived?",
-          "Could you tell me if our transfer driver did already arrived?"
+          "Could you tell me if our transfer driver has already arrived?", // Index 0: Correct
+          "Could you tell me if our transfer driver is already arrived?", // Distractor: French L1 "is arrived" (être)
+          "Could you tell me since when our transfer driver is waiting?" // Distractor: French L1 "since when + present"
         ],
-        correctOption: 0,
-        puzzleDesc: "Turnstile gate override calculation: 14 minus 7 = 7. Enter 7 as Passcode Digit #9.",
+        puzzleDesc: "What is fourteen divided by two? Enter the resulting number (digit or spelled out) as Passcode Digit #9.",
         expectedDigit: "7"
       }
     ];
 
-    // REVISION LOOPS (4 EXERCISES FOR EACH OF THE 9 STAGES)
+    // REVISION LOOPS (4 EXERCISES FOR EACH OF THE 9 STAGES - RAW INDEX 0 ALWAYS CORRECT)
     const remediationData = {
       1: [
-        { type: "Gap-Fill", q: "1. Complete the phrase: 'Could you tell me where the stairs ________ located?'", options: ["are", "is", "does"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Ask about emergency exits politely:", options: ["Could you tell me which way leads to reception?", "Where stairs go?", "Why elevator broken?"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Where did you putted the emergency map?'", options: ["Correct", "Incorrect (should be 'put')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Please check the building exit ________.'", options: ["signs", "bills", "cards"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete the phrase: 'Could you tell me where the emergency exit ________ located?'", options: ["is", "are located", "does"] },
+        { type: "Multiple Choice", q: "2. Ask about emergency exits politely:", options: ["Could you tell me how to get to reception?", "Where is located the reception?", "For to go to reception please?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Where departs the transfer shuttle?'", options: ["Incorrect (word order error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. Could you give me some ________ about the fire exit?", options: ["information", "informations", "an information"] }
       ],
       2: [
-        { type: "Gap-Fill", q: "1. Complete direction sentence: 'Go straight ________ the hallway.'", options: ["down", "over", "under"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Select the correct direction instruction:", options: ["Turn right past the ice machine.", "Turning right across machine.", "Turn right under machine."], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Walk past room 1402 to find the stairs.'", options: ["Correct", "Incorrect"], correct: 0 },
-        { type: "Gap-Fill", q: "4. Complete: 'Follow the green arrows to ________ the stairwell.'", options: ["reach", "reaching", "reaches"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete direction sentence: 'Go straight ________ the hallway.'", options: ["down", "until", "for to reach"] },
+        { type: "Multiple Choice", q: "2. Select the correct direction instruction:", options: ["Turn left right past the service desk.", "Turn left past to the service desk.", "Tour left after the service desk."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I am waiting here since ten minutes.'", options: ["Incorrect (should use 'for')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Follow the green arrows to ________ the ground floor.", options: ["reach", "attain", "recuperate"] }
       ],
       3: [
-        { type: "Gap-Fill", q: "1. Complete embedded question: 'Could you tell me if Stairwell B ________ open?'", options: ["is", "does", "are"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Inquire about stairwells politely:", options: ["Could you tell me where Stairwell B is located?", "Where stairs is?", "Why door locked?"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this question correct? 'Could you tell me is Stairwell B open?'", options: ["Correct", "Incorrect (word order)"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'The electronic display shows the floor ________.'", options: ["plan", "ticket", "bill"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete embedded question: 'Could you tell me if Stairwell B ________ open?'", options: ["is", "does", "are"] },
+        { type: "Multiple Choice", q: "2. Inquire about stairwells politely:", options: ["Do you know where the main lobby is?", "Do you know where is the main lobby?", "Do you know where located the main lobby?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Could you tell me if leads this door to the lobby?'", options: ["Incorrect (word order error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. Please check the emergency floor ________ on the wall.", options: ["plan", "map plan", "schema"] }
       ],
       4: [
-        { type: "Gap-Fill", q: "1. Complete: 'The passenger elevator ________ working today.'", options: ["isn't", "don't", "not"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Report an elevator malfunction politely:", options: ["Excuse me, the elevator door is stuck.", "Elevator bad now.", "Fix door fast!"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'The door doesn't opening.'", options: ["Correct", "Incorrect (should be 'isn't opening')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'There is a mechanical ________ in Line A.'", options: ["fault", "faulting", "faulted"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete: 'The passenger elevator ________ working today.'", options: ["isn't", "don't", "is not to be"] },
+        { type: "Multiple Choice", q: "2. How do you report a technical problem politely?", options: ["The door seems to be broken.", "The door is in breakdown.", "The door don't open."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'The elevator is broken since this morning.'", options: ["Incorrect (should be 'has been broken since')", "Correct"] },
+        { type: "Gap-Fill", q: "4. There is a technical ________ in the main lift line.", options: ["fault", "breakdown error", "failure problem"] }
       ],
       5: [
-        { type: "Gap-Fill", q: "1. Complete phrasal verb: 'I would like to ________ up my luggage.'", options: ["pick", "take", "bring"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Request luggage retrieval politely:", options: ["Could I please collect my bags from locker 15?", "Give luggage now!", "Where bag is?"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I would like to take off my bag from the depot.'", options: ["Correct", "Incorrect (should be 'pick up')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Please show your locker claim ________.'", options: ["tag", "bill", "cheque"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete phrasal verb: 'I would like to ________ up my luggage.'", options: ["pick", "recuperate", "take off"] },
+        { type: "Multiple Choice", q: "2. Request luggage retrieval politely:", options: ["Could I please collect my bags from room 4?", "Could I recuperate my luggage from room 4?", "Can I to take my luggage from room 4?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I am agreeing with the receptionist.'", options: ["Incorrect (stative verb mistake)", "Correct"] },
+        { type: "Gap-Fill", q: "4. Please present your luggage claim ________ at the counter.", options: ["tag", "ticket bill", "receipt card"] }
       ],
       6: [
-        { type: "Gap-Fill", q: "1. Complete obligation sentence: 'We ________ to reach reception before 10:00.'", options: ["have", "musting", "shoulded"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Express urgent obligation politely:", options: ["We must hurry because our meeting starts soon.", "We go fast bye.", "Run fast!"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'We must to walk faster down the stairs.'", options: ["Correct", "Incorrect (should be 'must walk')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Walk quickly down the fire ________.'", options: ["stairs", "chairs", "tables"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete obligation sentence: 'We ________ to reach reception before 10:00.'", options: ["have", "must to", "are obliged for"] },
+        { type: "Multiple Choice", q: "2. Express urgent obligation politely:", options: ["We need to hurry down the stairs.", "We must to hurry down stairs.", "We are in late so hurry."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'We must to descend by the stairs.'", options: ["Incorrect (should be 'must descend')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Please proceed quickly down the emergency ________.", options: ["staircase", "escalator stairs", "stairing"] }
       ],
       7: [
-        { type: "Gap-Fill", q: "1. Complete permission request: 'Is it okay ________ we pass through here?'", options: ["if", "that", "where"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Ask permission from a security officer:", options: ["May we please use this service door?", "We go inside now.", "Open gate fast."], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Must we to show our keycard?'", options: ["Correct", "Incorrect (should be 'Must we show')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'The officer gave us permission to ________.'", options: ["pass", "passing", "passed"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete permission request: 'Is it okay ________ we pass through here?'", options: ["if", "that", "for to"] },
+        { type: "Multiple Choice", q: "2. Ask permission from a security officer:", options: ["May we please pass through this door?", "Can we to pass this door?", "Must we to ask for pass?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Are we allowed of using this door?'", options: ["Incorrect (should be 'allowed to use')", "Correct"] },
+        { type: "Gap-Fill", q: "4. The guard gave us permission to ________ the area.", options: ["enter", "enter in", "penetrate"] }
       ],
       8: [
-        { type: "Gap-Fill", q: "1. Complete declaration: 'We do not have ________ hotel property.'", options: ["any", "no", "none"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Make a formal declaration:", options: ["We are carrying only our personal belongings.", "No hotel items here.", "We fine."], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'We don't have no hotel keys.'", options: ["Correct", "Incorrect (double negative)"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'The reception officer checked our ________.'", options: ["passports", "bills", "receipts"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete declaration: 'We do not have ________ hotel property.'", options: ["any", "no", "some"] },
+        { type: "Multiple Choice", q: "2. Select the correct negative statement:", options: ["We don't have any unpaid items.", "We don't have no unpaid items.", "We aren't having no unpaid items."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I need some informations about the bill.'", options: ["Incorrect (uncountable noun error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. The staff checked our room reservation ________.", options: ["details", "informations", "notices"] }
       ],
       9: [
-        { type: "Gap-Fill", q: "1. Complete Present Perfect sentence: 'Has our appointment host already ________?'", options: ["arrived", "arriving", "arrive"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Check appointment status with reception:", options: ["Could you tell me if our host is waiting in the lobby?", "Why host late?", "Is driver here?"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Could you tell me if our driver is already arrived?'", options: ["Correct", "Incorrect (should use 'has')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Please take a seat in the reception ________.'", options: ["lounge", "desk", "window"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete Present Perfect sentence: 'Has the driver already ________ in the lobby?'", options: ["arrived", "arrive", "arriving"] },
+        { type: "Multiple Choice", q: "2. Select the correct Present Perfect question:", options: ["Has the manager called our taxi yet?", "Is the manager already called our taxi?", "Did the manager already called our taxi?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Our driver is already arrived at the entrance.'", options: ["Incorrect (should use 'has arrived')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Please wait comfortably in the reception ________.", options: ["lounge", "saloon", "hallway room"] }
       ]
     };
 
+    // GAME STATE TRACKING
     let currentStageIndex = 0;
     let unlockedDigits = Array(9).fill("?");
-    let selectedLangOption = null;
+    let selectedMainlineIndex = null;
+    let currentMainlineShuffled = [];
+    let currentRemediationShuffled = {};
     let keypadInput = "";
     let isLanguageVerified = false;
 
+    // FISHER-YATES SHUFFLE ALGORITHM
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // WEB SPEECH API INTEGRATION
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert("Text-to-speech is not supported in this browser.");
+      }
+    }
+
+    function speakDialogue() {
+      const dialogue = document.getElementById('character-dialogue').textContent;
+      speakText(dialogue);
+    }
+
+    function speakPuzzleClue() {
+      const desc = document.getElementById('puzzle-desc').textContent;
+      speakText(desc);
+    }
+
+    // RENDER STAGE
     function renderStage() {
       const data = stages[currentStageIndex];
       isLanguageVerified = false;
-      selectedLangOption = null;
+      selectedMainlineIndex = null;
 
       document.getElementById('stage-number').textContent = `STAGE ${data.stageNum} OF 9`;
       document.getElementById('stage-title').textContent = data.title;
@@ -474,30 +518,39 @@
       document.getElementById('focus-skill').textContent = data.skill;
       document.getElementById('mission-instruction').textContent = data.instruction;
       
-      // Render Language Radio Options
+      // Shuffle Mainline Options while tracking the correct answer
+      const mappedMainline = data.options.map((opt, idx) => ({
+        text: opt,
+        isCorrect: idx === 0
+      }));
+      currentMainlineShuffled = shuffleArray(mappedMainline);
+
+      // Render Mainline Options
       const optionsContainer = document.getElementById('language-options');
       optionsContainer.innerHTML = '';
-      data.options.forEach((opt, idx) => {
+      currentMainlineShuffled.forEach((optObj, idx) => {
         const div = document.createElement('div');
         div.className = "flex items-center gap-3 bg-slate-900/90 border border-slate-700 p-3 rounded-lg cursor-pointer hover:border-indigo-500 transition";
-        div.onclick = () => selectOption(idx, div);
+        div.onclick = () => selectMainlineOption(idx);
         div.innerHTML = `
           <input type="radio" name="lang-opt" id="opt-${idx}" value="${idx}" class="text-indigo-600 focus:ring-indigo-500">
-          <label for="opt-${idx}" class="text-xs sm:text-sm text-slate-200 cursor-pointer w-full">${opt}</label>
+          <label for="opt-${idx}" class="text-xs sm:text-sm text-slate-200 cursor-pointer w-full">${optObj.text}</label>
         `;
         optionsContainer.appendChild(div);
       });
 
-      // Reset Language Status
+      // Reset Language Mission Status
       document.getElementById('lang-status').textContent = "LOCKED";
       document.getElementById('lang-status').className = "text-xs font-bold bg-indigo-900 text-indigo-300 px-2.5 py-0.5 rounded";
       document.getElementById('lang-feedback').classList.add('hidden');
       document.getElementById('verify-lang-btn').disabled = false;
+      document.getElementById('language-mission-box').classList.remove('hidden');
 
       // Lock Puzzle Box
       const puzzleBox = document.getElementById('puzzle-box');
       puzzleBox.className = "bg-slate-900 border border-slate-700 rounded-xl p-5 mb-2 opacity-50 pointer-events-none";
       document.getElementById('puzzle-status').textContent = "🔒 Complete Language Mission First";
+      document.getElementById('puzzle-status').className = "text-xs text-slate-500 font-bold";
       document.getElementById('puzzle-desc').textContent = "Complete Step 1 to unlock this puzzle clue.";
       document.getElementById('puzzle-answer').value = "";
       document.getElementById('puzzle-answer').disabled = true;
@@ -509,24 +562,25 @@
       document.getElementById('remediation-box').classList.add('hidden');
     }
 
-    function selectOption(index, el) {
-      selectedLangOption = index;
+    function selectMainlineOption(index) {
+      selectedMainlineIndex = index;
       const radios = document.querySelectorAll('input[name="lang-opt"]');
       radios.forEach((r, i) => r.checked = (i === index));
     }
 
     function verifyLanguageMission() {
-      const data = stages[currentStageIndex];
       const feedback = document.getElementById('lang-feedback');
       
-      if (selectedLangOption === null) {
+      if (selectedMainlineIndex === null) {
         feedback.textContent = "Please select an answer option first!";
         feedback.className = "text-xs font-semibold mt-2 text-rose-400";
         feedback.classList.remove('hidden');
         return;
       }
 
-      if (selectedLangOption === data.correctOption) {
+      const selectedObj = currentMainlineShuffled[selectedMainlineIndex];
+
+      if (selectedObj.isCorrect) {
         // Correct Answer!
         isLanguageVerified = true;
         document.getElementById('lang-status').textContent = "UNLOCKED ✓";
@@ -536,6 +590,7 @@
         feedback.classList.remove('hidden');
 
         // Unlock Puzzle Box
+        const data = stages[currentStageIndex];
         const puzzleBox = document.getElementById('puzzle-box');
         puzzleBox.className = "bg-slate-900 border border-amber-500/50 rounded-xl p-5 mb-2 opacity-100 transition-all";
         document.getElementById('puzzle-status').textContent = "🔓 UNLOCKED";
@@ -543,12 +598,12 @@
         document.getElementById('puzzle-desc').textContent = data.puzzleDesc;
         const pInput = document.getElementById('puzzle-answer');
         pInput.disabled = false;
-        pInput.placeholder = "Enter Digit Solution";
+        pInput.placeholder = "Enter Digit (e.g. 6 or six)";
         document.getElementById('submit-puzzle-btn').disabled = false;
 
       } else {
-        // Incorrect Answer -> Trigger Revision Loop on ANY Stage!
-        triggerRemediation(data.stageNum);
+        // Incorrect Answer -> Trigger 4-Exercise Remediation Loop
+        triggerRemediation(stages[currentStageIndex].stageNum);
       }
     }
 
@@ -561,11 +616,20 @@
       questionsContainer.innerHTML = '';
 
       const drills = remediationData[stageNum];
+      currentRemediationShuffled = {};
+
       drills.forEach((drill, dIdx) => {
-        let optsHTML = drill.options.map((o, oIdx) => `
+        // Map and shuffle options
+        const mappedDrill = drill.options.map((opt, idx) => ({
+          text: opt,
+          isCorrect: idx === 0
+        }));
+        currentRemediationShuffled[dIdx] = shuffleArray(mappedDrill);
+
+        let optsHTML = currentRemediationShuffled[dIdx].map((oObj, oIdx) => `
           <label class="flex items-center gap-2 cursor-pointer mt-1 bg-slate-800/80 p-2 rounded border border-slate-700/60 hover:border-rose-500/50">
             <input type="radio" name="rem-q-${dIdx}" value="${oIdx}" class="text-rose-600 focus:ring-rose-500">
-            <span class="text-xs text-slate-200">${o}</span>
+            <span class="text-xs text-slate-200">${oObj.text}</span>
           </label>
         `).join('');
 
@@ -588,8 +652,13 @@
 
       drills.forEach((drill, dIdx) => {
         const selected = document.querySelector(`input[name="rem-q-${dIdx}"]:checked`);
-        if (!selected || parseInt(selected.value) !== drill.correct) {
+        if (!selected) {
           allCorrect = false;
+        } else {
+          const selectedIdx = parseInt(selected.value);
+          if (!currentRemediationShuffled[dIdx][selectedIdx].isCorrect) {
+            allCorrect = false;
+          }
         }
       });
 
@@ -603,6 +672,10 @@
           document.getElementById('remediation-box').classList.add('hidden');
           document.getElementById('language-mission-box').classList.remove('hidden');
           document.getElementById('lang-feedback').classList.add('hidden');
+          // Reset mainline selection so user selects correct option
+          selectedMainlineIndex = null;
+          const radios = document.querySelectorAll('input[name="lang-opt"]');
+          radios.forEach(r => r.checked = false);
         }, 1200);
       } else {
         fb.textContent = "Some answers in the revision loop are incorrect. Please review and check all 4 questions!";
@@ -614,15 +687,19 @@
     function submitStageAnswer() {
       if (!isLanguageVerified) return;
 
-      const val = document.getElementById('puzzle-answer').value.trim();
+      const inputVal = document.getElementById('puzzle-answer').value.trim().toLowerCase();
       const current = stages[currentStageIndex];
       const feedback = document.getElementById('puzzle-feedback');
 
-      if (val === current.expectedDigit) {
-        unlockedDigits[currentStageIndex] = current.expectedDigit;
-        document.getElementById(`grid-d${currentStageIndex + 1}`).textContent = current.expectedDigit;
+      const expectedDigit = current.expectedDigit;
+      const expectedWord = digitWords[expectedDigit];
+
+      // Flexible Input Parsing (checks digit string or spelled-out word)
+      if (inputVal === expectedDigit || inputVal === expectedWord) {
+        unlockedDigits[currentStageIndex] = expectedDigit;
+        document.getElementById(`grid-d${currentStageIndex + 1}`).textContent = expectedDigit;
         
-        feedback.textContent = `Correct! Passcode Digit #${current.stageNum} Unlocked: [ ${current.expectedDigit} ]`;
+        feedback.textContent = `Correct! Passcode Digit #${current.stageNum} Unlocked: [ ${expectedDigit} ]`;
         feedback.className = "text-xs font-semibold mt-2 text-emerald-400";
         feedback.classList.remove('hidden');
 
@@ -638,7 +715,7 @@
         }, 1200);
 
       } else {
-        feedback.textContent = "Incorrect digit or puzzle solution. Check your calculations and try again!";
+        feedback.textContent = "Incorrect digit or word solution. Check your calculations and try again!";
         feedback.className = "text-xs font-semibold mt-2 text-rose-400";
         feedback.classList.remove('hidden');
       }
@@ -667,7 +744,7 @@
       const targetCode = unlockedDigits.join('');
 
       if (keypadInput === "638159247" || keypadInput === targetCode) {
-        playElevatorChimeSound();
+        playPlaneChimeSound();
         document.getElementById('keypad-screen').classList.add('hidden');
         document.getElementById('win-screen').classList.remove('hidden');
       } else {
@@ -676,13 +753,12 @@
       }
     }
 
-    // SYNTHESIZED ELEVATOR LOBBY CHIME SOUND (Web Audio API)
-    function playElevatorChimeSound() {
+    // SYNTHESIZED TWO-TONE CHIME SOUND (Web Audio API)
+    function playPlaneChimeSound() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const now = audioCtx.currentTime;
 
-        // Classic Hotel Elevator Arrival Chime (C5 -> F5)
         const osc1 = audioCtx.createOscillator();
         const osc2 = audioCtx.createOscillator();
         const gain1 = audioCtx.createGain();
@@ -691,12 +767,12 @@
         osc1.type = 'sine';
         osc2.type = 'sine';
 
-        // Tone 1: C5 (~523.25 Hz)
+        // High tone (C5 ~ 523.25 Hz)
         osc1.frequency.setValueAtTime(523.25, now);
         gain1.gain.setValueAtTime(0.3, now);
         gain1.gain.exponentialRampToValueAtTime(0.001, now + 1.0);
 
-        // Tone 2: F5 (~698.46 Hz)
+        // Low chime tone (F5 ~ 698.46 Hz)
         osc2.frequency.setValueAtTime(698.46, now + 0.35);
         gain2.gain.setValueAtTime(0.3, now + 0.35);
         gain2.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
@@ -725,11 +801,10 @@
       document.getElementById('win-screen').classList.add('hidden');
       document.getElementById('keypad-screen').classList.add('hidden');
       document.getElementById('game-card').classList.remove('hidden');
-      document.getElementById('language-mission-box').classList.remove('hidden');
       renderStage();
     }
 
-    // Init Game
+    // Initialize Game
     renderStage();
   </script>
 </body>

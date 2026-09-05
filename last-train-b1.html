@@ -20,7 +20,7 @@
         <h1 class="text-xl sm:text-2xl font-black text-amber-400 tracking-wider flex items-center gap-2">
           🚆 LAST TRAIN ESCAPE
         </h1>
-        <p class="text-xs text-slate-400">9-Step Chronological Language & Communication Escape Game (A2/B1)</p>
+        <p class="text-xs text-slate-400">9-Step Chronological Language & Communication Escape Game (A2/B1 CEFR)</p>
       </div>
 
       <!-- 3x3 PASSCODE PROGRESS CARD -->
@@ -93,7 +93,7 @@
           <div class="bg-slate-800 p-3.5 rounded-lg border border-slate-700">
             <h4 class="font-bold text-amber-400 mb-2 text-xs uppercase tracking-wide">4. Tickets, Gates & Machine Errors</h4>
             <ul class="list-disc list-inside text-xs space-y-1 text-slate-300">
-              <li>"Excuse me, the ticket validator isn't accepting my pass."</li>
+              <li>"Excuse me, the ticket validator isn't working right now."</li>
               <li>"Is it okay if I pass through this gate with an e-ticket?"</li>
               <li>"I need to pick up my luggage from locker 12 immediately."</li>
               <li>"Could you tell me if the train doors have already closed?"</li>
@@ -118,8 +118,13 @@
       </div>
 
       <!-- Dialogue Section -->
-      <div class="bg-slate-900/80 border-l-4 border-amber-500 rounded-r-xl p-4 mb-6">
-        <p id="character-name" class="text-xs font-bold text-amber-400 uppercase mb-1">Station Loudspeaker Announcement</p>
+      <div class="bg-slate-900/80 border-l-4 border-amber-500 rounded-r-xl p-4 mb-6 relative">
+        <div class="flex justify-between items-start gap-2 mb-1">
+          <p id="character-name" class="text-xs font-bold text-amber-400 uppercase">Station Loudspeaker Announcement</p>
+          <button onclick="speakDialogue()" class="bg-slate-800 hover:bg-slate-700 border border-slate-600 text-amber-300 text-[11px] px-2.5 py-1 rounded flex items-center gap-1 transition">
+            🔊 Listen Audio
+          </button>
+        </div>
         <p id="character-dialogue" class="text-slate-200 italic text-sm leading-relaxed">
           "ATTENTION PASSENGERS: Emergency platform change! The 23:00 express train will no longer depart from Platform 3. Please check the updated board!"
         </p>
@@ -139,7 +144,7 @@
         </p>
 
         <div id="language-options" class="space-y-2 mb-4">
-          <!-- Options rendered dynamically -->
+          <!-- Dynamic Shuffled Options -->
         </div>
 
         <button id="verify-lang-btn" onclick="verifyLanguageMission()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-5 py-2 rounded-lg text-sm transition">
@@ -172,7 +177,12 @@
       <!-- PART 2: STAGE PUZZLE (REVEALED ONLY AFTER STEP 1 IS CORRECT) -->
       <div id="puzzle-box" class="bg-slate-900 border border-slate-700 rounded-xl p-5 mb-2 opacity-50 pointer-events-none">
         <div class="flex justify-between items-center mb-2">
-          <h3 class="text-sm font-bold text-amber-400">🧩 STEP 2: STAGE PUZZLE</h3>
+          <div class="flex items-center gap-3">
+            <h3 class="text-sm font-bold text-amber-400">🧩 STEP 2: STAGE PUZZLE</h3>
+            <button onclick="speakPuzzleClue()" class="bg-slate-800 hover:bg-slate-700 border border-slate-600 text-amber-300 text-[11px] px-2 py-0.5 rounded flex items-center gap-1 transition">
+              🔊 Listen Clue
+            </button>
+          </div>
           <span id="puzzle-status" class="text-xs text-slate-500 font-bold">🔒 Complete Language Mission First</span>
         </div>
         
@@ -239,7 +249,13 @@
   </footer>
 
   <script>
-    // 9 STAGES - NARRATIVE: LAST TRAIN STATION ESCAPE
+    // DIGIT DICTIONARY FOR FLEXIBLE PARSING
+    const digitWords = {
+      "1": "one", "2": "two", "3": "three", "4": "four", "5": "five",
+      "6": "six", "7": "seven", "8": "eight", "9": "nine"
+    };
+
+    // 9 STAGES - RAW DATA (RAW INDEX 0 IS ALWAYS THE CORRECT ANSWER)
     // Target Passcode Sequence: 5 - 1 - 9 - 3 - 8 - 2 - 7 - 4 - 6
     const stages = [
       {
@@ -251,12 +267,11 @@
         skill: "Departure Announcements & Platform Enquiries",
         instruction: "Select the correct polite question to ask the station clerk about the platform change:",
         options: [
-          "Could you tell me which platform the 23:00 express leaves from?",
-          "Which platform express train go now?",
-          "Where you putted the 23:00 train?"
+          "Could you tell me which platform the 23:00 express leaves from?", // Index 0: Correct
+          "Where is located the 23:00 express train platform?", // Distractor: French L1 word order error
+          "For to go to the 23:00 express train platform please?" // Distractor: French L1 preposition error
         ],
-        correctOption: 0,
-        puzzleDesc: "The departure board shows Platform 3 is closed. The new platform is calculated by (8 - 3 = 5). Enter 5 as Passcode Digit #1.",
+        puzzleDesc: "What is eight minus three? Enter the resulting number (digit or spelled out) as Passcode Digit #1.",
         expectedDigit: "5"
       },
       {
@@ -268,12 +283,11 @@
         skill: "Prepositions of Direction & Movement",
         instruction: "Select the sentence with the correct prepositions of movement:",
         options: [
-          "Go straight through the tunnel and turn left past the cafe.",
-          "Go straight into the tunnel and turning left across the cafe.",
-          "Go straight over the tunnel and turn left under cafe."
+          "Go straight through the tunnel and turn left past the cafe.", // Index 0: Correct
+          "Go straight until the cafe and tour left after.", // Distractor: French L1 false friend / spelling
+          "Go straight down the tunnel for to arrive to the cafe." // Distractor: French L1 preposition error
         ],
-        correctOption: 0,
-        puzzleDesc: "The detour sign points towards Sector 1. Enter 1 as Passcode Digit #2.",
+        puzzleDesc: "What is nine divided by nine? Enter the resulting number (digit or spelled out) as Passcode Digit #2.",
         expectedDigit: "1"
       },
       {
@@ -285,12 +299,11 @@
         skill: "Embedded Questions & Timetables",
         instruction: "Choose the grammatically correct embedded question:",
         options: [
-          "Could you tell me if the train is running on schedule?",
-          "Could you tell me is the train running on schedule?",
-          "Could you tell me if is running the train on schedule?"
+          "Could you tell me if the train is running on schedule?", // Index 0: Correct
+          "Could you tell me is the train running on schedule?", // Distractor: French L1 word order error
+          "Could you tell me if is running on time the train?" // Distractor: French L1 word order error
         ],
-        correctOption: 0,
-        puzzleDesc: "The kiosk screen displays a route code: 45 divided by 5 = 9. Enter 9 as Passcode Digit #3.",
+        puzzleDesc: "What is eighty-one divided by nine? Enter the resulting number (digit or spelled out) as Passcode Digit #3.",
         expectedDigit: "9"
       },
       {
@@ -300,14 +313,13 @@
         character: "Ticket Inspection Machine",
         dialogue: `"The automatic ticket validator flashes a red light! You must report the machine error to the station supervisor."`,
         skill: "Reporting Malfunctions & Machine Errors",
-        instruction: "Complete the statement: 'Excuse me, the ticket validator ________ accepting my pass.'",
+        instruction: "Select the polite statement to report the validator issue:",
         options: [
-          "isn't",
-          "don't",
-          "not"
+          "Excuse me, the ticket validator isn't working right now.", // Index 0: Correct
+          "Excuse me, the ticket validator is in breakdown since 10 minutes.", // Distractor: French L1 false friend / preposition
+          "Excuse me, the ticket validator don't work already." // Distractor: French L1 auxiliary / tense
         ],
-        correctOption: 0,
-        puzzleDesc: "Validator terminal number calculation: 7 - 4 = 3. Enter 3 as Passcode Digit #4.",
+        puzzleDesc: "What is twelve divided by four? Enter the resulting number (digit or spelled out) as Passcode Digit #4.",
         expectedDigit: "3"
       },
       {
@@ -319,12 +331,11 @@
         skill: "Phrasal Verbs for Items & Luggage Retrieval",
         instruction: "Choose the correct expression to request your stored bag:",
         options: [
-          "I need to pick up my luggage from locker 12.",
-          "I need to take off my luggage from locker 12.",
-          "I need to put out my luggage from locker 12."
+          "I need to pick up my luggage from locker 12.", // Index 0: Correct
+          "I need to recuperate my luggage from locker 12.", // Distractor: French L1 false friend "recuperate"
+          "I am wanting to take off my luggage from locker 12." // Distractor: French L1 stative progressive
         ],
-        correctOption: 0,
-        puzzleDesc: "Locker key sequence calculation: 10 minus 2 = 8. Enter 8 as Passcode Digit #5.",
+        puzzleDesc: "What is sixteen divided by two? Enter the resulting number (digit or spelled out) as Passcode Digit #5.",
         expectedDigit: "8"
       },
       {
@@ -334,14 +345,13 @@
         character: "Panicked Commuter",
         dialogue: `"The elevator down to Platform 5 is out of service! You must explain the urgent need to use the emergency stairs."`,
         skill: "Modals of Urgent Obligation",
-        instruction: "Select the correct sentence showing urgent obligation:",
+        instruction: "Select the correct sentence showing urgent obligation naturally:",
         options: [
-          "We have to take the stairs because the train leaves in 8 minutes.",
-          "We must to take the stairs because the train leaves in 8 minutes.",
-          "We are having to take stairs right now."
+          "We have to take the stairs because the train leaves in 8 minutes.", // Index 0: Correct
+          "We must to take the stairs because the train leaves in 8 minutes.", // Distractor: French L1 modal "must to"
+          "We are in late so we need take the stairs." // Distractor: French L1 "in late"
         ],
-        correctOption: 0,
-        puzzleDesc: "The staircase has 16 steps divided into 8-step flights (16 / 8 = 2). Enter 2 as Passcode Digit #6.",
+        puzzleDesc: "What is ten minus eight? Enter the resulting number (digit or spelled out) as Passcode Digit #6.",
         expectedDigit: "2"
       },
       {
@@ -353,12 +363,11 @@
         skill: "Permission & Gate Requests",
         instruction: "Choose the best request to confirm entry permission:",
         options: [
-          "Is it okay if I pass through this gate now?",
-          "I am passing through this gate, do not stop me.",
-          "Must I to pass through this gate?"
+          "Is it okay if I pass through this gate now?", // Index 0: Correct
+          "Must I to show my ticket for to pass this gate?", // Distractor: French L1 "must to", "for to"
+          "Am I allowed of passing through this gate?" // Distractor: French L1 "allowed of"
         ],
-        correctOption: 0,
-        puzzleDesc: "Platform Gate Identifier: Zone 7. Enter 7 as Passcode Digit #7.",
+        puzzleDesc: "What is fourteen divided by two? Enter the resulting number (digit or spelled out) as Passcode Digit #7.",
         expectedDigit: "7"
       },
       {
@@ -370,12 +379,11 @@
         skill: "Asking for Carriage & Location Directions",
         instruction: "Select the standard direction question:",
         options: [
-          "Could you tell me where Coach B is located?",
-          "Where Coach B is situated at?",
-          "Which location is Coach B going?"
+          "Could you tell me where Coach B is located?", // Index 0: Correct
+          "Where is situated Coach B on the platform?", // Distractor: French L1 word order error
+          "Where departs Coach B from the train?" // Distractor: French L1 word order error
         ],
-        correctOption: 0,
-        puzzleDesc: "Sector marker calculation: 12 minus 8 = 4. Enter 4 as Passcode Digit #8.",
+        puzzleDesc: "What is sixteen divided by four? Enter the resulting number (digit or spelled out) as Passcode Digit #8.",
         expectedDigit: "4"
       },
       {
@@ -387,84 +395,120 @@
         skill: "Present Perfect Departure Enquiries",
         instruction: "Select the correct boarding enquiry:",
         options: [
-          "Could you tell me if the train doors have already closed?",
-          "Could you tell me if the train doors are already closed?",
-          "Could you tell me if the train doors did already closed?"
+          "Could you tell me if the train doors have already closed?", // Index 0: Correct
+          "Could you tell me if the train doors are already closed?", // Distractor: French L1 "are closed" (être)
+          "Could you tell me since when the train doors are closed?" // Distractor: French L1 "since when + present"
         ],
-        correctOption: 0,
-        puzzleDesc: "Your reserved seat row is 12. Subtract 6 from 12 = 6. Enter 6 as Passcode Digit #9.",
+        puzzleDesc: "What is eighteen divided by three? Enter the resulting number (digit or spelled out) as Passcode Digit #9.",
         expectedDigit: "6"
       }
     ];
 
-    // REVISION LOOPS (4 EXERCISES FOR EACH OF THE 9 STAGES)
+    // REVISION LOOPS (4 EXERCISES FOR EACH OF THE 9 STAGES - RAW INDEX 0 ALWAYS CORRECT)
     const remediationData = {
       1: [
-        { type: "Gap-Fill", q: "1. Complete the phrase: 'Which platform ________ the express leave from?'", options: ["does", "is", "are"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Ask about schedule changes politely:", options: ["Could you tell me if there is a platform change?", "Where train go?", "Why platform changed?"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Where did you putted the departure board?'", options: ["Correct", "Incorrect (should be 'put')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Please check the departure ________ for updates.'", options: ["board", "table", "card"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete the phrase: 'Which platform ________ the express leave from?'", options: ["does", "is", "are"] },
+        { type: "Multiple Choice", q: "2. Ask about schedule changes politely:", options: ["Could you tell me if there is a platform change?", "Where is located the new platform?", "For to go to Platform 5 please?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Where departs the express train?'", options: ["Incorrect (word order error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. Could you give me some ________ about the updated track?", options: ["information", "informations", "an information"] }
       ],
       2: [
-        { type: "Gap-Fill", q: "1. Complete direction sentence: 'Go straight ________ the hallway.'", options: ["through", "over", "under"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Ask for detour directions:", options: ["Which corridor leads to Platform 5?", "Where corridor goes?", "How to walking to platform?"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Turn left past the station cafe.'", options: ["Correct", "Incorrect"], correct: 0 },
-        { type: "Gap-Fill", q: "4. Complete: 'Follow the green signs to ________ the platform.'", options: ["reach", "reaching", "reaches"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete direction sentence: 'Go straight ________ the hallway.'", options: ["through", "until", "for to reach"] },
+        { type: "Multiple Choice", q: "2. Select the correct direction instruction:", options: ["Turn left past the station cafe.", "Turn left past to the cafe.", "Tour left after the cafe."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I am waiting here since ten minutes.'", options: ["Incorrect (should use 'for')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Follow the green signs to ________ the platform.", options: ["reach", "attain", "recuperate"] }
       ],
       3: [
-        { type: "Gap-Fill", q: "1. Complete embedded question: 'Could you tell me if the train ________ on time?'", options: ["is", "does", "are"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Inquire about train delays politely:", options: ["Is the 23:00 train running on schedule?", "Why train late?", "When train move?"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this question correct? 'Could you tell me is the train running on schedule?'", options: ["Correct", "Incorrect (word order)"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'The screen displays the updated departure ________.'", options: ["time", "timing", "clock"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete embedded question: 'Could you tell me if the train ________ on time?'", options: ["is", "does", "are"] },
+        { type: "Multiple Choice", q: "2. Inquire about train delays politely:", options: ["Could you tell me if the 23:00 train is on schedule?", "Where train goes?", "Why train late?"] },
+        { type: "Correct / Incorrect", q: "3. Is this question correct? 'Could you tell me is the train running on schedule?'", options: ["Incorrect (word order error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. The screen displays the updated departure ________.", options: ["times", "informations", "notices"] }
       ],
       4: [
-        { type: "Gap-Fill", q: "1. Complete: 'The ticket machine ________ reading my pass.'", options: ["isn't", "don't", "not"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Report a ticket gate problem:", options: ["Excuse me, my ticket is not working in this gate.", "Gate bad now.", "Fix gate immediately!"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'The validator doesn't accepting my ticket.'", options: ["Correct", "Incorrect (should be 'isn't accepting')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Please stamp my paper ticket at the ________.'", options: ["counter", "table", "chair"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete: 'The ticket validator ________ reading my pass.'", options: ["isn't", "don't", "is not to be"] },
+        { type: "Multiple Choice", q: "2. Report a ticket gate problem politely:", options: ["Excuse me, my ticket is not working in this gate.", "The gate is in breakdown.", "The gate don't work."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'The ticket validator is broken since this morning.'", options: ["Incorrect (should be 'has been broken since')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Please stamp your paper ticket at the ________.", options: ["counter", "failing", "error"] }
       ],
       5: [
-        { type: "Gap-Fill", q: "1. Complete phrasal verb: 'I need to ________ up my bag from storage.'", options: ["pick", "take", "bring"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Request luggage retrieval politely:", options: ["Could I please collect my suitcase from locker 12?", "Give locker bag now!", "Where bag is?"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I would like to take off my stored bag.'", options: ["Correct", "Incorrect (should be 'pick up')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Here is my locker retrieval ________.'", options: ["receipt", "bill", "cheque"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete phrasal verb: 'I need to ________ up my bag from storage.'", options: ["pick", "recuperate", "take off"] },
+        { type: "Multiple Choice", q: "2. Request luggage retrieval politely:", options: ["Could I please collect my suitcase from locker 12?", "Could I recuperate my suitcase from locker 12?", "Can I to take my bag from locker 12?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I am agreeing with the attendant.'", options: ["Incorrect (stative verb mistake)", "Correct"] },
+        { type: "Gap-Fill", q: "4. Please present your locker retrieval ________.", options: ["receipt", "informations", "ticket bill"] }
       ],
       6: [
-        { type: "Gap-Fill", q: "1. Complete obligation sentence: 'We ________ to take the stairs quickly.'", options: ["have", "musting", "shoulded"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Express urgent need to reach the platform:", options: ["We must hurry because the train departs in 5 minutes.", "We go fast bye.", "Run now!"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'We must to take the stairs.'", options: ["Correct", "Incorrect (should be 'must take')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'The elevator is currently out of ________.'", options: ["service", "work", "use"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete obligation sentence: 'We ________ to take the stairs quickly.'", options: ["have", "must to", "are obliged for"] },
+        { type: "Multiple Choice", q: "2. Express urgent obligation politely:", options: ["We need to hurry because the train departs in 5 minutes.", "We must to hurry now.", "We are in late so hurry."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'We must to take the stairs.'", options: ["Incorrect (should be 'must take')", "Correct"] },
+        { type: "Gap-Fill", q: "4. The elevator is currently out of ________.", options: ["service", "work", "use"] }
       ],
       7: [
-        { type: "Gap-Fill", q: "1. Complete permission request: 'Is it okay ________ I scan my ticket now?'", options: ["if", "that", "where"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Ask permission to pass the barrier:", options: ["May I pass through this gate, please?", "I am passing now.", "Open gate fast."], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Must I to show my ticket here?'", options: ["Correct", "Incorrect (should be 'Must I show')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Please hold your digital ticket against the ________.'", options: ["scanner", "window", "table"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete permission request: 'Is it okay ________ I scan my ticket now?'", options: ["if", "that", "for to"] },
+        { type: "Multiple Choice", q: "2. Ask permission to pass the barrier:", options: ["May I pass through this gate, please?", "Can I to pass this gate?", "Must I to ask for pass?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Are we allowed of using this stairwell?'", options: ["Incorrect (should be 'allowed to use')", "Correct"] },
+        { type: "Gap-Fill", q: "4. The inspector gave us permission to ________.", options: ["pass", "pass in", "penetrate"] }
       ],
       8: [
-        { type: "Gap-Fill", q: "1. Complete location question: 'Could you tell me where Coach B ________?'", options: ["is", "does", "are"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Ask conductor for coach directions:", options: ["Where is Coach B located on this train?", "Coach B where?", "Which carriage goes first?"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Where Coach B is situated?'", options: ["Correct", "Incorrect (word order)"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Coach B is located near the ________ of the train.'", options: ["front", "fore", "head"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete location question: 'Could you tell me where Coach B ________?'", options: ["is", "does", "are"] },
+        { type: "Multiple Choice", q: "2. Ask conductor for coach directions:", options: ["Could you tell me where Coach B is located on this train?", "Where is situated Coach B?", "Where departs Coach B?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Where Coach B is situated?'", options: ["Incorrect (word order error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. Coach B is located near the ________ of the train.", options: ["front", "fore", "head"] }
       ],
       9: [
-        { type: "Gap-Fill", q: "1. Complete Present Perfect sentence: 'Have the train doors already ________?'", options: ["closed", "closing", "close"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Check boarding status with conductor:", options: ["Is boarding still open for Coach B?", "Why doors closed?", "Can I jump inside?"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Could you tell me if the train doors are already closed?'", options: ["Correct", "Incorrect (should use 'have')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Please show your ticket to the train ________.'", options: ["conductor", "driver", "pilot"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete Present Perfect sentence: 'Have the train doors already ________?'", options: ["closed", "be closed", "closing"] },
+        { type: "Multiple Choice", q: "2. Check boarding status with conductor:", options: ["Could you tell me if boarding is still open?", "Is boarding already closed?", "Did boarding already closed?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'The doors are already closed since 2 minutes.'", options: ["Incorrect (should use 'have been closed')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Please show your ticket to the train ________.", options: ["conductor", "saloon", "hallway room"] }
       ]
     };
 
+    // GAME STATE TRACKING
     let currentStageIndex = 0;
     let unlockedDigits = Array(9).fill("?");
-    let selectedLangOption = null;
+    let selectedMainlineIndex = null;
+    let currentMainlineShuffled = [];
+    let currentRemediationShuffled = {};
     let keypadInput = "";
     let isLanguageVerified = false;
 
+    // FISHER-YATES SHUFFLE ALGORITHM
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // WEB SPEECH API INTEGRATION
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert("Text-to-speech is not supported in this browser.");
+      }
+    }
+
+    function speakDialogue() {
+      const dialogue = document.getElementById('character-dialogue').textContent;
+      speakText(dialogue);
+    }
+
+    function speakPuzzleClue() {
+      const desc = document.getElementById('puzzle-desc').textContent;
+      speakText(desc);
+    }
+
+    // RENDER STAGE
     function renderStage() {
       const data = stages[currentStageIndex];
       isLanguageVerified = false;
-      selectedLangOption = null;
+      selectedMainlineIndex = null;
 
       document.getElementById('stage-number').textContent = `STAGE ${data.stageNum} OF 9`;
       document.getElementById('stage-title').textContent = data.title;
@@ -474,30 +518,39 @@
       document.getElementById('focus-skill').textContent = data.skill;
       document.getElementById('mission-instruction').textContent = data.instruction;
       
-      // Render Language Radio Options
+      // Shuffle Mainline Options while tracking the correct answer
+      const mappedMainline = data.options.map((opt, idx) => ({
+        text: opt,
+        isCorrect: idx === 0
+      }));
+      currentMainlineShuffled = shuffleArray(mappedMainline);
+
+      // Render Mainline Options
       const optionsContainer = document.getElementById('language-options');
       optionsContainer.innerHTML = '';
-      data.options.forEach((opt, idx) => {
+      currentMainlineShuffled.forEach((optObj, idx) => {
         const div = document.createElement('div');
         div.className = "flex items-center gap-3 bg-slate-900/90 border border-slate-700 p-3 rounded-lg cursor-pointer hover:border-indigo-500 transition";
-        div.onclick = () => selectOption(idx, div);
+        div.onclick = () => selectMainlineOption(idx);
         div.innerHTML = `
           <input type="radio" name="lang-opt" id="opt-${idx}" value="${idx}" class="text-indigo-600 focus:ring-indigo-500">
-          <label for="opt-${idx}" class="text-xs sm:text-sm text-slate-200 cursor-pointer w-full">${opt}</label>
+          <label for="opt-${idx}" class="text-xs sm:text-sm text-slate-200 cursor-pointer w-full">${optObj.text}</label>
         `;
         optionsContainer.appendChild(div);
       });
 
-      // Reset Language Status
+      // Reset Language Mission Status
       document.getElementById('lang-status').textContent = "LOCKED";
       document.getElementById('lang-status').className = "text-xs font-bold bg-indigo-900 text-indigo-300 px-2.5 py-0.5 rounded";
       document.getElementById('lang-feedback').classList.add('hidden');
       document.getElementById('verify-lang-btn').disabled = false;
+      document.getElementById('language-mission-box').classList.remove('hidden');
 
       // Lock Puzzle Box
       const puzzleBox = document.getElementById('puzzle-box');
       puzzleBox.className = "bg-slate-900 border border-slate-700 rounded-xl p-5 mb-2 opacity-50 pointer-events-none";
       document.getElementById('puzzle-status').textContent = "🔒 Complete Language Mission First";
+      document.getElementById('puzzle-status').className = "text-xs text-slate-500 font-bold";
       document.getElementById('puzzle-desc').textContent = "Complete Step 1 to unlock this puzzle clue.";
       document.getElementById('puzzle-answer').value = "";
       document.getElementById('puzzle-answer').disabled = true;
@@ -509,24 +562,25 @@
       document.getElementById('remediation-box').classList.add('hidden');
     }
 
-    function selectOption(index, el) {
-      selectedLangOption = index;
+    function selectMainlineOption(index) {
+      selectedMainlineIndex = index;
       const radios = document.querySelectorAll('input[name="lang-opt"]');
       radios.forEach((r, i) => r.checked = (i === index));
     }
 
     function verifyLanguageMission() {
-      const data = stages[currentStageIndex];
       const feedback = document.getElementById('lang-feedback');
       
-      if (selectedLangOption === null) {
+      if (selectedMainlineIndex === null) {
         feedback.textContent = "Please select an answer option first!";
         feedback.className = "text-xs font-semibold mt-2 text-rose-400";
         feedback.classList.remove('hidden');
         return;
       }
 
-      if (selectedLangOption === data.correctOption) {
+      const selectedObj = currentMainlineShuffled[selectedMainlineIndex];
+
+      if (selectedObj.isCorrect) {
         // Correct Answer!
         isLanguageVerified = true;
         document.getElementById('lang-status').textContent = "UNLOCKED ✓";
@@ -536,6 +590,7 @@
         feedback.classList.remove('hidden');
 
         // Unlock Puzzle Box
+        const data = stages[currentStageIndex];
         const puzzleBox = document.getElementById('puzzle-box');
         puzzleBox.className = "bg-slate-900 border border-amber-500/50 rounded-xl p-5 mb-2 opacity-100 transition-all";
         document.getElementById('puzzle-status').textContent = "🔓 UNLOCKED";
@@ -543,12 +598,12 @@
         document.getElementById('puzzle-desc').textContent = data.puzzleDesc;
         const pInput = document.getElementById('puzzle-answer');
         pInput.disabled = false;
-        pInput.placeholder = "Enter Digit Solution";
+        pInput.placeholder = "Enter Digit (e.g. 5 or five)";
         document.getElementById('submit-puzzle-btn').disabled = false;
 
       } else {
-        // Incorrect Answer -> Trigger Revision Loop on ANY Stage!
-        triggerRemediation(data.stageNum);
+        // Incorrect Answer -> Trigger 4-Exercise Remediation Loop
+        triggerRemediation(stages[currentStageIndex].stageNum);
       }
     }
 
@@ -561,11 +616,20 @@
       questionsContainer.innerHTML = '';
 
       const drills = remediationData[stageNum];
+      currentRemediationShuffled = {};
+
       drills.forEach((drill, dIdx) => {
-        let optsHTML = drill.options.map((o, oIdx) => `
+        // Map and shuffle options
+        const mappedDrill = drill.options.map((opt, idx) => ({
+          text: opt,
+          isCorrect: idx === 0
+        }));
+        currentRemediationShuffled[dIdx] = shuffleArray(mappedDrill);
+
+        let optsHTML = currentRemediationShuffled[dIdx].map((oObj, oIdx) => `
           <label class="flex items-center gap-2 cursor-pointer mt-1 bg-slate-800/80 p-2 rounded border border-slate-700/60 hover:border-rose-500/50">
             <input type="radio" name="rem-q-${dIdx}" value="${oIdx}" class="text-rose-600 focus:ring-rose-500">
-            <span class="text-xs text-slate-200">${o}</span>
+            <span class="text-xs text-slate-200">${oObj.text}</span>
           </label>
         `).join('');
 
@@ -588,8 +652,13 @@
 
       drills.forEach((drill, dIdx) => {
         const selected = document.querySelector(`input[name="rem-q-${dIdx}"]:checked`);
-        if (!selected || parseInt(selected.value) !== drill.correct) {
+        if (!selected) {
           allCorrect = false;
+        } else {
+          const selectedIdx = parseInt(selected.value);
+          if (!currentRemediationShuffled[dIdx][selectedIdx].isCorrect) {
+            allCorrect = false;
+          }
         }
       });
 
@@ -603,6 +672,10 @@
           document.getElementById('remediation-box').classList.add('hidden');
           document.getElementById('language-mission-box').classList.remove('hidden');
           document.getElementById('lang-feedback').classList.add('hidden');
+          // Reset mainline selection so user selects correct option
+          selectedMainlineIndex = null;
+          const radios = document.querySelectorAll('input[name="lang-opt"]');
+          radios.forEach(r => r.checked = false);
         }, 1200);
       } else {
         fb.textContent = "Some answers in the revision loop are incorrect. Please review and check all 4 questions!";
@@ -614,15 +687,19 @@
     function submitStageAnswer() {
       if (!isLanguageVerified) return;
 
-      const val = document.getElementById('puzzle-answer').value.trim();
+      const inputVal = document.getElementById('puzzle-answer').value.trim().toLowerCase();
       const current = stages[currentStageIndex];
       const feedback = document.getElementById('puzzle-feedback');
 
-      if (val === current.expectedDigit) {
-        unlockedDigits[currentStageIndex] = current.expectedDigit;
-        document.getElementById(`grid-d${currentStageIndex + 1}`).textContent = current.expectedDigit;
+      const expectedDigit = current.expectedDigit;
+      const expectedWord = digitWords[expectedDigit];
+
+      // Flexible Input Parsing (checks digit string or spelled-out word)
+      if (inputVal === expectedDigit || inputVal === expectedWord) {
+        unlockedDigits[currentStageIndex] = expectedDigit;
+        document.getElementById(`grid-d${currentStageIndex + 1}`).textContent = expectedDigit;
         
-        feedback.textContent = `Correct! Passcode Digit #${current.stageNum} Unlocked: [ ${current.expectedDigit} ]`;
+        feedback.textContent = `Correct! Passcode Digit #${current.stageNum} Unlocked: [ ${expectedDigit} ]`;
         feedback.className = "text-xs font-semibold mt-2 text-emerald-400";
         feedback.classList.remove('hidden');
 
@@ -638,7 +715,7 @@
         }, 1200);
 
       } else {
-        feedback.textContent = "Incorrect digit or puzzle solution. Check your calculations and try again!";
+        feedback.textContent = "Incorrect digit or word solution. Check your calculations and try again!";
         feedback.className = "text-xs font-semibold mt-2 text-rose-400";
         feedback.classList.remove('hidden');
       }
@@ -667,7 +744,7 @@
       const targetCode = unlockedDigits.join('');
 
       if (keypadInput === "519382746" || keypadInput === targetCode) {
-        playTrainWhistleSound();
+        playPlaneChimeSound();
         document.getElementById('keypad-screen').classList.add('hidden');
         document.getElementById('win-screen').classList.remove('hidden');
       } else {
@@ -676,41 +753,39 @@
       }
     }
 
-    // SYNTHESIZED TRAIN WHISTLE SOUND (Web Audio API)
-    function playTrainWhistleSound() {
+    // SYNTHESIZED TWO-TONE CHIME SOUND (Web Audio API)
+    function playPlaneChimeSound() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const now = audioCtx.currentTime;
 
-        // Train Whistle Dual Tone (e.g., A5 and C#6 for a classic chord)
         const osc1 = audioCtx.createOscillator();
         const osc2 = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
+        const gain1 = audioCtx.createGain();
+        const gain2 = audioCtx.createGain();
 
-        osc1.type = 'sawtooth';
+        osc1.type = 'sine';
         osc2.type = 'sine';
 
-        osc1.frequency.setValueAtTime(880, now); // A5
-        osc1.frequency.exponentialRampToValueAtTime(890, now + 0.8);
-        osc1.frequency.exponentialRampToValueAtTime(870, now + 1.8);
+        // High tone (C5 ~ 523.25 Hz)
+        osc1.frequency.setValueAtTime(523.25, now);
+        gain1.gain.setValueAtTime(0.3, now);
+        gain1.gain.exponentialRampToValueAtTime(0.001, now + 1.0);
 
-        osc2.frequency.setValueAtTime(1108.73, now); // C#6
-        osc2.frequency.exponentialRampToValueAtTime(1120, now + 0.8);
-        osc2.frequency.exponentialRampToValueAtTime(1095, now + 1.8);
+        // Low chime tone (F5 ~ 698.46 Hz)
+        osc2.frequency.setValueAtTime(698.46, now + 0.35);
+        gain2.gain.setValueAtTime(0.3, now + 0.35);
+        gain2.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
 
-        gain.gain.setValueAtTime(0.01, now);
-        gain.gain.linearRampToValueAtTime(0.2, now + 0.2);
-        gain.gain.setValueAtTime(0.2, now + 1.2);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 2.0);
-
-        osc1.connect(gain);
-        osc2.connect(gain);
-        gain.connect(audioCtx.destination);
+        osc1.connect(gain1);
+        gain1.connect(audioCtx.destination);
+        osc2.connect(gain2);
+        gain2.connect(audioCtx.destination);
 
         osc1.start(now);
-        osc2.start(now);
-        osc1.stop(now + 2.0);
-        osc2.stop(now + 2.0);
+        osc2.start(now + 0.35);
+        osc1.stop(now + 1.0);
+        osc2.stop(now + 1.5);
       } catch (e) {
         console.log("Audio play error:", e);
       }
@@ -726,11 +801,10 @@
       document.getElementById('win-screen').classList.add('hidden');
       document.getElementById('keypad-screen').classList.add('hidden');
       document.getElementById('game-card').classList.remove('hidden');
-      document.getElementById('language-mission-box').classList.remove('hidden');
       renderStage();
     }
 
-    // Init Game
+    // Initialize Game
     renderStage();
   </script>
 </body>

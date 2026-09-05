@@ -20,7 +20,7 @@
         <h1 class="text-xl sm:text-2xl font-black text-amber-400 tracking-wider flex items-center gap-2">
           🏔️ MOUNTAIN REFUGE ESCAPE
         </h1>
-        <p class="text-xs text-slate-400">9-Step Chronological Language & Communication Escape Game (A2/B1)</p>
+        <p class="text-xs text-slate-400">9-Step Chronological Language & Communication Escape Game (A2/B1 CEFR)</p>
       </div>
 
       <!-- 3x3 PASSCODE PROGRESS CARD -->
@@ -93,7 +93,7 @@
           <div class="bg-slate-800 p-3.5 rounded-lg border border-slate-700">
             <h4 class="font-bold text-amber-400 mb-2 text-xs uppercase tracking-wide">4. Incident Reporting & Rescue Declarations</h4>
             <ul class="list-disc list-inside text-xs space-y-1 text-slate-300">
-              <li>"Excuse me, the emergency radio isn't receiving a clear signal."</li>
+              <li>"Excuse me, the emergency radio isn't working right now."</li>
               <li>"Could you tell me if the mountain pass has already been closed?"</li>
               <li>"We do not have any injured hikers in our group."</li>
               <li>"Is the lower valley road clear of snow blockages?"</li>
@@ -118,8 +118,13 @@
       </div>
 
       <!-- Dialogue Section -->
-      <div class="bg-slate-900/80 border-l-4 border-amber-500 rounded-r-xl p-4 mb-6">
-        <p id="character-name" class="text-xs font-bold text-amber-400 uppercase mb-1">Emergency Weather Radio</p>
+      <div class="bg-slate-900/80 border-l-4 border-amber-500 rounded-r-xl p-4 mb-6 relative">
+        <div class="flex justify-between items-start gap-2 mb-1">
+          <p id="character-name" class="text-xs font-bold text-amber-400 uppercase">Emergency Weather Radio</p>
+          <button onclick="speakDialogue()" class="bg-slate-800 hover:bg-slate-700 border border-slate-600 text-amber-300 text-[11px] px-2.5 py-1 rounded flex items-center gap-1 transition">
+            🔊 Listen Audio
+          </button>
+        </div>
         <p id="character-dialogue" class="text-slate-200 italic text-sm leading-relaxed">
           "ATTENTION HIKERS: Heavy blizzard warning issued! Temperatures dropping fast. All groups must evacuate via the south trail before 17:00 PM!" Ask the refuge warden which route is safest before the storm hits.
         </p>
@@ -139,7 +144,7 @@
         </p>
 
         <div id="language-options" class="space-y-2 mb-4">
-          <!-- Options rendered dynamically -->
+          <!-- Dynamic Shuffled Options -->
         </div>
 
         <button id="verify-lang-btn" onclick="verifyLanguageMission()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-5 py-2 rounded-lg text-sm transition">
@@ -172,7 +177,12 @@
       <!-- PART 2: STAGE PUZZLE (REVEALED ONLY AFTER STEP 1 IS CORRECT) -->
       <div id="puzzle-box" class="bg-slate-900 border border-slate-700 rounded-xl p-5 mb-2 opacity-50 pointer-events-none">
         <div class="flex justify-between items-center mb-2">
-          <h3 class="text-sm font-bold text-amber-400">🧩 STEP 2: STAGE PUZZLE</h3>
+          <div class="flex items-center gap-3">
+            <h3 class="text-sm font-bold text-amber-400">🧩 STEP 2: STAGE PUZZLE</h3>
+            <button onclick="speakPuzzleClue()" class="bg-slate-800 hover:bg-slate-700 border border-slate-600 text-amber-300 text-[11px] px-2 py-0.5 rounded flex items-center gap-1 transition">
+              🔊 Listen Clue
+            </button>
+          </div>
           <span id="puzzle-status" class="text-xs text-slate-500 font-bold">🔒 Complete Language Mission First</span>
         </div>
         
@@ -239,7 +249,13 @@
   </footer>
 
   <script>
-    // 9 STAGES - NARRATIVE: MOUNTAIN REFUGE EVACUATION
+    // DIGIT DICTIONARY FOR FLEXIBLE PARSING
+    const digitWords = {
+      "1": "one", "2": "two", "3": "three", "4": "four", "5": "five",
+      "6": "six", "7": "seven", "8": "eight", "9": "nine"
+    };
+
+    // 9 STAGES - RAW DATA (RAW INDEX 0 IS ALWAYS THE CORRECT ANSWER)
     // Target Passcode Sequence: 5 - 8 - 2 - 9 - 1 - 4 - 7 - 3 - 6
     const stages = [
       {
@@ -251,12 +267,11 @@
         skill: "Enquiring about Weather & Safe Routes",
         instruction: "Select the correct polite question to ask the refuge warden about the safest route:",
         options: [
-          "Could you tell me which route is safest before the blizzard arrives?",
-          "Where path storm go now?",
-          "Tell me fast path right now!"
+          "Could you tell me which route is safest before the blizzard arrives?", // Index 0: Correct
+          "Where is located the safest trail before the blizzard?", // Distractor: French L1 word order error
+          "For to go on the safe route before the storm please?" // Distractor: French L1 preposition error
         ],
-        correctOption: 0,
-        puzzleDesc: "The high peak route takes 8 hours, but the emergency valley route takes 3 hours. Calculate (8 - 3 = 5). Enter 5 as Passcode Digit #1.",
+        puzzleDesc: "What is eight minus three? Enter the resulting number (digit or spelled out) as Passcode Digit #1.",
         expectedDigit: "5"
       },
       {
@@ -268,12 +283,11 @@
         skill: "Phrasal Verbs for Retrieval",
         instruction: "Choose the correct phrasal verb to request your stored gear:",
         options: [
-          "I need to pick up my winter jacket from locker 8.",
-          "I need to take off my winter jacket from locker 8.",
-          "I need to put out my winter jacket from locker 8."
+          "I need to pick up my winter jacket from locker 8.", // Index 0: Correct
+          "I need to recuperate my winter jacket from locker 8.", // Distractor: French L1 false friend "recuperate"
+          "I am wanting to take off my jacket from locker 8." // Distractor: French L1 stative progressive
         ],
-        correctOption: 0,
-        puzzleDesc: "Locker number calculation: 11 minus 3 = 8. Enter 8 as Passcode Digit #2.",
+        puzzleDesc: "What is sixteen divided by two? Enter the resulting number (digit or spelled out) as Passcode Digit #2.",
         expectedDigit: "8"
       },
       {
@@ -285,12 +299,11 @@
         skill: "Prepositions of Movement & Directions",
         instruction: "Select the sentence with the correct prepositions of movement:",
         options: [
-          "Go straight down the trail and turn left past the rocky ridge.",
-          "Go straight into the trail and turning left across rocky ridge.",
-          "Go straight over trail and turn left on top of rocky ridge."
+          "Go straight down the trail and turn left past the rocky ridge.", // Index 0: Correct
+          "Go straight until the rocky ridge and tour left after.", // Distractor: French L1 false friend / spelling
+          "Go straight down trail for to arrive to the ridge." // Distractor: French L1 preposition error
         ],
-        correctOption: 0,
-        puzzleDesc: "The ridge trail has 6 warning flags, but 4 are hidden by snow. Calculate (6 - 4 = 2). Enter 2 as Passcode Digit #3.",
+        puzzleDesc: "What is six divided by three? Enter the resulting number (digit or spelled out) as Passcode Digit #3.",
         expectedDigit: "2"
       },
       {
@@ -300,14 +313,13 @@
         character: "Emergency Radio Terminal",
         dialogue: `"You reach an intermediate shelter. The emergency radio is static. Report the issue to the station supervisor."`,
         skill: "Reporting Malfunctions & Radio Issues",
-        instruction: "Complete the statement: 'Excuse me, the emergency radio ________ receiving a clear signal.'",
+        instruction: "Select the polite statement to report the radio malfunction:",
         options: [
-          "isn't",
-          "don't",
-          "not"
+          "Excuse me, the emergency radio isn't working right now.", // Index 0: Correct
+          "Excuse me, the emergency radio is in breakdown since 10 minutes.", // Distractor: French L1 false friend / preposition
+          "Excuse me, the emergency radio don't work already." // Distractor: French L1 auxiliary / tense
         ],
-        correctOption: 0,
-        puzzleDesc: "Radio frequency override calculation: 18 divided by 2 = 9. Enter 9 as Passcode Digit #4.",
+        puzzleDesc: "What is eighteen divided by two? Enter the resulting number (digit or spelled out) as Passcode Digit #4.",
         expectedDigit: "9"
       },
       {
@@ -317,14 +329,13 @@
         character: "Mountain Guide",
         dialogue: `"Fog is thickening in the forest! The guide urges the group to stay below the tree line for safety."`,
         skill: "Modals of Urgent Obligation & Necessity",
-        instruction: "Select the sentence showing urgent obligation:",
+        instruction: "Select the correct sentence showing urgent obligation naturally:",
         options: [
-          "We have to descend below the tree line before visibility drops.",
-          "We must to descend below tree line before fog comes.",
-          "We are having to descend very fast right now."
+          "We have to descend below the tree line before visibility drops.", // Index 0: Correct
+          "We must to descend below the tree line immediately.", // Distractor: French L1 modal "must to"
+          "We are in late so we need descend now." // Distractor: French L1 "in late"
         ],
-        correctOption: 0,
-        puzzleDesc: "Forest trail marker calculation: 5 minus 4 = 1. Enter 1 as Passcode Digit #5.",
+        puzzleDesc: "What is nine divided by nine? Enter the resulting number (digit or spelled out) as Passcode Digit #5.",
         expectedDigit: "1"
       },
       {
@@ -336,12 +347,11 @@
         skill: "Modals for Polite Assistance Requests",
         instruction: "Choose the grammatically correct polite request:",
         options: [
-          "Could you please help us secure this safety rope?",
-          "Could you please to help us secure this rope?",
-          "Can you helping us secure this rope now?"
+          "Could you please help us secure this safety rope?", // Index 0: Correct
+          "Could you please to help us secure this safety rope?", // Distractor: French L1 modal "must to / to help"
+          "Must I to ask you for helping us with the rope?" // Distractor: French L1 auxiliary / modal error
         ],
-        correctOption: 0,
-        puzzleDesc: "Bridge cable check calculation: 12 divided by 3 = 4. Enter 4 as Passcode Digit #6.",
+        puzzleDesc: "What is twelve divided by three? Enter the resulting number (digit or spelled out) as Passcode Digit #6.",
         expectedDigit: "4"
       },
       {
@@ -353,12 +363,11 @@
         skill: "Requesting Permission & Entry",
         instruction: "Choose the best request to confirm entry permission:",
         options: [
-          "Is it okay if we wait inside the shelter until the bus arrives?",
-          "We are waiting inside, do not stop us.",
-          "Must we to wait inside shelter?"
+          "Is it okay if we wait inside the shelter until the bus arrives?", // Index 0: Correct
+          "Must we to wait outside until the bus comes?", // Distractor: French L1 "must to"
+          "Are we allowed of waiting inside the shelter?" // Distractor: French L1 "allowed of"
         ],
-        correctOption: 0,
-        puzzleDesc: "Valley Hut Zone code: 14 minus 7 = 7. Enter 7 as Passcode Digit #7.",
+        puzzleDesc: "What is fourteen divided by two? Enter the resulting number (digit or spelled out) as Passcode Digit #7.",
         expectedDigit: "7"
       },
       {
@@ -370,12 +379,11 @@
         skill: "Formal Safety Declarations & Negatives",
         instruction: "Select the correct formal safety declaration:",
         options: [
-          "We do not have any injured hikers in our group.",
-          "We do not have no injured hikers in our group.",
-          "We aren't having no injured hikers with us."
+          "We do not have any injured hikers in our group.", // Index 0: Correct
+          "We do not have no injured hikers in our group.", // Distractor: French L1 double negative
+          "We aren't having any informations about injured hikers." // Distractor: French L1 plural "informations"
         ],
-        correctOption: 0,
-        puzzleDesc: "Group size calculation: 7 minus 4 = 3. Enter 3 as Passcode Digit #8.",
+        puzzleDesc: "What is nine divided by three? Enter the resulting number (digit or spelled out) as Passcode Digit #8.",
         expectedDigit: "3"
       },
       {
@@ -387,84 +395,120 @@
         skill: "Present Perfect Weather & Road Enquiries",
         instruction: "Select the correct Present Perfect enquiry:",
         options: [
-          "Could you tell me if the mountain pass has already been closed?",
-          "Could you tell me if the mountain pass is already been closed?",
-          "Could you tell me if the mountain pass did already closed?"
+          "Could you tell me if the mountain pass has already been closed?", // Index 0: Correct
+          "Could you tell me if the mountain pass is already closed?", // Distractor: French L1 "is closed" (être)
+          "Could you tell me since when the mountain pass is closed?" // Distractor: French L1 "since when + present"
         ],
-        correctOption: 0,
-        puzzleDesc: "Final gate barrier calculation: 12 minus 6 = 6. Enter 6 as Passcode Digit #9.",
+        puzzleDesc: "What is eighteen divided by three? Enter the resulting number (digit or spelled out) as Passcode Digit #9.",
         expectedDigit: "6"
       }
     ];
 
-    // REVISION LOOPS (4 EXERCISES FOR EACH OF THE 9 STAGES)
+    // REVISION LOOPS (4 EXERCISES FOR EACH OF THE 9 STAGES - RAW INDEX 0 ALWAYS CORRECT)
     const remediationData = {
       1: [
-        { type: "Gap-Fill", q: "1. Complete the phrase: 'Could you tell me which trail ________ safest?'", options: ["is", "are", "does"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Ask about weather conditions politely:", options: ["Could you tell me if the storm is approaching?", "Where blizzard go?", "Why weather bad?"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Where did you putted the weather map?'", options: ["Correct", "Incorrect (should be 'put')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Please check the mountain weather ________.'", options: ["forecast", "bill", "card"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete the phrase: 'Could you tell me which trail ________ safest?'", options: ["is", "are", "does"] },
+        { type: "Multiple Choice", q: "2. Ask about weather conditions politely:", options: ["Could you tell me if the storm is approaching?", "Where is located the storm?", "For to know the weather please?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Where departs the evacuation bus?'", options: ["Incorrect (word order error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. Could you give me some ________ about the weather?", options: ["information", "informations", "an information"] }
       ],
       2: [
-        { type: "Gap-Fill", q: "1. Complete phrasal verb: 'I need to ________ up my winter coat.'", options: ["pick", "take", "bring"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Request gear retrieval politely:", options: ["Could I please collect my jacket from locker 8?", "Give jacket now!", "Where jacket is?"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I need to take off my coat from the locker.'", options: ["Correct", "Incorrect (should be 'pick up')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'My gear was left in locker ________ 8.'", options: ["number", "digit", "code"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete phrasal verb: 'I need to ________ up my winter coat from locker 8.'", options: ["pick", "recuperate", "take off"] },
+        { type: "Multiple Choice", q: "2. Request gear retrieval politely:", options: ["Could I please collect my coat from locker 8?", "Could I recuperate my coat from locker 8?", "Can I to take my coat from locker 8?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I am agreeing with the warden.'", options: ["Incorrect (stative verb mistake)", "Correct"] },
+        { type: "Gap-Fill", q: "4. Please present your locker retrieval ________.", options: ["receipt", "informations", "ticket bill"] }
       ],
       3: [
-        { type: "Gap-Fill", q: "1. Complete direction sentence: 'Go straight ________ the marked trail.'", options: ["down", "over", "under"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Select the correct detour instruction:", options: ["Turn left past the rocky ridge.", "Turning left across ridge.", "Turn left under ridge."], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Walk past the wooden sign to find the path.'", options: ["Correct", "Incorrect"], correct: 0 },
-        { type: "Gap-Fill", q: "4. Complete: 'Follow the yellow flags to ________ the valley.'", options: ["reach", "reaching", "reaches"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete direction sentence: 'Go straight ________ the marked mountain trail.'", options: ["down", "until", "for to reach"] },
+        { type: "Multiple Choice", q: "2. Select the correct direction instruction:", options: ["Turn left past the rocky ridge.", "Turn left past to the ridge.", "Tour left after the ridge."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I am waiting here since ten minutes.'", options: ["Incorrect (should use 'for')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Follow the yellow flags to ________ the valley.", options: ["reach", "attain", "recuperate"] }
       ],
       4: [
-        { type: "Gap-Fill", q: "1. Complete: 'The radio ________ receiving a clear signal.'", options: ["isn't", "don't", "not"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Report a radio issue politely:", options: ["Excuse me, the weather radio is not working.", "Radio bad now.", "Fix radio fast!"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'The radio doesn't working.'", options: ["Correct", "Incorrect (should be 'isn't working')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'There is a radio ________ in the hut.'", options: ["problem", "problematic", "problemed"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete: 'The emergency radio ________ working properly.'", options: ["isn't", "don't", "is not to be"] },
+        { type: "Multiple Choice", q: "2. Report a radio issue politely:", options: ["Excuse me, the emergency radio is not working.", "The radio is in breakdown.", "The radio don't work."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'The radio is broken since this morning.'", options: ["Incorrect (should be 'has been broken since')", "Correct"] },
+        { type: "Gap-Fill", q: "4. There is a technical ________ in the shelter.", options: ["failure", "failing", "failed"] }
       ],
       5: [
-        { type: "Gap-Fill", q: "1. Complete necessity sentence: 'We ________ to reach the forest before dark.'", options: ["have", "musting", "shoulded"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Express urgent obligation politely:", options: ["We must descend now because of the thick fog.", "We go fast bye.", "Run fast!"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'We must to walk faster.'", options: ["Correct", "Incorrect (should be 'must walk')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Stay close together in the heavy ________.'", options: ["fog", "water", "paper"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete necessity sentence: 'We ________ to descend below the tree line.'", options: ["have", "must to", "are obliged for"] },
+        { type: "Multiple Choice", q: "2. Express urgent obligation politely:", options: ["We need to descend before the fog arrives.", "We must to descend now.", "We are in late so hurry."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'We must to walk faster.'", options: ["Incorrect (should be 'must walk')", "Correct"] },
+        { type: "Gap-Fill", q: "4. The visibility is getting worse due to heavy ________.", options: ["fog", "fogs", "fogging"] }
       ],
       6: [
-        { type: "Gap-Fill", q: "1. Complete request: 'Could you please ________ us with the safety rope?'", options: ["help", "helping", "to help"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Ask for assistance politely:", options: ["Could you please assist us with the harness?", "Give harness now!", "Help fast!"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Can you to assist us with the bridge?'", options: ["Correct", "Incorrect (should be 'Can you assist')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Thank you for your ________ on the bridge.'", options: ["help", "helping", "helped"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete request: 'Could you please ________ us secure this safety rope?'", options: ["help", "helping", "to help"] },
+        { type: "Multiple Choice", q: "2. Ask for assistance politely:", options: ["Could you please assist us with the harness?", "Must I to ask you for help?", "Can you to assist us with the harness?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Can you to help us across the bridge?'", options: ["Incorrect (should be 'Can you help')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Thank you for your ________ on the bridge.", options: ["assistance", "assist", "assisting"] }
       ],
       7: [
-        { type: "Gap-Fill", q: "1. Complete permission request: 'Is it okay ________ we enter the rescue hut?'", options: ["if", "that", "where"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Ask permission from a rescue officer:", options: ["May we please wait inside the shelter?", "We go inside now.", "Open door fast."], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Must we to wait outside in the snow?'", options: ["Correct", "Incorrect (should be 'Must we wait')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'The officer gave us permission to ________.'", options: ["enter", "entering", "entered"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete permission request: 'Is it okay ________ we wait inside the shelter?'", options: ["if", "that", "for to"] },
+        { type: "Multiple Choice", q: "2. Ask permission from a rescue officer:", options: ["May we please wait inside the shelter?", "Can we to wait inside?", "Must we to wait inside?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Are we allowed of entering the hut?'", options: ["Incorrect (should be 'allowed to enter')", "Correct"] },
+        { type: "Gap-Fill", q: "4. The warden gave us permission to ________.", options: ["enter", "enter in", "penetrate"] }
       ],
       8: [
-        { type: "Gap-Fill", q: "1. Complete declaration: 'We do not have ________ injured hikers.'", options: ["any", "no", "none"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Make a formal safety statement:", options: ["All members of our hiking group are safe.", "Nobody hurt here.", "We fine."], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'We don't have no lost hikers.'", options: ["Correct", "Incorrect (double negative)"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'The captain recorded our group ________.'", options: ["names", "bills", "tickets"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete declaration: 'We do not have ________ injured hikers.'", options: ["any", "no", "some"] },
+        { type: "Multiple Choice", q: "2. Make a formal safety declaration:", options: ["We do not have any injured group members.", "We don't have no injured members.", "We aren't having no injured members."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I need some informations about the rescue group.'", options: ["Incorrect (uncountable noun error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. The rescue captain checked our group ________.", options: ["clearance", "informations", "notices"] }
       ],
       9: [
-        { type: "Gap-Fill", q: "1. Complete Present Perfect sentence: 'Has the mountain pass already ________ closed?'", options: ["been", "being", "be"], correct: 0 },
-        { type: "Multiple Choice", q: "2. Check road status with the driver:", options: ["Is the road down to the city still open?", "Why road closed?", "Can bus drive fast?"], correct: 0 },
-        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Could you tell me if the road is already closed?'", options: ["Correct", "Incorrect (should use 'has')"], correct: 1 },
-        { type: "Gap-Fill", q: "4. Fill in the blank: 'Board the evacuation bus to reach the ________.'", options: ["valley", "peak", "desk"], correct: 0 }
+        { type: "Gap-Fill", q: "1. Complete Present Perfect sentence: 'Has the mountain pass already ________ closed?'", options: ["been", "be", "being"] },
+        { type: "Multiple Choice", q: "2. Check road status with the driver:", options: ["Could you tell me if the pass is still open?", "Is the pass already closed?", "Did the pass already closed?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'The road is already closed since 2 hours.'", options: ["Incorrect (should use 'has been closed')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Board the evacuation bus to reach the ________.", options: ["valley", "saloon", "hallway room"] }
       ]
     };
 
+    // GAME STATE TRACKING
     let currentStageIndex = 0;
     let unlockedDigits = Array(9).fill("?");
-    let selectedLangOption = null;
+    let selectedMainlineIndex = null;
+    let currentMainlineShuffled = [];
+    let currentRemediationShuffled = {};
     let keypadInput = "";
     let isLanguageVerified = false;
 
+    // FISHER-YATES SHUFFLE ALGORITHM
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // WEB SPEECH API INTEGRATION
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert("Text-to-speech is not supported in this browser.");
+      }
+    }
+
+    function speakDialogue() {
+      const dialogue = document.getElementById('character-dialogue').textContent;
+      speakText(dialogue);
+    }
+
+    function speakPuzzleClue() {
+      const desc = document.getElementById('puzzle-desc').textContent;
+      speakText(desc);
+    }
+
+    // RENDER STAGE
     function renderStage() {
       const data = stages[currentStageIndex];
       isLanguageVerified = false;
-      selectedLangOption = null;
+      selectedMainlineIndex = null;
 
       document.getElementById('stage-number').textContent = `STAGE ${data.stageNum} OF 9`;
       document.getElementById('stage-title').textContent = data.title;
@@ -474,30 +518,39 @@
       document.getElementById('focus-skill').textContent = data.skill;
       document.getElementById('mission-instruction').textContent = data.instruction;
       
-      // Render Language Radio Options
+      // Shuffle Mainline Options while tracking the correct answer
+      const mappedMainline = data.options.map((opt, idx) => ({
+        text: opt,
+        isCorrect: idx === 0
+      }));
+      currentMainlineShuffled = shuffleArray(mappedMainline);
+
+      // Render Mainline Options
       const optionsContainer = document.getElementById('language-options');
       optionsContainer.innerHTML = '';
-      data.options.forEach((opt, idx) => {
+      currentMainlineShuffled.forEach((optObj, idx) => {
         const div = document.createElement('div');
         div.className = "flex items-center gap-3 bg-slate-900/90 border border-slate-700 p-3 rounded-lg cursor-pointer hover:border-indigo-500 transition";
-        div.onclick = () => selectOption(idx, div);
+        div.onclick = () => selectMainlineOption(idx);
         div.innerHTML = `
           <input type="radio" name="lang-opt" id="opt-${idx}" value="${idx}" class="text-indigo-600 focus:ring-indigo-500">
-          <label for="opt-${idx}" class="text-xs sm:text-sm text-slate-200 cursor-pointer w-full">${opt}</label>
+          <label for="opt-${idx}" class="text-xs sm:text-sm text-slate-200 cursor-pointer w-full">${optObj.text}</label>
         `;
         optionsContainer.appendChild(div);
       });
 
-      // Reset Language Status
+      // Reset Language Mission Status
       document.getElementById('lang-status').textContent = "LOCKED";
       document.getElementById('lang-status').className = "text-xs font-bold bg-indigo-900 text-indigo-300 px-2.5 py-0.5 rounded";
       document.getElementById('lang-feedback').classList.add('hidden');
       document.getElementById('verify-lang-btn').disabled = false;
+      document.getElementById('language-mission-box').classList.remove('hidden');
 
       // Lock Puzzle Box
       const puzzleBox = document.getElementById('puzzle-box');
       puzzleBox.className = "bg-slate-900 border border-slate-700 rounded-xl p-5 mb-2 opacity-50 pointer-events-none";
       document.getElementById('puzzle-status').textContent = "🔒 Complete Language Mission First";
+      document.getElementById('puzzle-status').className = "text-xs text-slate-500 font-bold";
       document.getElementById('puzzle-desc').textContent = "Complete Step 1 to unlock this puzzle clue.";
       document.getElementById('puzzle-answer').value = "";
       document.getElementById('puzzle-answer').disabled = true;
@@ -509,24 +562,25 @@
       document.getElementById('remediation-box').classList.add('hidden');
     }
 
-    function selectOption(index, el) {
-      selectedLangOption = index;
+    function selectMainlineOption(index) {
+      selectedMainlineIndex = index;
       const radios = document.querySelectorAll('input[name="lang-opt"]');
       radios.forEach((r, i) => r.checked = (i === index));
     }
 
     function verifyLanguageMission() {
-      const data = stages[currentStageIndex];
       const feedback = document.getElementById('lang-feedback');
       
-      if (selectedLangOption === null) {
+      if (selectedMainlineIndex === null) {
         feedback.textContent = "Please select an answer option first!";
         feedback.className = "text-xs font-semibold mt-2 text-rose-400";
         feedback.classList.remove('hidden');
         return;
       }
 
-      if (selectedLangOption === data.correctOption) {
+      const selectedObj = currentMainlineShuffled[selectedMainlineIndex];
+
+      if (selectedObj.isCorrect) {
         // Correct Answer!
         isLanguageVerified = true;
         document.getElementById('lang-status').textContent = "UNLOCKED ✓";
@@ -536,6 +590,7 @@
         feedback.classList.remove('hidden');
 
         // Unlock Puzzle Box
+        const data = stages[currentStageIndex];
         const puzzleBox = document.getElementById('puzzle-box');
         puzzleBox.className = "bg-slate-900 border border-amber-500/50 rounded-xl p-5 mb-2 opacity-100 transition-all";
         document.getElementById('puzzle-status').textContent = "🔓 UNLOCKED";
@@ -543,12 +598,12 @@
         document.getElementById('puzzle-desc').textContent = data.puzzleDesc;
         const pInput = document.getElementById('puzzle-answer');
         pInput.disabled = false;
-        pInput.placeholder = "Enter Digit Solution";
+        pInput.placeholder = "Enter Digit (e.g. 5 or five)";
         document.getElementById('submit-puzzle-btn').disabled = false;
 
       } else {
-        // Incorrect Answer -> Trigger Revision Loop on ANY Stage!
-        triggerRemediation(data.stageNum);
+        // Incorrect Answer -> Trigger 4-Exercise Remediation Loop
+        triggerRemediation(stages[currentStageIndex].stageNum);
       }
     }
 
@@ -561,11 +616,20 @@
       questionsContainer.innerHTML = '';
 
       const drills = remediationData[stageNum];
+      currentRemediationShuffled = {};
+
       drills.forEach((drill, dIdx) => {
-        let optsHTML = drill.options.map((o, oIdx) => `
+        // Map and shuffle options
+        const mappedDrill = drill.options.map((opt, idx) => ({
+          text: opt,
+          isCorrect: idx === 0
+        }));
+        currentRemediationShuffled[dIdx] = shuffleArray(mappedDrill);
+
+        let optsHTML = currentRemediationShuffled[dIdx].map((oObj, oIdx) => `
           <label class="flex items-center gap-2 cursor-pointer mt-1 bg-slate-800/80 p-2 rounded border border-slate-700/60 hover:border-rose-500/50">
             <input type="radio" name="rem-q-${dIdx}" value="${oIdx}" class="text-rose-600 focus:ring-rose-500">
-            <span class="text-xs text-slate-200">${o}</span>
+            <span class="text-xs text-slate-200">${oObj.text}</span>
           </label>
         `).join('');
 
@@ -588,8 +652,13 @@
 
       drills.forEach((drill, dIdx) => {
         const selected = document.querySelector(`input[name="rem-q-${dIdx}"]:checked`);
-        if (!selected || parseInt(selected.value) !== drill.correct) {
+        if (!selected) {
           allCorrect = false;
+        } else {
+          const selectedIdx = parseInt(selected.value);
+          if (!currentRemediationShuffled[dIdx][selectedIdx].isCorrect) {
+            allCorrect = false;
+          }
         }
       });
 
@@ -603,6 +672,10 @@
           document.getElementById('remediation-box').classList.add('hidden');
           document.getElementById('language-mission-box').classList.remove('hidden');
           document.getElementById('lang-feedback').classList.add('hidden');
+          // Reset mainline selection so user selects correct option
+          selectedMainlineIndex = null;
+          const radios = document.querySelectorAll('input[name="lang-opt"]');
+          radios.forEach(r => r.checked = false);
         }, 1200);
       } else {
         fb.textContent = "Some answers in the revision loop are incorrect. Please review and check all 4 questions!";
@@ -614,15 +687,19 @@
     function submitStageAnswer() {
       if (!isLanguageVerified) return;
 
-      const val = document.getElementById('puzzle-answer').value.trim();
+      const inputVal = document.getElementById('puzzle-answer').value.trim().toLowerCase();
       const current = stages[currentStageIndex];
       const feedback = document.getElementById('puzzle-feedback');
 
-      if (val === current.expectedDigit) {
-        unlockedDigits[currentStageIndex] = current.expectedDigit;
-        document.getElementById(`grid-d${currentStageIndex + 1}`).textContent = current.expectedDigit;
+      const expectedDigit = current.expectedDigit;
+      const expectedWord = digitWords[expectedDigit];
+
+      // Flexible Input Parsing (checks digit string or spelled-out word)
+      if (inputVal === expectedDigit || inputVal === expectedWord) {
+        unlockedDigits[currentStageIndex] = expectedDigit;
+        document.getElementById(`grid-d${currentStageIndex + 1}`).textContent = expectedDigit;
         
-        feedback.textContent = `Correct! Passcode Digit #${current.stageNum} Unlocked: [ ${current.expectedDigit} ]`;
+        feedback.textContent = `Correct! Passcode Digit #${current.stageNum} Unlocked: [ ${expectedDigit} ]`;
         feedback.className = "text-xs font-semibold mt-2 text-emerald-400";
         feedback.classList.remove('hidden');
 
@@ -638,7 +715,7 @@
         }, 1200);
 
       } else {
-        feedback.textContent = "Incorrect digit or puzzle solution. Check your calculations and try again!";
+        feedback.textContent = "Incorrect digit or word solution. Check your calculations and try again!";
         feedback.className = "text-xs font-semibold mt-2 text-rose-400";
         feedback.classList.remove('hidden');
       }
@@ -667,7 +744,7 @@
       const targetCode = unlockedDigits.join('');
 
       if (keypadInput === "582914736" || keypadInput === targetCode) {
-        playRescueHornSound();
+        playPlaneChimeSound();
         document.getElementById('keypad-screen').classList.add('hidden');
         document.getElementById('win-screen').classList.remove('hidden');
       } else {
@@ -676,41 +753,39 @@
       }
     }
 
-    // SYNTHESIZED RESCUE HORN / WIND DISARM SOUND (Web Audio API)
-    function playRescueHornSound() {
+    // SYNTHESIZED TWO-TONE CHIME SOUND (Web Audio API)
+    function playPlaneChimeSound() {
       try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const now = audioCtx.currentTime;
 
-        // Alpine Rescue Horn Triad
         const osc1 = audioCtx.createOscillator();
         const osc2 = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
+        const gain1 = audioCtx.createGain();
+        const gain2 = audioCtx.createGain();
 
-        osc1.type = 'triangle';
+        osc1.type = 'sine';
         osc2.type = 'sine';
 
-        osc1.frequency.setValueAtTime(440, now); // A4
-        osc1.frequency.exponentialRampToValueAtTime(554.37, now + 0.4); // C#5
-        osc1.frequency.exponentialRampToValueAtTime(659.25, now + 0.8); // E5
+        // High tone (C5 ~ 523.25 Hz)
+        osc1.frequency.setValueAtTime(523.25, now);
+        gain1.gain.setValueAtTime(0.3, now);
+        gain1.gain.exponentialRampToValueAtTime(0.001, now + 1.0);
 
-        osc2.frequency.setValueAtTime(220, now);
-        osc2.frequency.exponentialRampToValueAtTime(277.18, now + 0.4);
-        osc2.frequency.exponentialRampToValueAtTime(329.63, now + 0.8);
+        // Low chime tone (F5 ~ 698.46 Hz)
+        osc2.frequency.setValueAtTime(698.46, now + 0.35);
+        gain2.gain.setValueAtTime(0.3, now + 0.35);
+        gain2.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
 
-        gain.gain.setValueAtTime(0.01, now);
-        gain.gain.linearRampToValueAtTime(0.3, now + 0.2);
-        gain.gain.setValueAtTime(0.3, now + 1.2);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 2.0);
-
-        osc1.connect(gain);
-        osc2.connect(gain);
-        gain.connect(audioCtx.destination);
+        osc1.connect(gain1);
+        gain1.connect(audioCtx.destination);
+        osc2.connect(gain2);
+        gain2.connect(audioCtx.destination);
 
         osc1.start(now);
-        osc2.start(now);
-        osc1.stop(now + 2.0);
-        osc2.stop(now + 2.0);
+        osc2.start(now + 0.35);
+        osc1.stop(now + 1.0);
+        osc2.stop(now + 1.5);
       } catch (e) {
         console.log("Audio play error:", e);
       }
@@ -726,11 +801,10 @@
       document.getElementById('win-screen').classList.add('hidden');
       document.getElementById('keypad-screen').classList.add('hidden');
       document.getElementById('game-card').classList.remove('hidden');
-      document.getElementById('language-mission-box').classList.remove('hidden');
       renderStage();
     }
 
-    // Init Game
+    // Initialize Game
     renderStage();
   </script>
 </body>

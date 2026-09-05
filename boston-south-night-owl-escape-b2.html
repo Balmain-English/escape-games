@@ -11,572 +11,800 @@
     .digital-font { font-family: 'Orbitron', monospace; }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-slate-950">
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-slate-950">
 
-  <!-- HEADER / DASHBOARD -->
-  <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50 shadow-xl">
-    <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+  <!-- TOP HEADER -->
+  <header class="bg-slate-800 border-b border-slate-700 py-4 px-6 shadow-lg">
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
       <div>
-        <div class="flex items-center gap-2">
-          <span class="text-xl">🚆</span>
-          <h1 class="text-lg md:text-xl font-bold tracking-tight text-amber-400">BOSTON SOUTH STATION</h1>
-        </div>
-        <p class="text-xs text-slate-400">Overnight Express to Washington D.C. • Interactive Escape Challenge</p>
+        <h1 class="text-xl sm:text-2xl font-black text-amber-400 tracking-wider flex items-center gap-2">
+          🚆 BOSTON SOUTH STATION
+        </h1>
+        <p class="text-xs text-slate-400">9-Step Chronological Language & Communication Escape Game (B1/B2 CEFR)</p>
       </div>
 
-      <!-- STATUS BAR & CONTROLS -->
-      <div class="flex items-center gap-3 text-xs font-medium">
-        <div class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg flex items-center gap-2">
-          <span class="text-slate-400">Clock:</span>
-          <span id="station-clock" class="digital-font text-amber-400 font-bold text-sm">21:45</span>
+      <!-- 3x3 PASSCODE PROGRESS CARD -->
+      <div class="bg-slate-900 border border-slate-700 rounded-lg p-3 flex items-center gap-3 shadow-inner">
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider text-center">3x3 Grid<br>Passcode:</span>
+        <div class="grid grid-cols-3 gap-1 digital-font text-base font-bold">
+          <span id="grid-d1" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d2" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d3" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d4" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d5" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d6" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d7" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d8" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d9" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
         </div>
-        <div class="bg-slate-950 border border-slate-800 px-3 py-1.5 rounded-lg flex items-center gap-2">
-          <span class="text-slate-400">Funds:</span>
-          <span id="budget-display" class="digital-font text-emerald-400 font-bold text-sm">$120</span>
-        </div>
-        
-        <!-- PHRASEBOOK TOGGLE BUTTON -->
-        <button onclick="togglePhrasebook()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition border border-indigo-400/30">
-          <span>📖</span> Reference Guide
-        </button>
       </div>
     </div>
   </header>
 
-  <!-- TOGGLEABLE PHRASEBOOK DRAWER -->
-  <div id="phrasebook-drawer" class="hidden max-w-5xl mx-auto w-full px-4 pt-4">
-    <div class="bg-indigo-950/80 border border-indigo-500/40 rounded-xl p-5 shadow-2xl space-y-4 backdrop-blur-md">
-      <div class="flex justify-between items-center border-b border-indigo-800/60 pb-3">
-        <h3 class="text-amber-400 font-bold text-sm flex items-center gap-2">
-          <span>📚</span> USEFUL EXPRESSIONS & TRAVEL PHRASEBOOK
-        </h3>
-        <button onclick="togglePhrasebook()" class="text-slate-400 hover:text-white text-xs font-bold bg-slate-900 px-2.5 py-1 rounded border border-slate-700">
-          ✕ Close Reference
-        </button>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-        <div class="bg-slate-900/90 p-3 rounded-lg border border-slate-800 space-y-2">
-          <h4 class="font-bold text-indigo-300">Expressing Certainty & Deductions</h4>
-          <ul class="list-disc list-inside text-slate-300 space-y-1 text-[11px]">
-            <li><strong class="text-amber-300">High Certainty:</strong> "The board must be outdated based on the announcement."</li>
-            <li><strong class="text-amber-300">Possibility:</strong> "The departure might be delayed due to maintenance."</li>
-            <li><strong class="text-amber-300">Impossibility:</strong> "It can't be canceled if passengers are already boarding."</li>
-          </ul>
-        </div>
-
-        <div class="bg-slate-900/90 p-3 rounded-lg border border-slate-800 space-y-2">
-          <h4 class="font-bold text-indigo-300">Making Plans & Financial Options</h4>
-          <ul class="list-disc list-inside text-slate-300 space-y-1 text-[11px]">
-            <li><strong class="text-amber-300">Real Future Outcomes:</strong> "If we combine our vouchers, we will cover the ticket price."</li>
-            <li><strong class="text-amber-300">Hypothetical Scenarios:</strong> "If we took the overnight bus, we would arrive exhausted."</li>
-          </ul>
-        </div>
-
-        <div class="bg-slate-900/90 p-3 rounded-lg border border-slate-800 space-y-2">
-          <h4 class="font-bold text-indigo-300">Asking Polite Questions to Station Staff</h4>
-          <ul class="list-disc list-inside text-slate-300 space-y-1 text-[11px]">
-            <li>"Could you clarify whether the overnight train is running on schedule?"</li>
-            <li>"I was wondering if there are any remaining sleeping berths available?"</li>
-            <li><em>Tip:</em> Use polite opening phrases before stating your main question.</li>
-          </ul>
-        </div>
-
-        <div class="bg-slate-900/90 p-3 rounded-lg border border-slate-800 space-y-2">
-          <h4 class="font-bold text-indigo-300">Comparing Options & Giving Reasons</h4>
-          <ul class="list-disc list-inside text-slate-300 space-y-1 text-[11px]">
-            <li><strong class="text-amber-300">Contrasting Ideas:</strong> "Although the coach is cheaper, the train is faster."</li>
-            <li><strong class="text-amber-300">Highlighting Trade-offs:</strong> "In spite of the delay, this option remains the safest."</li>
-            <li><strong class="text-amber-300">Making Comparisons:</strong> "Significantly faster than...", "Far more comfortable than..."</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- MAIN CONTAINER -->
   <main class="max-w-4xl mx-auto w-full px-4 py-6 flex-grow space-y-6">
 
-    <!-- MISSION BRIEFING & ROUTE MATRIX REFERENCE ACCORDION -->
-    <details class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-lg group" open>
-      <summary class="bg-slate-850 p-4 cursor-pointer font-bold text-slate-200 hover:text-amber-400 flex justify-between items-center text-sm">
-        <span class="flex items-center gap-2">
-          <span>📋</span> MISSION BRIEFING & ROUTE MATRIX (BOSTON TO WASHINGTON D.C.)
-        </span>
-        <span class="text-xs bg-slate-800 text-slate-400 px-2.5 py-1 rounded-full group-open:rotate-180 transition-transform">▼</span>
+    <!-- LANDING PAGE REFERENCE GUIDE / PHRASEBOOK -->
+    <details class="bg-slate-800/90 border border-slate-700 rounded-xl overflow-hidden shadow-md group">
+      <summary class="bg-slate-800 p-4 cursor-pointer font-bold text-amber-400 hover:text-amber-300 flex justify-between items-center text-sm md:text-base">
+        <span>📖 LANDING PAGE REFERENCE GUIDE: Station Navigation & Travel Expressions Phrasebook</span>
+        <span class="text-xs bg-slate-700 text-slate-300 px-2.5 py-1 rounded-full group-open:rotate-180 transition-transform">▼ Click to Toggle Reference</span>
       </summary>
-      <div class="p-5 text-xs text-slate-300 border-t border-slate-800 space-y-4 bg-slate-950/50">
-        <p class="leading-relaxed">
-          It is <strong class="text-amber-400">21:45</strong> at Boston South Station. Your team must reach <strong class="text-amber-400">Washington D.C. (Union Station) before 07:00 AM</strong> for a mandatory Capitol Hill summit. Severe track maintenance has thrown night schedules into chaos. You have <strong class="text-amber-400">$120</strong> total cash, a partial Amtrak transit voucher, and 45 minutes to secure a place on an overnight route. Solve the challenge steps to decode the lock code for your reserved sleeping berth.
-        </p>
+      <div class="p-5 text-sm text-slate-300 border-t border-slate-700 space-y-4 bg-slate-900/50">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- SECTION 1 -->
+          <div class="bg-slate-800 p-3.5 rounded-lg border border-slate-700">
+            <h4 class="font-bold text-amber-400 mb-2 text-xs uppercase tracking-wide">1. Schedule & Station Enquiries</h4>
+            <ul class="list-disc list-inside text-xs space-y-1 text-slate-300">
+              <li>"Could you tell me if the overnight train to D.C. is running on schedule?"</li>
+              <li>"Could you please clarify which platform the express departs from?"</li>
+              <li>"Could you tell me if final boarding has already started?"</li>
+              <li>"I was wondering if there are any remaining sleeping berths available?"</li>
+              <li>"What time does the next regional train depart?"</li>
+            </ul>
+          </div>
 
-        <!-- ROUTE MATRIX TABLE -->
-        <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse border border-slate-800">
-            <thead>
-              <tr class="bg-slate-900 text-amber-400 font-bold border-b border-slate-800">
-                <th class="p-2 border-r border-slate-800">Route Option</th>
-                <th class="p-2 border-r border-slate-800">Departure & Path</th>
-                <th class="p-2 border-r border-slate-800">Primary Complications</th>
-                <th class="p-2">Decision Factor</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-800 text-[11px] text-slate-300">
-              <tr class="hover:bg-slate-900/50">
-                <td class="p-2 font-semibold text-indigo-300 border-r border-slate-800">Option A: Overnight Regional Sleeper (Train 66)</td>
-                <td class="p-2 border-r border-slate-800">22:15 (Track 4) → Direct to D.C. Union Station (Arrives 06:30)</td>
-                <td class="p-2 border-r border-slate-800">System ticketing glitch shows overbooked berths. Requires $60 sleeper surcharge upgrade per group.</td>
-                <td class="p-2">Direct route with private sleeping berths, but access doors require a 3x3 digital code matrix setup.</td>
-              </tr>
-              <tr class="hover:bg-slate-900/50">
-                <td class="p-2 font-semibold text-emerald-300 border-r border-slate-800">Option B: Night Owl Coach Seat (Train 171)</td>
-                <td class="p-2 border-r border-slate-800">22:45 (Track 7) → D.C. (Arrives 06:55)</td>
-                <td class="p-2 border-r border-slate-800">Engine maintenance warning. Subject to 90-minute rolling delay in Philadelphia.</td>
-                <td class="p-2">Cheaper standard ticket, but risks missing the 07:00 AM summit start time.</td>
-              </tr>
-              <tr class="hover:bg-slate-900/50">
-                <td class="p-2 font-semibold text-rose-300 border-r border-slate-800">Option C: Unpleasant Overnight Bus (Last Resort)</td>
-                <td class="p-2 border-r border-slate-800">22:30 (South Station Bus Terminal Gate 12) → D.C. (Arrives 07:15)</td>
-                <td class="p-2 border-r border-slate-800">Cramped, no reclining seats, 4 intermediate highway stops, potential I-95 roadwork traffic delays.</td>
-                <td class="p-2">Guaranteed seating for $35, but guaranteed fatigue and arrival past deadline.</td>
-              </tr>
-            </tbody>
-          </table>
+          <!-- SECTION 2 -->
+          <div class="bg-slate-800 p-3.5 rounded-lg border border-slate-700">
+            <h4 class="font-bold text-amber-400 mb-2 text-xs uppercase tracking-wide">2. Financial Requests & Ticket Upgrades</h4>
+            <ul class="list-disc list-inside text-xs space-y-1 text-slate-300">
+              <li>"Would it be possible to apply this transit voucher toward an upgrade?"</li>
+              <li>"Could you please check this additional surcharge again?"</li>
+              <li>"I would like to pay the fare difference for a sleeper berth."</li>
+              <li>"Is service included in the final ticket fare?"</li>
+              <li>"Could I get an itemized receipt for my travel expenses?"</li>
+            </ul>
+          </div>
+
+          <!-- SECTION 3 -->
+          <div class="bg-slate-800 p-3.5 rounded-lg border border-slate-700">
+            <h4 class="font-bold text-amber-400 mb-2 text-xs uppercase tracking-wide">3. Urgent Requests & Modals of Obligation</h4>
+            <ul class="list-disc list-inside text-xs space-y-1 text-slate-300">
+              <li>"We have to board the overnight train before the conductor closes the doors."</li>
+              <li>"Is it okay if we pass through this service corridor to reach the platform?"</li>
+              <li>"I would like to pick up my stored luggage from locker 5."</li>
+              <li>"I need to reach Washington D.C. before my morning deadline."</li>
+              <li>"Please hurry, every minute counts for our connection!"</li>
+            </ul>
+          </div>
+
+          <!-- SECTION 4 -->
+          <div class="bg-slate-800 p-3.5 rounded-lg border border-slate-700">
+            <h4 class="font-bold text-amber-400 mb-2 text-xs uppercase tracking-wide">4. Incident Reporting & Security Clearances</h4>
+            <ul class="list-disc list-inside text-xs space-y-1 text-slate-300">
+              <li>"Excuse me, my electronic ticket isn't scanning properly."</li>
+              <li>"We do not have any prohibited items in our luggage."</li>
+              <li>"Is the service passage clear of maintenance obstacles?"</li>
+              <li>"There is an electronic scanner malfunction at Gate 4."</li>
+              <li>"Could you confirm if the security screening is complete?"</li>
+            </ul>
+          </div>
+
         </div>
       </div>
     </details>
 
-    <!-- ACTIVE CLUE / GRID DISPLAY PANEL -->
-    <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-wrap items-center justify-between gap-4">
-      <div>
-        <span class="text-xs font-bold text-slate-400 block uppercase tracking-wider">Berth Door Access Lock Clues</span>
-        <span id="collected-clues" class="text-xs text-amber-400 font-mono">Solve stages to unlock 3x3 grid key code components.</span>
-      </div>
-      <div id="mini-grid-preview" class="grid grid-cols-3 gap-1 w-16 h-16 bg-slate-950 p-1 rounded border border-slate-800">
-        <!-- 9 mini cells -->
-        <div id="mg-1" class="bg-slate-800 rounded-sm"></div>
-        <div id="mg-2" class="bg-slate-800 rounded-sm"></div>
-        <div id="mg-3" class="bg-slate-800 rounded-sm"></div>
-        <div id="mg-4" class="bg-slate-800 rounded-sm"></div>
-        <div id="mg-5" class="bg-slate-800 rounded-sm"></div>
-        <div id="mg-6" class="bg-slate-800 rounded-sm"></div>
-        <div id="mg-7" class="bg-slate-800 rounded-sm"></div>
-        <div id="mg-8" class="bg-slate-800 rounded-sm"></div>
-        <div id="mg-9" class="bg-slate-800 rounded-sm"></div>
-      </div>
-    </div>
-
-    <!-- STAGE INTERACTIVE CARD -->
-    <div id="stage-card" class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-2xl relative">
+    <!-- STAGE CONTENT CARD -->
+    <div id="game-card" class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-2xl relative">
+      
       <!-- Stage Header -->
-      <div class="flex justify-between items-center border-b border-slate-800 pb-4 mb-5">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-700 pb-4 mb-5 gap-2">
         <div>
-          <span id="stage-num" class="text-[11px] font-bold text-amber-400 tracking-widest uppercase">Stage 1 of 5</span>
-          <h2 id="stage-title" class="text-lg md:text-xl font-bold text-slate-100">Decoding the Main Board</h2>
+          <span id="stage-number" class="text-xs font-bold text-amber-400 uppercase tracking-widest">STAGE 1 OF 9</span>
+          <h2 id="stage-title" class="text-xl md:text-2xl font-bold text-white mt-0.5">Main Concourse Information Desk</h2>
         </div>
-        <span id="stage-skill" class="text-xs bg-slate-800 text-indigo-300 px-3 py-1 rounded-full border border-indigo-500/20 font-medium">
-          Analyzing Station Notices
-        </span>
+        <span id="location-tag" class="text-xs font-medium bg-slate-700 text-slate-300 px-3 py-1 rounded-full">Boston South Station (21:45 PM)</span>
       </div>
 
-      <!-- Dialogue/Situation Box -->
-      <div class="bg-slate-950 border-l-4 border-amber-500 p-4 rounded-r-lg mb-6">
-        <p id="stage-scenario" class="text-xs md:text-sm text-slate-300 leading-relaxed italic">
-          "The terminal concourse is crowded. The main overhead monitor lists Amtrak Train 66 direct sleeper as 'Boarding Gate 4', but a handwritten whiteboard at the customer desk claims sleeper berths are 'Sold Out / System Error'. A conductor steps up..."
-        </p>
-      </div>
-
-      <!-- Challenge / Question Area -->
-      <div class="space-y-4">
-        <p id="stage-instruction" class="text-xs sm:text-sm font-semibold text-slate-200">
-          Select the option that best analyzes the conflicting station updates:
-        </p>
-
-        <!-- Interactive Options Container -->
-        <div id="options-container" class="space-y-3">
-          <!-- Options dynamically rendered via JavaScript -->
-        </div>
-
-        <!-- Feedback Box -->
-        <div id="feedback-box" class="hidden p-4 rounded-lg text-xs leading-relaxed font-medium"></div>
-
-        <!-- Action Button -->
-        <div class="flex justify-between items-center pt-2">
-          <span id="progress-dots" class="text-xs text-slate-500">Step 1 / 5</span>
-          <button id="next-btn" onclick="submitAnswer()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-5 py-2.5 rounded-lg text-xs transition">
-            Submit Answer
+      <!-- Dialogue Section -->
+      <div class="bg-slate-900/80 border-l-4 border-amber-500 rounded-r-xl p-4 mb-6 relative">
+        <div class="flex justify-between items-start gap-2 mb-1">
+          <p id="character-name" class="text-xs font-bold text-amber-400 uppercase">Station Information Agent</p>
+          <button onclick="speakDialogue()" class="bg-slate-800 hover:bg-slate-700 border border-slate-600 text-amber-300 text-[11px] px-2.5 py-1 rounded flex items-center gap-1 transition">
+            🔊 Listen Audio
           </button>
         </div>
-      </div>
-    </div>
-
-    <!-- STAGE 6: 3X3 GRID LOCK INTERACTIVE PUZZLE (Hidden until Stages 1-5 complete) -->
-    <div id="grid-lock-card" class="hidden bg-slate-900 border border-amber-500/40 rounded-xl p-6 shadow-2xl space-y-6">
-      <div class="text-center space-y-2 border-b border-slate-800 pb-4">
-        <span class="text-3xl">🔐</span>
-        <h2 class="text-xl font-bold text-amber-400">SLEEPER CABIN BERTH LOCK</h2>
-        <p class="text-xs text-slate-300 max-w-lg mx-auto">
-          You have arrived at Sleeper Car 66-A! To unlock your berth door before departure, enter the 3x3 keygrid pattern unlocked during stages 1-5. Toggle the correct tiles ON (Amber) and click **Unlock Sleeper Cabin**.
+        <p id="character-dialogue" class="text-slate-200 italic text-sm leading-relaxed">
+          "Attention passengers! Track maintenance south of Philadelphia is causing rolling delays on overnight services. Please verify your departure status before proceeding to the platforms."
         </p>
       </div>
 
-      <div class="flex flex-col items-center justify-center space-y-4">
-        <!-- 3x3 Interactive Grid -->
-        <div class="grid grid-cols-3 gap-3 w-64 h-64 bg-slate-950 p-4 rounded-xl border-2 border-slate-800 shadow-inner">
-          <button onclick="toggleGridCell(1)" id="cell-1" class="bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-center text-sm font-bold font-mono transition text-slate-400 hover:border-amber-400">1</button>
-          <button onclick="toggleGridCell(2)" id="cell-2" class="bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-center text-sm font-bold font-mono transition text-slate-400 hover:border-amber-400">2</button>
-          <button onclick="toggleGridCell(3)" id="cell-3" class="bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-center text-sm font-bold font-mono transition text-slate-400 hover:border-amber-400">3</button>
-          <button onclick="toggleGridCell(4)" id="cell-4" class="bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-center text-sm font-bold font-mono transition text-slate-400 hover:border-amber-400">4</button>
-          <button onclick="toggleGridCell(5)" id="cell-5" class="bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-center text-sm font-bold font-mono transition text-slate-400 hover:border-amber-400">5</button>
-          <button onclick="toggleGridCell(6)" id="cell-6" class="bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-center text-sm font-bold font-mono transition text-slate-400 hover:border-amber-400">6</button>
-          <button onclick="toggleGridCell(7)" id="cell-7" class="bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-center text-sm font-bold font-mono transition text-slate-400 hover:border-amber-400">7</button>
-          <button onclick="toggleGridCell(8)" id="cell-8" class="bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-center text-sm font-bold font-mono transition text-slate-400 hover:border-amber-400">8</button>
-          <button onclick="toggleGridCell(9)" id="cell-9" class="bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-center text-sm font-bold font-mono transition text-slate-400 hover:border-amber-400">9</button>
+      <!-- PART 1: LANGUAGE MISSION (MUST COMPLETE FIRST) -->
+      <div id="language-mission-box" class="bg-indigo-950/50 border border-indigo-800/80 rounded-xl p-5 mb-6">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="text-sm font-bold text-indigo-300 flex items-center gap-2">
+            💬 STEP 1: MAINLINE LANGUAGE MISSION (<span id="focus-skill">Analyzing Station Schedules & Delays</span>)
+          </h3>
+          <span id="lang-status" class="text-xs font-bold bg-indigo-900 text-indigo-300 px-2.5 py-0.5 rounded">LOCKED</span>
+        </div>
+        
+        <p id="mission-instruction" class="text-sm text-indigo-100 mb-4 leading-relaxed">
+          Select the polite statement to ask the station agent about train delays:
+        </p>
+
+        <div id="language-options" class="space-y-2 mb-4">
+          <!-- Dynamic Shuffled Options -->
         </div>
 
-        <div id="grid-feedback" class="text-xs text-center font-medium min-h-[20px]"></div>
-
-        <button onclick="verifyGridLock()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-6 py-3 rounded-lg text-xs transition">
-          Unlock Sleeper Cabin
+        <button id="verify-lang-btn" onclick="verifyLanguageMission()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-5 py-2 rounded-lg text-sm transition">
+          Verify Language Answer
         </button>
-      </div>
-    </div>
-
-    <!-- FINAL JUSTIFICATION / BOARDING PASS GENERATOR (Hidden until Grid Puzzle solved) -->
-    <div id="final-screen" class="hidden bg-slate-900 border border-emerald-500/40 rounded-xl p-6 shadow-2xl space-y-6">
-      <div class="text-center space-y-2">
-        <span class="text-4xl">🎫</span>
-        <h2 class="text-2xl font-black text-emerald-400 tracking-tight">WASHINGTON D.C. EXPRESS BOARDING PASS GRANTED</h2>
-        <p class="text-xs text-slate-400 max-w-lg mx-auto">
-          You successfully navigated South Station, avoided the unpleasant overnight bus, and unlocked sleeper cabin 66-A!
-        </p>
+        <p id="lang-feedback" class="text-xs font-semibold mt-2 hidden"></p>
       </div>
 
-      <div class="bg-slate-950 border border-slate-800 rounded-lg p-5 space-y-4 text-xs">
-        <div class="flex justify-between border-b border-slate-800 pb-3">
-          <span class="text-slate-400">Route Secured:</span>
-          <span class="font-bold text-amber-400">Option A (Amtrak Night Express Sleeper)</span>
-        </div>
-        <div class="flex justify-between border-b border-slate-800 pb-3">
-          <span class="text-slate-400">Remaining Cash:</span>
-          <span id="summary-budget" class="font-bold text-emerald-400">$60</span>
-        </div>
-        <div class="flex justify-between border-b border-slate-800 pb-3">
-          <span class="text-slate-400">Navigation & Decision Score:</span>
-          <span id="summary-score" class="font-bold text-indigo-400">100% (Master Navigator)</span>
-        </div>
-        <div>
-          <span class="text-slate-400 block mb-1">Travel Defense Justification:</span>
-          <p class="bg-slate-900 p-3 rounded text-slate-300 italic">
-            "By combining our Amtrak voucher with $60 cash for the berth upgrade, we secured a direct overnight sleeper cabin to D.C., completely avoiding the uncomfortable 8-hour overnight bus traffic while keeping $60 in reserve."
+      <!-- REVISION LOOP BOX (Triggers on incorrect answer for ANY stage) -->
+      <div id="remediation-box" class="hidden bg-rose-950/80 border border-rose-700 rounded-xl p-5 mb-6">
+        <div class="border-b border-rose-800 pb-3 mb-4">
+          <h3 class="text-sm font-bold text-rose-300 flex items-center gap-2">
+            🔄 REVISION LOOP REQUIRED (4 EXERCISES)
+          </h3>
+          <p class="text-xs text-rose-200 mt-1">
+            You missed the main expression! Complete all 4 revision exercises below (Gap-fill, Multiple Choice, Correct/Incorrect) to reinforce your grammar before returning to the main escape route.
           </p>
         </div>
+        
+        <div id="remediation-questions" class="space-y-4 text-xs text-slate-200">
+          <!-- Dynamic 4-Exercise Revision List -->
+        </div>
+
+        <button onclick="verifyRemediation()" class="mt-5 bg-rose-700 hover:bg-rose-600 text-white font-bold px-5 py-2 rounded-lg text-xs transition">
+          Submit All 4 Revision Answers
+        </button>
+        <p id="remediation-feedback" class="text-xs font-semibold mt-2 hidden"></p>
       </div>
 
-      <button onclick="location.reload()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 rounded-lg text-xs transition">
-        Replay Challenge / Reset Game
+      <!-- PART 2: STAGE PUZZLE (REVEALED ONLY AFTER STEP 1 IS CORRECT) -->
+      <div id="puzzle-box" class="bg-slate-900 border border-slate-700 rounded-xl p-5 mb-2 opacity-50 pointer-events-none">
+        <div class="flex justify-between items-center mb-2">
+          <div class="flex items-center gap-3">
+            <h3 class="text-sm font-bold text-amber-400">🧩 STEP 2: STAGE PUZZLE</h3>
+            <button onclick="speakPuzzleClue()" class="bg-slate-800 hover:bg-slate-700 border border-slate-600 text-amber-300 text-[11px] px-2 py-0.5 rounded flex items-center gap-1 transition">
+              🔊 Listen Clue
+            </button>
+          </div>
+          <span id="puzzle-status" class="text-xs text-slate-500 font-bold">🔒 Complete Language Mission First</span>
+        </div>
+        
+        <p id="puzzle-desc" class="text-sm text-slate-300 leading-relaxed mb-4">
+          Complete Step 1 to unlock this puzzle clue.
+        </p>
+
+        <div id="puzzle-input-container" class="flex flex-col sm:flex-row items-center gap-3">
+          <input type="text" id="puzzle-answer" disabled placeholder="Locked" class="w-full sm:w-64 bg-slate-800 border border-slate-600 rounded-lg px-4 py-2 text-slate-100 focus:outline-none focus:border-amber-400 text-sm">
+          <button id="submit-puzzle-btn" disabled onclick="submitStageAnswer()" class="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-5 py-2 rounded-lg transition text-sm">
+            Unlock Grid Digit
+          </button>
+        </div>
+        <p id="puzzle-feedback" class="text-xs font-semibold mt-2 hidden"></p>
+      </div>
+
+    </div>
+
+    <!-- FINAL 3x3 KEYPAD SCREEN (Hidden by default) -->
+    <div id="keypad-screen" class="hidden bg-slate-800 border border-slate-700 rounded-2xl p-6 max-w-md mx-auto text-center shadow-2xl">
+      <h2 class="text-2xl font-bold text-amber-400 mb-1">SLEEPER CABIN DOOR KEYPAD</h2>
+      <p class="text-xs text-slate-400 mb-5">Enter your collected 9-digit passcode sequence (1-9) to unlock your reserved sleeping berth on the Night Owl Express!</p>
+
+      <!-- Display -->
+      <div id="keypad-display" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 mb-5 font-mono text-2xl font-bold tracking-widest text-emerald-400 min-h-[56px] flex items-center justify-center digital-font">
+        ---------
+      </div>
+
+      <!-- 3x3 Keypad -->
+      <div class="grid grid-cols-3 gap-2.5 mb-5 max-w-xs mx-auto">
+        <button onclick="pressKey('1')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">1</button>
+        <button onclick="pressKey('2')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">2</button>
+        <button onclick="pressKey('3')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">3</button>
+        <button onclick="pressKey('4')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">4</button>
+        <button onclick="pressKey('5')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">5</button>
+        <button onclick="pressKey('6')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">6</button>
+        <button onclick="pressKey('7')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">7</button>
+        <button onclick="pressKey('8')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">8</button>
+        <button onclick="pressKey('9')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">9</button>
+        <button onclick="clearKeypad()" class="bg-rose-900/70 hover:bg-rose-800 text-rose-200 font-bold py-3 rounded-lg text-xs">CLR</button>
+        <button onclick="pressKey('0')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">0</button>
+        <button onclick="submitKeypad()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-lg text-xs">ENTER</button>
+      </div>
+      <p id="keypad-feedback" class="text-xs font-bold min-h-[16px]"></p>
+    </div>
+
+    <!-- WIN SCREEN -->
+    <div id="win-screen" class="hidden bg-slate-800 border-2 border-emerald-500 rounded-2xl p-8 text-center space-y-5 shadow-2xl">
+      <div class="text-5xl animate-bounce">🚆💨</div>
+      <h2 class="text-2xl sm:text-3xl font-black text-emerald-400 uppercase">Sleeper Cabin Unlocked!</h2>
+      <p class="text-slate-300 text-sm max-w-lg mx-auto leading-relaxed">
+        The digital berth door unlocks with a satisfying click! You settle into your private sleeper cabin as Train 66 pulls out of Boston South Station toward Washington D.C. You navigated every ticket office dispute, voucher calculation, and security check flawlessly!
+      </p>
+      <button onclick="restartGame()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-6 py-2.5 rounded-xl text-sm transition">
+        Play Challenge Again
       </button>
     </div>
 
   </main>
 
   <!-- FOOTER -->
-  <footer class="bg-slate-950 border-t border-slate-900 py-4 text-center text-[11px] text-slate-600">
-    Boston South Station to Washington D.C. • Interactive Station Escape Challenge
+  <footer class="bg-slate-950 border-t border-slate-800 py-3 text-center text-xs text-slate-500">
+    Boston South Station Night Owl Express • Interactive B1/B2 Adult Language Challenge
   </footer>
 
   <script>
-    // GAME STATE VARIABLES
-    let currentStage = 0;
-    let selectedOption = null;
-    let score = 0;
-    
-    // Grid Key Target Solution: Active cells are [1, 3, 5, 7, 9] (an 'X' pattern discovered through stages)
-    const targetGridPattern = [1, 3, 5, 7, 9];
-    let userGridState = [false, false, false, false, false, false, false, false, false];
+    // DIGIT DICTIONARY FOR FLEXIBLE PARSING
+    const digitWords = {
+      "1": "one", "2": "two", "3": "three", "4": "four", "5": "five",
+      "6": "six", "7": "seven", "8": "eight", "9": "nine"
+    };
 
-    // STAGE DATA
+    // 9 STAGES - RAW DATA (RAW INDEX 0 IS ALWAYS THE CORRECT ANSWER)
+    // Target Passcode Sequence: 5 - 2 - 9 - 3 - 7 - 1 - 8 - 4 - 6
     const stages = [
       {
-        num: 1,
-        title: "Decoding the Main Board",
-        skill: "Analyzing Station Notices",
-        scenario: `"The terminal concourse is crowded. The main overhead monitor lists Amtrak Train 66 direct sleeper as 'Boarding Gate 4', but a handwritten whiteboard at the customer desk claims sleeper berths are 'Sold Out / System Error'. A conductor steps up..."`,
-        instruction: "Select the option that best analyzes the conflicting station updates:",
-        clueRevealed: "GRID CLUE 1: Activate Corner Cells [1] and [3] on the sleeper door pad.",
-        gridCells: [1, 3],
+        stageNum: 1,
+        title: "Main Concourse Information Desk",
+        location: "Boston South Station (21:45 PM)",
+        character: "Station Information Agent",
+        dialogue: `"Attention passengers! Track maintenance south of Philadelphia is causing rolling delays on overnight services. Please verify your departure status before proceeding to the platforms."`,
+        skill: "Analyzing Station Schedules & Delays",
+        instruction: "Select the polite statement to ask the station agent about train delays:",
         options: [
-          {
-            text: "The handwritten sign must be outdated because the live digital board is actively displaying gate numbers for berth holders.",
-            correct: true,
-            feedback: "Correct! Clear, logical deduction based on observable real-time data."
-          },
-          {
-            text: "The board should to be wrong because paper sign is always true, so the train can be cancelled.",
-            correct: false,
-            feedback: "Incorrect. Confusing and awkward phrasing."
-          },
-          {
-            text: "The train must cancel because white board says so, but the board maybe delayed.",
-            correct: false,
-            feedback: "Weak structure. Phrase options clearly when pointing out delays."
-          }
-        ]
+          "Could you tell me if the overnight train to Washington D.C. is running on schedule?", // Index 0: Correct
+          "Where departs the overnight train to Washington D.C.?", // Distractor: French L1 word order error
+          "I am waiting here since 10 minutes for to know the departure time." // Distractor: French L1 preposition/tense error
+        ],
+        puzzleDesc: "What is twenty-five divided by five? Enter the resulting number (digit or spelled out) as Passcode Digit #1.",
+        expectedDigit: "5"
       },
       {
-        num: 2,
-        title: "Ticket Office & Voucher Audit",
-        skill: "Budgeting & Ticket Upgrades",
-        scenario: `"You have $120 total cash and an Amtrak transit voucher worth $30. Upgrade surcharges for sleeper berths are $60 per group."`,
-        instruction: "Select the option that best balances your budget and travel needs:",
-        clueRevealed: "GRID CLUE 2: Activate Center Cell [5] on the door pad.",
-        gridCells: [5],
+        stageNum: 2,
+        title: "Ticket Office Voucher Counter",
+        location: "Ticket Windows - Desk 3 (21:55 PM)",
+        character: "Amtrak Ticket Clerk",
+        dialogue: `"You have a $30 transit voucher and $120 cash. A sleeper berth upgrade costs $60 per group. You approach the counter to apply your voucher."`,
+        skill: "Polite Financial Requests & Upgrades",
+        instruction: "Select the correct polite expression to upgrade your ticket with a voucher:",
         options: [
-          {
-            text: "If we apply our $30 Amtrak voucher toward the $60 sleeper upgrade fee, our remaining $120 cash will easily cover the $30 balance.",
-            correct: true,
-            feedback: "Spot on! Clear plan with accurate math ($120 cash remaining after paying the $30 balance)."
-          },
-          {
-            text: "If we will use the voucher, we would spend all our cash on Option C.",
-            correct: false,
-            feedback: "Incorrect calculation and awkward future phrasing."
-          },
-          {
-            text: "If we took the train, we must spend $180 even with voucher.",
-            correct: false,
-            feedback: "Incorrect financial calculation."
-          }
-        ]
+          "Would it be possible to apply this transit voucher toward a sleeper berth upgrade?", // Index 0: Correct
+          "I am agree to pay extra if you can recuperate my voucher.", // Distractor: French L1 auxiliary / false friend
+          "Must I to pay extra money for to upgrade my ticket?" // Distractor: French L1 modal / preposition
+        ],
+        puzzleDesc: "What is fourteen divided by seven? Enter the resulting number (digit or spelled out) as Passcode Digit #2.",
+        expectedDigit: "2"
       },
       {
-        num: 3,
-        title: "Station Master Interrogation",
-        skill: "Official Inquiries",
-        scenario: `"You need to confirm whether the coach bus alternative or the night train is more reliable given the overnight trackwork between Philadelphia and D.C."`,
-        instruction: "Select the most polite and natural question to ask the Station Agent:",
-        clueRevealed: "GRID CLUE 3: Activate Lower Corner Cell [7] on the door pad.",
-        gridCells: [7],
+        stageNum: 3,
+        title: "Platform 4 Access Corridor",
+        location: "Concourse Platform Gates (22:05 PM)",
+        character: "Gate Usher",
+        dialogue: `"Overhead signs indicate Platform 4 for Train 66. You need to ask the usher for direct directions to avoid missing final boarding."`,
+        skill: "Embedded Questions & Direction Enquiries",
+        instruction: "Choose the grammatically correct embedded question to find Platform 4:",
         options: [
-          {
-            text: "Could you tell me whether the track maintenance after midnight will cause delays for Train 66 arriving into Washington D.C.?",
-            correct: true,
-            feedback: "Excellent! Clear, professional, and appropriately polite."
-          },
-          {
-            text: "Tell me if the coach bus is bad or if the train goes on time now.",
-            correct: false,
-            feedback: "Too direct and blunt for an official counter."
-          },
-          {
-            text: "Would you mind to explain where is the bus stopping at 3 AM?",
-            correct: false,
-            feedback: "Awkward sentence structure."
-          }
-        ]
+          "Could you please tell me which way leads to Platform 4?", // Index 0: Correct
+          "Could you please tell me where is located Platform 4?", // Distractor: French L1 word order error
+          "Could you please tell me where departs Platform 4?" // Distractor: French L1 word order error
+        ],
+        puzzleDesc: "What is eighty-one divided by nine? Enter the resulting number (digit or spelled out) as Passcode Digit #3.",
+        expectedDigit: "9"
       },
       {
-        num: 4,
-        title: "Evaluating the Coach Bus Alternative",
-        skill: "Comparing Travel Options",
-        scenario: `"Option C is an overnight highway bus departing at 22:30. It costs $35, but has four intermediate stops, cramped seats, and risks morning rush hour traffic into D.C."`,
-        instruction: "Select the strongest argument against taking the overnight bus:",
-        clueRevealed: "GRID CLUE 4: Activate Lower Right Cell [9] on the door pad.",
-        gridCells: [9],
+        stageNum: 4,
+        title: "Platform Turnstile Scanner",
+        location: "Gate 4 Electronic Turnstile (22:10 PM)",
+        character: "Platform Security Attendant",
+        dialogue: `"The electronic gate flashes red when you tap your mobile ticket! You must report the scanner failure to the platform guard."`,
+        skill: "Malfunction Reporting & Ticket Scanners",
+        instruction: "Select the correct sentence to report a ticket scanner issue:",
         options: [
-          {
-            text: "Although the overnight coach is cheaper, taking the sleeper train is significantly more comfortable and far more reliable for arriving before 07:00 AM.",
-            correct: true,
-            feedback: "Perfect! Effectively balances price concerns against arrival reliability."
-          },
-          {
-            text: "In spite of the bus is cheap, the train is more better for sleep.",
-            correct: false,
-            feedback: "Contains incorrect and repetitive phrasing."
-          },
-          {
-            text: "Despite Option C has seats, we should not take it because bus driver is slow.",
-            correct: false,
-            feedback: "Contains awkward sentence phrasing."
-          }
-        ]
+          "Excuse me, my electronic ticket isn't scanning properly at the turnstile.", // Index 0: Correct
+          "Excuse me, my ticket scanner is in breakdown since 10 minutes.", // Distractor: French L1 false friend / preposition
+          "Excuse me, my electronic ticket don't work already." // Distractor: French L1 auxiliary / tense
+        ],
+        puzzleDesc: "What is twelve divided by four? Enter the resulting number (digit or spelled out) as Passcode Digit #4.",
+        expectedDigit: "3"
       },
       {
-        num: 5,
-        title: "Platform Conductor Verification",
-        skill: "Boarding Justification",
-        scenario: `"22:05 PM. The conductor at Track 4 requests your final group confirmation before unlocking the sleeping car corridor."`,
-        instruction: "Select the most professional and complete explanation to present to the conductor:",
-        clueRevealed: "FINAL CLUE: The full grid key requires an 'X' pattern: Cells 1, 3, 5, 7, and 9!",
-        gridCells: [],
+        stageNum: 5,
+        title: "Platform Luggage Storage Locker",
+        location: "Platform 4 Storage Bay (22:15 PM)",
+        character: "Baggage Service Staff",
+        dialogue: `"Before boarding the sleeping car, you stop by locker 5 to retrieve your checked suitcase."`,
+        skill: "Phrasal Verbs for Item Retrieval",
+        instruction: "Choose the correct expression to request your stored bag:",
         options: [
-          {
-            text: "We have resolved our booking upgrade by combining our station voucher with cash, ensuring we are fully ticketed for Sleeper Berth 66-A through to Washington Union Station.",
-            correct: true,
-            feedback: "Outstanding! Complete, cohesive explanation satisfying all transit requirements."
-          },
-          {
-            text: "We want to enter train because bus is uncomfortable and we have voucher.",
-            correct: false,
-            feedback: "Too informal and lacks detailed justification."
-          },
-          {
-            text: "Please let us board because we don't want to stay in Boston all night.",
-            correct: false,
-            feedback: "Lacks essential detail regarding ticket resolution and berth assignment."
-          }
-        ]
+          "I would like to pick up my luggage from storage locker 5.", // Index 0: Correct
+          "I would like to recuperate my luggage from storage locker 5.", // Distractor: French L1 false friend "recuperate"
+          "I am wanting to take off my luggage from storage locker 5." // Distractor: French L1 stative progressive / phrasal verb
+        ],
+        puzzleDesc: "What is forty-nine divided by seven? Enter the resulting number (digit or spelled out) as Passcode Digit #5.",
+        expectedDigit: "7"
+      },
+      {
+        stageNum: 6,
+        title: "Sleeper Car Entrance",
+        location: "Train 66 - Car 66-A (22:20 PM)",
+        character: "Sleeping Car Conductor",
+        dialogue: `"The conductor steps down from Car 66-A to check tickets before closing the vestibule doors. Express your urgent need to board."`,
+        skill: "Modals of Urgent Obligation & Necessity",
+        instruction: "Select the correct sentence showing urgent obligation naturally:",
+        options: [
+          "We have to board the overnight train before the conductor closes the doors.", // Index 0: Correct
+          "We must to board the train because we are in late.", // Distractor: French L1 modal "must to" / false friend "in late"
+          "For to catch this train, must we to hurry?" // Distractor: French L1 preposition / modal
+        ],
+        puzzleDesc: "What is nine divided by nine? Enter the resulting number (digit or spelled out) as Passcode Digit #6.",
+        expectedDigit: "1"
+      },
+      {
+        stageNum: 7,
+        title: "Priority Passenger Corridor",
+        location: "Car 66-A Vestibule Passage (22:22 PM)",
+        character: "Train Attendant",
+        dialogue: `"An attendant stands near the priority corridor leading to sleeper berths. Request permission to pass through."`,
+        skill: "Requesting Permission & Corridor Access",
+        instruction: "Choose the best request to confirm entry permission through the priority hallway:",
+        options: [
+          "Is it okay if we pass through this service corridor to reach the platform?", // Index 0: Correct
+          "Must we to pass through this service corridor now?", // Distractor: French L1 "must to"
+          "Are we allowed of passing through this service corridor?" // Distractor: French L1 "allowed of"
+        ],
+        puzzleDesc: "What is sixteen divided by two? Enter the resulting number (digit or spelled out) as Passcode Digit #7.",
+        expectedDigit: "8"
+      },
+      {
+        stageNum: 8,
+        title: "Onboard Security Inspection",
+        location: "Car 66-A Security Check (22:25 PM)",
+        character: "Transit Police Officer",
+        dialogue: `"Transit police conduct a brief luggage check before final departure. State your official declaration."`,
+        skill: "Formal Security Declarations & Negative Structures",
+        instruction: "Select the correct formal declaration statement:",
+        options: [
+          "We do not have any prohibited items in our luggage.", // Index 0: Correct
+          "We do not have no prohibited items in our bagages.", // Distractor: French L1 double negative / plural noun
+          "We aren't having any informations about forbidden items." // Distractor: French L1 progressive / plural noun
+        ],
+        puzzleDesc: "What is sixteen divided by four? Enter the resulting number (digit or spelled out) as Passcode Digit #8.",
+        expectedDigit: "4"
+      },
+      {
+        stageNum: 9,
+        title: "Berth Cabin 66-A Door",
+        location: "Sleeper Cabin Compartment (22:28 PM)",
+        character: "Senior Train Conductor",
+        dialogue: `"You arrive outside your assigned sleeper cabin. The conductor prepares to lock the carriage doors as the train whistle blows."`,
+        skill: "Present Perfect Enquiries & Boarding Status",
+        instruction: "Select the correct Present Perfect enquiry to check boarding status:",
+        options: [
+          "Could you tell me if final boarding for Train 66 has already started?", // Index 0: Correct
+          "Could you tell me if final boarding for Train 66 is already started?", // Distractor: French L1 "is started" (être)
+          "Could you tell me since when boarding is started for this train?" // Distractor: French L1 "since when + present"
+        ],
+        puzzleDesc: "What is thirty-six divided by six? Enter the resulting number (digit or spelled out) as Passcode Digit #9.",
+        expectedDigit: "6"
       }
     ];
 
-    // TOGGLE REFERENCE SHEET
-    function togglePhrasebook() {
-      const drawer = document.getElementById('phrasebook-drawer');
-      drawer.classList.toggle('hidden');
+    // REVISION LOOPS (4 EXERCISES FOR EACH OF THE 9 STAGES - RAW INDEX 0 ALWAYS CORRECT)
+    const remediationData = {
+      1: [
+        { type: "Gap-Fill", q: "1. Complete the phrase: 'Could you tell me if the train ________ running on schedule?'", options: ["is", "does", "has"] },
+        { type: "Multiple Choice", q: "2. Ask about train delays politely:", options: ["Could you clarify whether the train is running on schedule?", "Where departs the train to D.C.?", "I am waiting here since 10 minutes."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Where is located Platform 4?'", options: ["Incorrect (word-order error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. Could you give me some ________ about the delay?", options: ["information", "informations", "an information"] }
+      ],
+      2: [
+        { type: "Gap-Fill", q: "1. Complete the sentence: 'Would it be possible to ________ this voucher toward an upgrade?'", options: ["apply", "recuperate", "make"] },
+        { type: "Multiple Choice", q: "2. Select the polite request to upgrade a ticket:", options: ["Would it be possible to upgrade to a sleeper berth?", "Must I to pay extra money?", "I am agree to pay more."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I am agree with the ticket price.'", options: ["Incorrect (auxiliary verb error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. I would like to pay for the ticket ________.", options: ["upgrade", "recuperation", "increasing"] }
+      ],
+      3: [
+        { type: "Gap-Fill", q: "1. Complete the question: 'Could you please tell me which way ________ to Platform 4?'", options: ["leads", "leading", "lead"] },
+        { type: "Multiple Choice", q: "2. Choose the correct embedded question:", options: ["Could you tell me where Platform 4 is?", "Could you tell me where is Platform 4?", "Where is located Platform 4?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Could you tell me where is located the train?'", options: ["Incorrect (word-order error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. Walk straight down the concourse to ________ Platform 4.", options: ["reach", "attain", "recuperate"] }
+      ],
+      4: [
+        { type: "Gap-Fill", q: "1. Complete: 'My electronic ticket ________ scanning properly.'", options: ["isn't", "don't", "is not to be"] },
+        { type: "Multiple Choice", q: "2. Report a scanner problem politely:", options: ["Excuse me, my ticket isn't working at the gate.", "My ticket is in breakdown.", "The scanner don't work."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'The scanner is broken since ten minutes.'", options: ["Incorrect (should use 'has been broken for')", "Correct"] },
+        { type: "Gap-Fill", q: "4. There is a technical ________ with the card reader.", options: ["issue", "issuing", "issued"] }
+      ],
+      5: [
+        { type: "Gap-Fill", q: "1. Complete the phrasal verb: 'I would like to ________ up my stored luggage.'", options: ["pick", "recuperate", "take off"] },
+        { type: "Multiple Choice", q: "2. Request your bag from luggage storage politely:", options: ["Could I please collect my suitcase from locker 5?", "Could I recuperate my suitcase from locker 5?", "Can I to take my bag now?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I would like to recuperate my bag.'", options: ["Incorrect (false friend 'recuperate')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Please present your luggage claim ________.", options: ["receipt", "informations", "ticket bill"] }
+      ],
+      6: [
+        { type: "Gap-Fill", q: "1. Complete the obligation sentence: 'We ________ to board before the conductor closes the doors.'", options: ["have", "must to", "are obliged for"] },
+        { type: "Multiple Choice", q: "2. Express urgent obligation naturally:", options: ["We need to hurry because the train is leaving soon.", "We must to hurry because we are in late.", "For to catch the train we must hurry."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'We must to hurry because we are in late.'", options: ["Incorrect (modal and false friend errors)", "Correct"] },
+        { type: "Gap-Fill", q: "4. Please hurry, we are running out ________ time.", options: ["of", "off", "from"] }
+      ],
+      7: [
+        { type: "Gap-Fill", q: "1. Complete the request: 'Is it okay ________ we pass through this service corridor?'", options: ["if", "that", "for to"] },
+        { type: "Multiple Choice", q: "2. Request permission to use a corridor politely:", options: ["May we please use this service hallway?", "Must we to show our tickets?", "Are we allowed of passing here?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Are we allowed of passing through here?'", options: ["Incorrect (preposition error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. The conductor gave us permission to ________.", options: ["pass", "pass in", "penetrate"] }
+      ],
+      8: [
+        { type: "Gap-Fill", q: "1. Complete the declaration: 'We do not have ________ prohibited items in our bags.'", options: ["any", "no", "some"] },
+        { type: "Multiple Choice", q: "2. Make a formal declaration statement at security:", options: ["We do not have any prohibited items in our luggage.", "We don't have no prohibited items in our bagages.", "We aren't having no items to declare."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I don't have no prohibited items in my bagages.'", options: ["Incorrect (double negative & plural noun error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. The security officer checked our ________.", options: ["luggage", "bagages", "informations"] }
+      ],
+      9: [
+        { type: "Gap-Fill", q: "1. Complete the sentence: 'Could you tell me if boarding has already ________?'", options: ["started", "be", "being"] },
+        { type: "Multiple Choice", q: "2. Ask about boarding status at the gate:", options: ["Could you tell me if Train 66 has already started boarding?", "Could you tell me if boarding is already started?", "Since when is boarding started?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Boarding is already started since five minutes.'", options: ["Incorrect (auxiliary & tense errors)", "Correct"] },
+        { type: "Gap-Fill", q: "4. Please have your boarding ________ ready.", options: ["pass", "ticket bill", "card informations"] }
+      ]
+    };
+
+    // GAME STATE TRACKING
+    let currentStageIndex = 0;
+    let unlockedDigits = Array(9).fill("?");
+    let selectedMainlineIndex = null;
+    let currentMainlineShuffled = [];
+    let currentRemediationShuffled = {};
+    let keypadInput = "";
+    let isLanguageVerified = false;
+
+    // FISHER-YATES SHUFFLE ALGORITHM
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // WEB SPEECH API INTEGRATION
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert("Text-to-speech is not supported in this browser.");
+      }
+    }
+
+    function speakDialogue() {
+      const dialogue = document.getElementById('character-dialogue').textContent;
+      speakText(dialogue);
+    }
+
+    function speakPuzzleClue() {
+      const desc = document.getElementById('puzzle-desc').textContent;
+      speakText(desc);
     }
 
     // RENDER STAGE
     function renderStage() {
-      const stage = stages[currentStage];
-      selectedOption = null;
+      const data = stages[currentStageIndex];
+      isLanguageVerified = false;
+      selectedMainlineIndex = null;
 
-      document.getElementById('stage-num').textContent = `STAGE ${stage.num} OF 5`;
-      document.getElementById('stage-title').textContent = stage.title;
-      document.getElementById('stage-skill').textContent = stage.skill;
-      document.getElementById('stage-scenario').textContent = stage.scenario;
-      document.getElementById('stage-instruction').textContent = stage.instruction;
-      document.getElementById('progress-dots').textContent = `Step ${stage.num} of 5`;
+      document.getElementById('stage-number').textContent = `STAGE ${data.stageNum} OF 9`;
+      document.getElementById('stage-title').textContent = data.title;
+      document.getElementById('location-tag').textContent = data.location;
+      document.getElementById('character-name').textContent = data.character;
+      document.getElementById('character-dialogue').textContent = data.dialogue;
+      document.getElementById('focus-skill').textContent = data.skill;
+      document.getElementById('mission-instruction').textContent = data.instruction;
+      
+      // Shuffle Mainline Options while tracking the correct answer
+      const mappedMainline = data.options.map((opt, idx) => ({
+        text: opt,
+        isCorrect: idx === 0
+      }));
+      currentMainlineShuffled = shuffleArray(mappedMainline);
 
-      const optionsContainer = document.getElementById('options-container');
+      // Render Mainline Options
+      const optionsContainer = document.getElementById('language-options');
       optionsContainer.innerHTML = '';
-
-      stage.options.forEach((opt, idx) => {
+      currentMainlineShuffled.forEach((optObj, idx) => {
         const div = document.createElement('div');
-        div.className = "bg-slate-950 border border-slate-800 hover:border-amber-500/50 p-3.5 rounded-lg cursor-pointer transition flex items-start gap-3";
-        div.onclick = () => selectOption(idx);
+        div.className = "flex items-center gap-3 bg-slate-900/90 border border-slate-700 p-3 rounded-lg cursor-pointer hover:border-indigo-500 transition";
+        div.onclick = () => selectMainlineOption(idx);
         div.innerHTML = `
-          <input type="radio" name="stage-opt" id="opt-${idx}" class="mt-1 text-amber-500 focus:ring-amber-500">
-          <label for="opt-${idx}" class="text-xs sm:text-sm text-slate-200 cursor-pointer leading-relaxed">${opt.text}</label>
+          <input type="radio" name="lang-opt" id="opt-${idx}" value="${idx}" class="text-indigo-600 focus:ring-indigo-500">
+          <label for="opt-${idx}" class="text-xs sm:text-sm text-slate-200 cursor-pointer w-full">${optObj.text}</label>
         `;
         optionsContainer.appendChild(div);
       });
 
-      const fbBox = document.getElementById('feedback-box');
-      fbBox.classList.add('hidden');
-      
-      const nextBtn = document.getElementById('next-btn');
-      nextBtn.textContent = stage.num === 5 ? "Proceed to Sleeper Berth Lock" : "Submit Answer";
+      // Reset Language Mission Status
+      document.getElementById('lang-status').textContent = "LOCKED";
+      document.getElementById('lang-status').className = "text-xs font-bold bg-indigo-900 text-indigo-300 px-2.5 py-0.5 rounded";
+      document.getElementById('lang-feedback').classList.add('hidden');
+      document.getElementById('verify-lang-btn').disabled = false;
+      document.getElementById('language-mission-box').classList.remove('hidden');
+
+      // Lock Puzzle Box
+      const puzzleBox = document.getElementById('puzzle-box');
+      puzzleBox.className = "bg-slate-900 border border-slate-700 rounded-xl p-5 mb-2 opacity-50 pointer-events-none";
+      document.getElementById('puzzle-status').textContent = "🔒 Complete Language Mission First";
+      document.getElementById('puzzle-status').className = "text-xs text-slate-500 font-bold";
+      document.getElementById('puzzle-desc').textContent = "Complete Step 1 to unlock this puzzle clue.";
+      document.getElementById('puzzle-answer').value = "";
+      document.getElementById('puzzle-answer').disabled = true;
+      document.getElementById('puzzle-answer').placeholder = "Locked";
+      document.getElementById('submit-puzzle-btn').disabled = true;
+      document.getElementById('puzzle-feedback').classList.add('hidden');
+
+      // Hide Revision Box
+      document.getElementById('remediation-box').classList.add('hidden');
     }
 
-    function selectOption(index) {
-      selectedOption = index;
-      const radios = document.querySelectorAll('input[name="stage-opt"]');
+    function selectMainlineOption(index) {
+      selectedMainlineIndex = index;
+      const radios = document.querySelectorAll('input[name="lang-opt"]');
       radios.forEach((r, i) => r.checked = (i === index));
     }
 
-    function submitAnswer() {
-      const stage = stages[currentStage];
-      const fbBox = document.getElementById('feedback-box');
-
-      if (selectedOption === null) {
-        fbBox.textContent = "Please select an answer option before proceeding!";
-        fbBox.className = "p-3 rounded-lg text-xs font-semibold bg-rose-950/80 border border-rose-800 text-rose-300 block";
+    function verifyLanguageMission() {
+      const feedback = document.getElementById('lang-feedback');
+      
+      if (selectedMainlineIndex === null) {
+        feedback.textContent = "Please select an answer option first!";
+        feedback.className = "text-xs font-semibold mt-2 text-rose-400";
+        feedback.classList.remove('hidden');
         return;
       }
 
-      const opt = stage.options[selectedOption];
+      const selectedObj = currentMainlineShuffled[selectedMainlineIndex];
 
-      if (opt.correct) {
-        score++;
-        fbBox.textContent = opt.feedback + " " + stage.clueRevealed;
-        fbBox.className = "p-3 rounded-lg text-xs font-semibold bg-emerald-950/80 border border-emerald-800 text-emerald-300 block";
+      if (selectedObj.isCorrect) {
+        // Correct Answer!
+        isLanguageVerified = true;
+        document.getElementById('lang-status').textContent = "UNLOCKED ✓";
+        document.getElementById('lang-status').className = "text-xs font-bold bg-emerald-900 text-emerald-300 px-2.5 py-0.5 rounded";
+        feedback.textContent = "Excellent! Mainline language mission verified. Stage puzzle is now unlocked.";
+        feedback.className = "text-xs font-semibold mt-2 text-emerald-400";
+        feedback.classList.remove('hidden');
 
-        // Highlight mini grid preview
-        stage.gridCells.forEach(cellNum => {
-          const miniCell = document.getElementById(`mg-${cellNum}`);
-          if (miniCell) miniCell.className = "bg-amber-400 rounded-sm shadow-sm";
-        });
+        // Unlock Puzzle Box
+        const data = stages[currentStageIndex];
+        const puzzleBox = document.getElementById('puzzle-box');
+        puzzleBox.className = "bg-slate-900 border border-amber-500/50 rounded-xl p-5 mb-2 opacity-100 transition-all";
+        document.getElementById('puzzle-status').textContent = "🔓 UNLOCKED";
+        document.getElementById('puzzle-status').className = "text-xs text-amber-400 font-bold";
+        document.getElementById('puzzle-desc').textContent = data.puzzleDesc;
+        const pInput = document.getElementById('puzzle-answer');
+        pInput.disabled = false;
+        pInput.placeholder = "Enter Digit (e.g. 5 or five)";
+        document.getElementById('submit-puzzle-btn').disabled = false;
 
-        // Update clues summary text
-        const clueText = document.getElementById('collected-clues');
-        clueText.textContent = `Unlocked grid cells: ${targetGridPattern.filter((_, idx) => idx <= currentStage).join(', ')}`;
+      } else {
+        // Incorrect Answer -> Trigger 4-Exercise Remediation Loop
+        triggerRemediation(stages[currentStageIndex].stageNum);
+      }
+    }
 
-        // Update station clock
-        if (currentStage === 0) document.getElementById('station-clock').textContent = '22:00';
-        if (currentStage === 1) {
-          document.getElementById('station-clock').textContent = '22:08';
-          document.getElementById('budget-display').textContent = '$90';
-        }
-        if (currentStage === 2) document.getElementById('station-clock').textContent = '22:12';
+    function triggerRemediation(stageNum) {
+      document.getElementById('language-mission-box').classList.add('hidden');
+      const remBox = document.getElementById('remediation-box');
+      remBox.classList.remove('hidden');
 
-        setTimeout(() => {
-          currentStage++;
-          if (currentStage < stages.length) {
-            renderStage();
-          } else {
-            showGridLockPuzzle();
+      const questionsContainer = document.getElementById('remediation-questions');
+      questionsContainer.innerHTML = '';
+
+      const drills = remediationData[stageNum];
+      currentRemediationShuffled = {};
+
+      drills.forEach((drill, dIdx) => {
+        // Map and shuffle options
+        const mappedDrill = drill.options.map((opt, idx) => ({
+          text: opt,
+          isCorrect: idx === 0
+        }));
+        currentRemediationShuffled[dIdx] = shuffleArray(mappedDrill);
+
+        let optsHTML = currentRemediationShuffled[dIdx].map((oObj, oIdx) => `
+          <label class="flex items-center gap-2 cursor-pointer mt-1 bg-slate-800/80 p-2 rounded border border-slate-700/60 hover:border-rose-500/50">
+            <input type="radio" name="rem-q-${dIdx}" value="${oIdx}" class="text-rose-600 focus:ring-rose-500">
+            <span class="text-xs text-slate-200">${oObj.text}</span>
+          </label>
+        `).join('');
+
+        questionsContainer.innerHTML += `
+          <div class="bg-slate-900/90 p-3.5 rounded-lg border border-rose-900/60">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[10px] font-bold uppercase tracking-wider bg-rose-900/40 text-rose-300 px-2 py-0.5 rounded">${drill.type}</span>
+            </div>
+            <p class="font-semibold text-rose-100 mb-2">${drill.q}</p>
+            <div class="space-y-1">${optsHTML}</div>
+          </div>
+        `;
+      });
+    }
+
+    function verifyRemediation() {
+      const stageNum = stages[currentStageIndex].stageNum;
+      const drills = remediationData[stageNum];
+      let allCorrect = true;
+
+      drills.forEach((drill, dIdx) => {
+        const selected = document.querySelector(`input[name="rem-q-${dIdx}"]:checked`);
+        if (!selected) {
+          allCorrect = false;
+        } else {
+          const selectedIdx = parseInt(selected.value);
+          if (!currentRemediationShuffled[dIdx][selectedIdx].isCorrect) {
+            allCorrect = false;
           }
-        }, 2200);
-
-      } else {
-        fbBox.textContent = opt.feedback;
-        fbBox.className = "p-3 rounded-lg text-xs font-semibold bg-rose-950/80 border border-rose-800 text-rose-300 block";
-      }
-    }
-
-    function showGridLockPuzzle() {
-      document.getElementById('stage-card').classList.add('hidden');
-      document.getElementById('grid-lock-card').classList.remove('hidden');
-      document.getElementById('station-clock').textContent = '22:14';
-    }
-
-    function toggleGridCell(cellNum) {
-      const idx = cellNum - 1;
-      userGridState[idx] = !userGridState[idx];
-      const btn = document.getElementById(`cell-${cellNum}`);
-
-      if (userGridState[idx]) {
-        btn.className = "bg-amber-500 border border-amber-300 text-slate-950 rounded-lg flex items-center justify-center text-sm font-bold font-mono transition shadow-lg shadow-amber-500/20";
-      } else {
-        btn.className = "bg-slate-800 border border-slate-700 text-slate-400 rounded-lg flex items-center justify-center text-sm font-bold font-mono transition hover:border-amber-400";
-      }
-    }
-
-    function verifyGridLock() {
-      const feedback = document.getElementById('grid-feedback');
-      
-      // Check if user active cells match targetGridPattern [1, 3, 5, 7, 9]
-      let isCorrect = true;
-      for (let i = 1; i <= 9; i++) {
-        const shouldBeActive = targetGridPattern.includes(i);
-        const isActive = userGridState[i - 1];
-        if (shouldBeActive !== isActive) {
-          isCorrect = false;
-          break;
         }
-      }
+      });
 
-      if (isCorrect) {
-        feedback.textContent = "🔓 Keygrid Accepted! Sleeper Cabin Unlocked.";
-        feedback.className = "text-xs text-center font-bold text-emerald-400 min-h-[20px]";
+      const fb = document.getElementById('remediation-feedback');
+      if (allCorrect) {
+        fb.textContent = "All 4 revision exercises completed successfully! Returning to Mainline Mission...";
+        fb.className = "text-xs font-semibold mt-2 text-emerald-400";
+        fb.classList.remove('hidden');
+
         setTimeout(() => {
-          showFinalScreen();
+          document.getElementById('remediation-box').classList.add('hidden');
+          document.getElementById('language-mission-box').classList.remove('hidden');
+          document.getElementById('lang-feedback').classList.add('hidden');
+          // Reset mainline selection so user selects correct option
+          selectedMainlineIndex = null;
+          const radios = document.querySelectorAll('input[name="lang-opt"]');
+          radios.forEach(r => r.checked = false);
         }, 1200);
       } else {
-        feedback.textContent = "❌ Keygrid Invalid. Review your stage clues (Pattern required: Cells 1, 3, 5, 7, 9).";
-        feedback.className = "text-xs text-center font-bold text-rose-400 min-h-[20px]";
+        fb.textContent = "Some answers in the revision loop are incorrect. Please review and check all 4 questions!";
+        fb.className = "text-xs font-semibold mt-2 text-rose-400";
+        fb.classList.remove('hidden');
       }
     }
 
-    function showFinalScreen() {
-      document.getElementById('grid-lock-card').classList.add('hidden');
-      document.getElementById('final-screen').classList.remove('hidden');
-      document.getElementById('station-clock').textContent = '22:15';
-      document.getElementById('summary-score').textContent = `${Math.round((score / 5) * 100)}% (${score >= 4 ? 'Master Navigator' : 'Successful Travel'})`;
-      document.getElementById('summary-budget').textContent = '$90';
+    function submitStageAnswer() {
+      if (!isLanguageVerified) return;
+
+      const inputVal = document.getElementById('puzzle-answer').value.trim().toLowerCase();
+      const current = stages[currentStageIndex];
+      const feedback = document.getElementById('puzzle-feedback');
+
+      const expectedDigit = current.expectedDigit;
+      const expectedWord = digitWords[expectedDigit];
+
+      // Flexible Input Parsing (checks digit string or spelled-out word)
+      if (inputVal === expectedDigit || inputVal === expectedWord) {
+        unlockedDigits[currentStageIndex] = expectedDigit;
+        document.getElementById(`grid-d${currentStageIndex + 1}`).textContent = expectedDigit;
+        
+        feedback.textContent = `Correct! Passcode Digit #${current.stageNum} Unlocked: [ ${expectedDigit} ]`;
+        feedback.className = "text-xs font-semibold mt-2 text-emerald-400";
+        feedback.classList.remove('hidden');
+
+        setTimeout(() => {
+          currentStageIndex++;
+          if (currentStageIndex < stages.length) {
+            renderStage();
+          } else {
+            // Show 3x3 Keypad Screen
+            document.getElementById('game-card').classList.add('hidden');
+            document.getElementById('keypad-screen').classList.remove('hidden');
+          }
+        }, 1200);
+
+      } else {
+        feedback.textContent = "Incorrect digit or word solution. Check your calculations and try again!";
+        feedback.className = "text-xs font-semibold mt-2 text-rose-400";
+        feedback.classList.remove('hidden');
+      }
     }
 
-    // INITIALIZE GAME
+    // KEYPAD FUNCTIONS
+    function pressKey(num) {
+      if (keypadInput.length < 9) {
+        keypadInput += num;
+        updateKeypadDisplay();
+      }
+    }
+
+    function clearKeypad() {
+      keypadInput = "";
+      updateKeypadDisplay();
+      document.getElementById('keypad-feedback').textContent = "";
+    }
+
+    function updateKeypadDisplay() {
+      document.getElementById('keypad-display').textContent = keypadInput.padEnd(9, '-');
+    }
+
+    function submitKeypad() {
+      const fb = document.getElementById('keypad-feedback');
+      const targetCode = unlockedDigits.join('');
+
+      if (keypadInput === "529371846" || keypadInput === targetCode) {
+        playPlaneChimeSound();
+        document.getElementById('keypad-screen').classList.add('hidden');
+        document.getElementById('win-screen').classList.remove('hidden');
+      } else {
+        fb.textContent = "ACCESS DENIED - INCORRECT PASSCODE SEQUENCE";
+        fb.className = "text-xs font-bold text-rose-500 animate-pulse";
+      }
+    }
+
+    // SYNTHESIZED TWO-TONE CHIME SOUND (Web Audio API)
+    function playPlaneChimeSound() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const now = audioCtx.currentTime;
+
+        const osc1 = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+        const gain1 = audioCtx.createGain();
+        const gain2 = audioCtx.createGain();
+
+        osc1.type = 'sine';
+        osc2.type = 'sine';
+
+        // High tone (C5 ~ 523.25 Hz)
+        osc1.frequency.setValueAtTime(523.25, now);
+        gain1.gain.setValueAtTime(0.3, now);
+        gain1.gain.exponentialRampToValueAtTime(0.001, now + 1.0);
+
+        // Low chime tone (F5 ~ 698.46 Hz)
+        osc2.frequency.setValueAtTime(698.46, now + 0.35);
+        gain2.gain.setValueAtTime(0.3, now + 0.35);
+        gain2.gain.exponentialRampToValueAtTime(0.001, now + 1.5);
+
+        osc1.connect(gain1);
+        gain1.connect(audioCtx.destination);
+        osc2.connect(gain2);
+        gain2.connect(audioCtx.destination);
+
+        osc1.start(now);
+        osc2.start(now + 0.35);
+        osc1.stop(now + 1.0);
+        osc2.stop(now + 1.5);
+      } catch (e) {
+        console.log("Audio play error:", e);
+      }
+    }
+
+    function restartGame() {
+      currentStageIndex = 0;
+      unlockedDigits = Array(9).fill("?");
+      keypadInput = "";
+      for (let i = 1; i <= 9; i++) {
+        document.getElementById(`grid-d${i}`).textContent = "?";
+      }
+      document.getElementById('win-screen').classList.add('hidden');
+      document.getElementById('keypad-screen').classList.add('hidden');
+      document.getElementById('game-card').classList.remove('hidden');
+      renderStage();
+    }
+
+    // Initialize Game
     renderStage();
   </script>
 </body>

@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Airport Deadline - Transit Emergency Escape Game</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .digital-font { font-family: 'Orbitron', monospace; }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between">
+
+  <!-- TOP HEADER -->
+  <header class="bg-slate-800 border-b border-slate-700 py-4 px-6 shadow-lg">
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <div>
+        <h1 class="text-xl sm:text-2xl font-black text-amber-400 tracking-wider flex items-center gap-2">
+          ✈️ AIRPORT DEADLINE
+        </h1>
+        <p class="text-xs text-slate-400">9-Step Chronological Language & Communication Escape Game (A2/B1)</p>
+      </div>
+
+      <!-- 3x3 PASSCODE PROGRESS CARD -->
+      <div class="bg-slate-900 border border-slate-700 rounded-lg p-3 flex items-center gap-3 shadow-inner">
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider text-center">3x3 Grid<br>Passcode:</span>
+        <div class="grid grid-cols-3 gap-1 digital-font text-base font-bold">
+          <span id="grid-d1" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d2" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d3" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d4" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d5" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d6" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d7" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d8" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+          <span id="grid-d9" class="w-7 h-7 bg-slate-800 border border-slate-600 rounded flex items-center justify-center text-amber-400">?</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-4xl mx-auto w-full px-4 py-6 flex-grow space-y-6">
+
+    <!-- LANDING PAGE REFERENCE GUIDE / PHRASEBOOK -->
+    <details class="bg-slate-800/90 border border-slate-700 rounded-xl overflow-hidden shadow-md group">
+      <summary class="bg-slate-800 p-4 cursor-pointer font-bold text-amber-400 hover:text-amber-300 flex justify-between items-center text-sm md:text-base">
+        <span>📖 LANDING PAGE REFERENCE GUIDE: Airport Navigation & Gate Phrasebook</span>
+        <span class="text-xs bg-slate-700 text-slate-300 px-2.5 py-1 rounded-full group-open:rotate-180 transition-transform">▼ Click to Toggle Reference</span>
+      </summary>
+      <div class="p-5 text-sm text-slate-300 border-t border-slate-700 space-y-4 bg-slate-900/50">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- SECTION 1 -->
+          <div class="bg-slate-800 p-3.5 rounded-lg border border-slate-700">
+            <h4 class="font-bold text-amber-400 mb-2 text-xs uppercase tracking-wide">1. Flight Status & Terminal Announcements</h4>
+            <ul class="list-disc list-inside text-xs space-y-1 text-slate-300">
+              <li>"Excuse me, could you tell me if flight AP-404 departs from Terminal 2?"</li>
+              <li>"Which terminal handles international transfers?"</li>
+              <li>"Is there a gate change announced for the London flight?"</li>
+              <li>"Could you confirm if final boarding has already started?"</li>
+              <li>"What time does boarding close for gate B24?"</li>
+            </ul>
+          </div>
+
+          <!-- SECTION 2 -->
+          <div class="bg-slate-800 p-3.5 rounded-lg border border-slate-700">
+            <h4 class="font-bold text-amber-400 mb-2 text-xs uppercase tracking-wide">2. Airport Navigation & Gate Directions</h4>
+            <ul class="list-disc list-inside text-xs space-y-1 text-slate-300">
+              <li>"Go straight past the duty-free shop and turn right toward Gate B24."</li>
+              <li>"Which concourse leads to the shuttle platform?"</li>
+              <li>"Follow the overhead signs to reach the passport clearance desk."</li>
+              <li>"Head past the information kiosk and take the moving walkway."</li>
+              <li>"Take the escalator up to the upper departures lounge."</li>
+            </ul>
+          </div>
+
+          <!-- SECTION 3 -->
+          <div class="bg-slate-800 p-3.5 rounded-lg border border-slate-700">
+            <h4 class="font-bold text-amber-400 mb-2 text-xs uppercase tracking-wide">3. Urgent Security & Baggage Requests</h4>
+            <ul class="list-disc list-inside text-xs space-y-1 text-slate-300">
+              <li>"Is it okay if I use the fast-track security lane?"</li>
+              <li>"We have to reach Gate B24 before boarding closes!"</li>
+              <li>"I would like to pick up my missing pouch from Lost & Found."</li>
+              <li>"Could you please hurry? My flight leaves in 15 minutes!"</li>
+              <li>"Must I remove my belt for this security scanner?"</li>
+            </ul>
+          </div>
+
+          <!-- SECTION 4 -->
+          <div class="bg-slate-800 p-3.5 rounded-lg border border-slate-700">
+            <h4 class="font-bold text-amber-400 mb-2 text-xs uppercase tracking-wide">4. Boarding Enquiries & Gate Procedures</h4>
+            <ul class="list-disc list-inside text-xs space-y-1 text-slate-300">
+              <li>"Could you tell me if Gate B24 is currently boarding?"</li>
+              <li>"What time does the next terminal shuttle leave?"</li>
+              <li>"I don't have anything illegal to declare."</li>
+              <li>"Is this line reserved for priority boarding passengers?"</li>
+              <li>"Where can I scan my electronic boarding pass?"</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </details>
+
+    <!-- STAGE CONTENT CARD -->
+    <div id="game-card" class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-2xl relative">
+      
+      <!-- Stage Header -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-700 pb-4 mb-5 gap-2">
+        <div>
+          <span id="stage-number" class="text-xs font-bold text-amber-400 uppercase tracking-widest">STAGE 1 OF 9</span>
+          <h2 id="stage-title" class="text-xl md:text-2xl font-bold text-white mt-0.5">Terminal 2 Departure Hall</h2>
+        </div>
+        <span id="location-tag" class="text-xs font-medium bg-slate-700 text-slate-300 px-3 py-1 rounded-full">Terminal 2 Check-in (14:15 PM)</span>
+      </div>
+
+      <!-- Dialogue Section -->
+      <div class="bg-slate-900/80 border-l-4 border-amber-500 rounded-r-xl p-4 mb-6">
+        <p id="character-name" class="text-xs font-bold text-amber-400 uppercase mb-1">Airport Loudspeaker Announcement</p>
+        <p id="character-dialogue" class="text-slate-200 italic text-sm leading-relaxed">
+          "ATTENTION PASSENGERS: Flight AP-404 to London has been moved from Terminal 1 to Terminal 2! Please check the electronic departure monitors for your gate."
+        </p>
+      </div>
+
+      <!-- PART 1: LANGUAGE MISSION (MUST COMPLETE FIRST) -->
+      <div id="language-mission-box" class="bg-indigo-950/50 border border-indigo-800/80 rounded-xl p-5 mb-6">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="text-sm font-bold text-indigo-300 flex items-center gap-2">
+            💬 STEP 1: MAINLINE LANGUAGE MISSION (<span id="focus-skill">Reading Departure Boards & Clarifying Information</span>)
+          </h3>
+          <span id="lang-status" class="text-xs font-bold bg-indigo-900 text-indigo-300 px-2.5 py-0.5 rounded">LOCKED</span>
+        </div>
+        
+        <p id="mission-instruction" class="text-sm text-indigo-100 mb-4 leading-relaxed">
+          Select the correct polite question to confirm your flight's terminal with the desk agent:
+        </p>
+
+        <div id="language-options" class="space-y-2 mb-4">
+          <!-- Options rendered dynamically -->
+        </div>
+
+        <button id="verify-lang-btn" onclick="verifyLanguageMission()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-5 py-2 rounded-lg text-sm transition">
+          Verify Language Answer
+        </button>
+        <p id="lang-feedback" class="text-xs font-semibold mt-2 hidden"></p>
+      </div>
+
+      <!-- REVISION LOOP BOX (Triggers on incorrect answer for ANY stage) -->
+      <div id="remediation-box" class="hidden bg-rose-950/80 border border-rose-700 rounded-xl p-5 mb-6">
+        <div class="border-b border-rose-800 pb-3 mb-4">
+          <h3 class="text-sm font-bold text-rose-300 flex items-center gap-2">
+            🔄 REVISION LOOP REQUIRED (4 EXERCISES)
+          </h3>
+          <p class="text-xs text-rose-200 mt-1">
+            You missed the main expression! Complete all 4 revision exercises below (Gap-fill, Multiple Choice, Correct/Incorrect) to reinforce your grammar before returning to the main escape route.
+          </p>
+        </div>
+        
+        <div id="remediation-questions" class="space-y-4 text-xs text-slate-200">
+          <!-- Dynamic 4-Exercise Revision List -->
+        </div>
+
+        <button onclick="verifyRemediation()" class="mt-5 bg-rose-700 hover:bg-rose-600 text-white font-bold px-5 py-2 rounded-lg text-xs transition">
+          Submit All 4 Revision Answers
+        </button>
+        <p id="remediation-feedback" class="text-xs font-semibold mt-2 hidden"></p>
+      </div>
+
+      <!-- PART 2: STAGE PUZZLE (REVEALED ONLY AFTER STEP 1 IS CORRECT) -->
+      <div id="puzzle-box" class="bg-slate-900 border border-slate-700 rounded-xl p-5 mb-2 opacity-50 pointer-events-none">
+        <div class="flex justify-between items-center mb-2">
+          <h3 class="text-sm font-bold text-amber-400">🧩 STEP 2: STAGE PUZZLE</h3>
+          <div class="flex items-center gap-2">
+            <button id="tts-audio-btn" onclick="speakPuzzleClue()" class="hidden text-xs bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 px-2.5 py-1 rounded flex items-center gap-1">
+              🔊 Listen Audio
+            </button>
+            <span id="puzzle-status" class="text-xs text-slate-500 font-bold">🔒 Complete Language Mission First</span>
+          </div>
+        </div>
+        
+        <p id="puzzle-desc" class="text-sm text-slate-300 leading-relaxed mb-4">
+          Complete Step 1 to unlock this puzzle clue.
+        </p>
+
+        <div id="puzzle-input-container" class="flex flex-col sm:flex-row items-center gap-3">
+          <input type="text" id="puzzle-answer" disabled placeholder="Locked" class="w-full sm:w-64 bg-slate-800 border border-slate-600 rounded-lg px-4 py-2 text-slate-100 focus:outline-none focus:border-amber-400 text-sm">
+          <button id="submit-puzzle-btn" disabled onclick="submitStageAnswer()" class="w-full sm:w-auto bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-5 py-2 rounded-lg transition text-sm">
+            Unlock Grid Digit
+          </button>
+        </div>
+        <p id="puzzle-feedback" class="text-xs font-semibold mt-2 hidden"></p>
+      </div>
+
+    </div>
+
+    <!-- FINAL 3x3 KEYPAD SCREEN (Hidden by default) -->
+    <div id="keypad-screen" class="hidden bg-slate-800 border border-slate-700 rounded-2xl p-6 max-w-md mx-auto text-center shadow-2xl">
+      <h2 class="text-2xl font-bold text-amber-400 mb-1">GATE B24 BOARDING BARRIER</h2>
+      <p class="text-xs text-slate-400 mb-5">Enter your collected 9-digit passcode sequence (1-9) to open the final boarding door!</p>
+
+      <!-- Display -->
+      <div id="keypad-display" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 mb-5 font-mono text-2xl font-bold tracking-widest text-emerald-400 min-h-[56px] flex items-center justify-center digital-font">
+        ---------
+      </div>
+
+      <!-- 3x3 Keypad -->
+      <div class="grid grid-cols-3 gap-2.5 mb-5 max-w-xs mx-auto">
+        <button onclick="pressKey('1')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">1</button>
+        <button onclick="pressKey('2')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">2</button>
+        <button onclick="pressKey('3')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">3</button>
+        <button onclick="pressKey('4')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">4</button>
+        <button onclick="pressKey('5')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">5</button>
+        <button onclick="pressKey('6')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">6</button>
+        <button onclick="pressKey('7')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">7</button>
+        <button onclick="pressKey('8')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">8</button>
+        <button onclick="pressKey('9')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">9</button>
+        <button onclick="clearKeypad()" class="bg-rose-900/70 hover:bg-rose-800 text-rose-200 font-bold py-3 rounded-lg text-xs">CLR</button>
+        <button onclick="pressKey('0')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-lg text-lg">0</button>
+        <button onclick="submitKeypad()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-lg text-xs">ENTER</button>
+      </div>
+      <p id="keypad-feedback" class="text-xs font-bold min-h-[16px]"></p>
+    </div>
+
+    <!-- WIN SCREEN -->
+    <div id="win-screen" class="hidden bg-slate-800 border-2 border-emerald-500 rounded-2xl p-8 text-center space-y-5 shadow-2xl">
+      <div class="text-5xl animate-bounce">✈️💨</div>
+      <h2 class="text-2xl sm:text-3xl font-black text-emerald-400 uppercase">Boarding Gate Passed!</h2>
+      <p class="text-slate-300 text-sm max-w-lg mx-auto leading-relaxed">
+        The automatic glass gate slides open, and you scan your ticket right as the final call ends! You navigated conflicting signs, terminal shuttles, fast-track security, and gate changes perfectly!
+      </p>
+      <button onclick="restartGame()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-6 py-2.5 rounded-xl text-sm transition">
+        Play Challenge Again
+      </button>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950 border-t border-slate-800 py-3 text-center text-xs text-slate-500">
+    Airport Deadline • Interactive A2/B1 Adult Language Challenge
+  </footer>
+
+  <script>
+    // 9 STAGES - NARRATIVE: AIRPORT DEADLINE - REACH GATE B24
+    // Target Passcode Sequence: 6 - 3 - 8 - 1 - 9 - 4 - 2 - 7 - 5
+    // Note: In options arrays, index 0 is always the correct option in raw data.
+    const stages = [
+      {
+        stageNum: 1,
+        title: "Terminal 2 Departure Hall",
+        location: "Terminal 2 Check-in (14:15 PM)",
+        character: "Airport Loudspeaker Announcement",
+        dialogue: `"ATTENTION PASSENGERS: Flight AP-404 to London has been moved from Terminal 1 to Terminal 2! Please check the electronic departure monitors for your gate."`,
+        skill: "Reading Departure Boards & Clarifying Information",
+        instruction: "Select the correct polite question to confirm your flight's terminal with the desk agent:",
+        options: [
+          "Excuse me, could you tell me if flight AP-404 departs from Terminal 2?",
+          "Excuse me, where departs flight AP-404 now?",
+          "Excuse me, for to go Terminal 2, where I must go?"
+        ],
+        puzzleDesc: "What is twelve divided by two? Enter the single digit for Passcode Digit #1.",
+        expectedDigit: "6",
+        expectedWord: "six"
+      },
+      {
+        stageNum: 2,
+        title: "Fast-Track Security Lane",
+        location: "Concourse Security (14:22 PM)",
+        character: "TSA Security Officer",
+        dialogue: `"Security lines are very long! You need to ask the security officer if you can use the fast-track lane because your flight departs soon."`,
+        skill: "Polite Requests for Fast-Track Access",
+        instruction: "Select the grammatically correct request for urgent security access:",
+        options: [
+          "Is it okay if I use the fast-track security lane?",
+          "Must I to pass through this long queue?",
+          "I am in late for my flight, I go fast track now."
+        ],
+        puzzleDesc: "What is nine divided by three? Enter the single digit for Passcode Digit #2.",
+        expectedDigit: "3",
+        expectedWord: "three"
+      },
+      {
+        stageNum: 3,
+        title: "Duty-Free Concourse",
+        location: "Retail Corridor (14:28 PM)",
+        character: "Information Desk Assistant",
+        dialogue: `"Conflicting signs! One sign points left to Gates A1-A10, but another says Gate B24 is straight ahead. Ask an assistant for directions."`,
+        skill: "Prepositions of Place & Route Directions",
+        instruction: "Select the sentence with the correct prepositions for airport directions:",
+        options: [
+          "Go straight past the duty-free shop and turn right toward Gate B24.",
+          "Go straight after the duty-free shop and turn to right for assist to Gate B24.",
+          "Traverse the duty-free shop and take on right for Gate B24."
+        ],
+        puzzleDesc: "What is four times two? Enter the single digit for Passcode Digit #3.",
+        expectedDigit: "8",
+        expectedWord: "eight"
+      },
+      {
+        stageNum: 4,
+        title: "Concourse Terminal Shuttle",
+        location: "Shuttle Station (14:33 PM)",
+        character: "Shuttle Platform Attendant",
+        dialogue: `"The concourse is huge! A terminal shuttle connects East and West halls. Ask the attendant about departure times."`,
+        skill: "Auxiliary Verbs for Transit Schedules",
+        instruction: "Choose the correct question to check shuttle departure timing:",
+        options: [
+          "What time does the next terminal shuttle leave?",
+          "What time leaves the next terminal shuttle?",
+          "The shuttle is waiting since ten minutes?"
+        ],
+        puzzleDesc: "What is ten divided by ten? Enter the single digit for Passcode Digit #4.",
+        expectedDigit: "1",
+        expectedWord: "one"
+      },
+      {
+        stageNum: 5,
+        title: "Information Kiosk Desk",
+        location: "Lost & Found Kiosk (14:38 PM)",
+        character: "Kiosk Staff Member",
+        dialogue: `"You realize you dropped your travel pouch! You rush to the Information Kiosk to retrieve it before heading to the gate."`,
+        skill: "Phrasal Verbs for Luggage & Item Retrieval",
+        instruction: "Choose the correct phrasal verb to request your retrieved item:",
+        options: [
+          "I would like to pick up my missing pouch from Lost & Found.",
+          "I would like to recuperate my lost pouch from Lost & Found.",
+          "I have forgotten my pouch, can I research it here?"
+        ],
+        puzzleDesc: "What is ninety divided by ten? Enter the single digit for Passcode Digit #5.",
+        expectedDigit: "9",
+        expectedWord: "nine"
+      },
+      {
+        stageNum: 6,
+        title: "Moving Walkway Corridor",
+        location: "Concourse B Corridor (14:42 PM)",
+        character: "Hurried Passenger Group",
+        dialogue: `"Boarding closes in 15 minutes! The moving walkway is crowded. Express your urgent need to pass to other travellers."`,
+        skill: "Modals of Urgent Obligation & Necessity",
+        instruction: "Select the sentence showing urgent obligation:",
+        options: [
+          "We have to reach Gate B24 before boarding closes.",
+          "We are having to reach Gate B24 quickly.",
+          "We must to speed up for not miss the plane."
+        ],
+        puzzleDesc: "What is eight divided by two? Enter the single digit for Passcode Digit #6.",
+        expectedDigit: "4",
+        expectedWord: "four"
+      },
+      {
+        stageNum: 7,
+        title: "Passport Clearance Counter",
+        location: "Passport Control (14:47 PM)",
+        character: "Border Control Officer",
+        dialogue: `"Final international passport clearance! State your official customs statement to the officer."`,
+        skill: "Official Customs & Passport Clearances",
+        instruction: "Select the correct formal declaration statement:",
+        options: [
+          "I don't have anything illegal to declare.",
+          "I don't have nothing illegal to declare.",
+          "I have nothing to signal to customs."
+        ],
+        puzzleDesc: "What is six divided by three? Enter the single digit for Passcode Digit #7.",
+        expectedDigit: "2",
+        expectedWord: "two"
+      },
+      {
+        stageNum: 8,
+        title: "Gate B Area Loudspeaker",
+        location: "Gate B20 Lounge (14:52 PM)",
+        character: "Gate Loudspeaker Announcer",
+        dialogue: `"A loud announcement plays: 'Final call for flight AP-404!' Verify if boarding is currently active at Gate B24."`,
+        skill: "Embedded Questions & Gate Announcements",
+        instruction: "Select the correct embedded question:",
+        options: [
+          "Could you tell me if Gate B24 is currently boarding?",
+          "Could you tell me is Gate B24 currently boarding?",
+          "Could you tell me if is Gate B24 currently boarding?"
+        ],
+        puzzleDesc: "What is forty-nine divided by seven? Enter the single digit for Passcode Digit #8.",
+        expectedDigit: "7",
+        expectedWord: "seven"
+      },
+      {
+        stageNum: 9,
+        title: "Boarding Gate B24 Entrance",
+        location: "Gate B24 Podium (14:56 PM)",
+        character: "Gate Agent",
+        dialogue: `"You reach the gate podium right as the agent prepares to close the barrier! Inquire about your boarding status."`,
+        skill: "Present Perfect Enquiries & Final Boarding",
+        instruction: "Select the correct Present Perfect boarding enquiry:",
+        options: [
+          "Could you tell me if final boarding has already started?",
+          "Could you tell me if final boarding is already started?",
+          "Could you tell me if final boarding did already started?"
+        ],
+        puzzleDesc: "What is twenty-five divided by five? Enter the single digit for Passcode Digit #9.",
+        expectedDigit: "5",
+        expectedWord: "five"
+      }
+    ];
+
+    // REVISED REMEDIATION LOOPS (INCLUDES TYPICAL FRENCH LEARNER ERRORS)
+    // Option 0 in raw data is always the correct option.
+    const remediationData = {
+      1: [
+        { type: "Gap-Fill", q: "1. Complete the phrase: 'Could you tell me which terminal flight AP-404 _____ from?'", options: ["departs", "departs of", "is depart"] },
+        { type: "Multiple Choice", q: "2. Ask about terminal changes politely:", options: ["Could you confirm if the gate has changed?", "Can you explain me if the gate changed?", "Is it possible to control the gate?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Excuse me, where is located Terminal 2?'", options: ["Incorrect (should be 'where Terminal 2 is located')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Fill in the blank: 'Please check the departure _____ for updated gate details.'", options: ["board", "informations", "signal"] }
+      ],
+      2: [
+        { type: "Gap-Fill", q: "1. Complete the permission phrase: 'Is it okay _____ I use the fast-track lane?'", options: ["if", "that", "for"] },
+        { type: "Multiple Choice", q: "2. Express that you are in a rush politely:", options: ["Excuse me, my flight leaves in fifteen minutes.", "Excuse me, I am in late for my flight.", "Excuse me, I have retard for my flight."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I must to pass security quickly.'", options: ["Incorrect (should be 'must pass')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Fill in the blank: 'Place your liquid items inside a transparent plastic _____.'", options: ["bag", "pouching", "sachet"] }
+      ],
+      3: [
+        { type: "Gap-Fill", q: "1. Complete the direction phrase: 'Walk straight _____ the duty-free shops.'", options: ["past", "passed", "after of"] },
+        { type: "Multiple Choice", q: "2. Ask for directions to Gate B24 politely:", options: ["Could you tell me how to get to Gate B24?", "Where is situated Gate B24?", "How I can arrive to Gate B24?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'Gate B24 is near to the bookstore.'", options: ["Incorrect (should be 'near the bookstore')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Complete: 'Turn right _____ the end of the corridor.'", options: ["at", "to", "on"] }
+      ],
+      4: [
+        { type: "Gap-Fill", q: "1. Complete the question: 'How often _____ the terminal shuttle run?'", options: ["does", "is", "do"] },
+        { type: "Multiple Choice", q: "2. Inquire about shuttle waiting time politely:", options: ["How long will I have to wait for the shuttle?", "How long time I wait the shuttle?", "Since when the shuttle arrives?"] },
+        { type: "Correct / Incorrect", q: "3. Is this question correct? 'What time the shuttle leaves?'", options: ["Incorrect (should be 'What time does the shuttle leave?')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Complete: 'We have been waiting for the shuttle _____ ten minutes.'", options: ["for", "since", "from"] }
+      ],
+      5: [
+        { type: "Gap-Fill", q: "1. Complete the phrasal verb: 'I came to _____ up my forgotten pouch.'", options: ["pick", "take", "recuperate"] },
+        { type: "Multiple Choice", q: "2. Ask the kiosk clerk politely about lost property:", options: ["Excuse me, has anyone handed in a small black pouch?", "Excuse me, did someone find my pouch and gives it?", "Is my pouch here or what?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I need to recuperate my luggage from Lost & Found.'", options: ["Incorrect (should use 'collect' or 'pick up')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Fill in the blank: 'Could you please check if my item is in your _____?'", options: ["system", "informations", "registering"] }
+      ],
+      6: [
+        { type: "Gap-Fill", q: "1. Complete the modal sentence: 'We _____ hurry if we want to catch our flight.'", options: ["must", "must to", "are having to"] },
+        { type: "Multiple Choice", q: "2. Politely ask people on the walkway if you can pass:", options: ["Excuse me, may I please squeeze past? My gate is closing.", "Excuse me, leave me pass please!", "Move please, I am pressed!"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I am late because I did a mistake with the departure time.'", options: ["Incorrect (should be 'made a mistake')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Fill in the blank: 'Please stand on the right side of the moving _____.'", options: ["walkway", "carpet", "treadmill"] }
+      ],
+      7: [
+        { type: "Gap-Fill", q: "1. Complete the declaration: 'I do not have _____ illegal items in my bag.'", options: ["any", "no", "some"] },
+        { type: "Multiple Choice", q: "2. State your passport status politely:", options: ["Here is my passport and boarding pass.", "Behold my passport.", "I give you my passport papers."] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I haven't got nothing prohibited in my luggage.'", options: ["Incorrect (double negative error)", "Correct"] },
+        { type: "Gap-Fill", q: "4. Fill in the blank: 'Please show your passport at the immigration _____.'", options: ["counter", "guichet", "office"] }
+      ],
+      8: [
+        { type: "Gap-Fill", q: "1. Complete the embedded question: 'Could you tell me when the gate _____?'", options: ["opens", "does open", "is open sound"] },
+        { type: "Multiple Choice", q: "2. Ask about boarding status politely:", options: ["Could you tell me if flight AP-404 is boarding yet?", "Is boarding started or no?", "Tell me if the plane boards now."] },
+        { type: "Correct / Incorrect", q: "3. Is this question correct? 'Can you tell me where is Gate B24?'", options: ["Incorrect (should be 'where Gate B24 is')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Fill in the blank: 'Attention passengers, this is the _____ call for flight AP-404.'", options: ["final", "lasted", "terminal"] }
+      ],
+      9: [
+        { type: "Gap-Fill", q: "1. Complete the sentence: 'Have you _____ your boarding pass ready?'", options: ["got", "have", "had"] },
+        { type: "Multiple Choice", q: "2. Ask the gate agent if you can still board:", options: ["Am I still in time to board the flight?", "Am I always on time for boarding?", "Can I enter inside the plane?"] },
+        { type: "Correct / Incorrect", q: "3. Is this sentence correct? 'I am agree with the gate agent.'", options: ["Incorrect (should be 'I agree')", "Correct"] },
+        { type: "Gap-Fill", q: "4. Fill in the blank: 'Please present your passport along _____ your boarding pass.'", options: ["with", "by", "to"] }
+      ]
+    };
+
+    let currentStageIndex = 0;
+    let unlockedDigits = Array(9).fill("?");
+    let selectedLangOption = null;
+    let currentCorrectOptionIndex = 0;
+    let currentRemediationCorrectIndices = [];
+    let keypadInput = "";
+    let isLanguageVerified = false;
+
+    // Utility: Fisher-Yates Shuffle
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function renderStage() {
+      const data = stages[currentStageIndex];
+      isLanguageVerified = false;
+      selectedLangOption = null;
+
+      document.getElementById('stage-number').textContent = `STAGE ${data.stageNum} OF 9`;
+      document.getElementById('stage-title').textContent = data.title;
+      document.getElementById('location-tag').textContent = data.location;
+      document.getElementById('character-name').textContent = data.character;
+      document.getElementById('character-dialogue').textContent = data.dialogue;
+      document.getElementById('focus-skill').textContent = data.skill;
+      document.getElementById('mission-instruction').textContent = data.instruction;
+      
+      // Map options to track which one is correct (index 0 in raw data is correct)
+      const optionsWithStatus = data.options.map((text, idx) => ({ text, isCorrect: idx === 0 }));
+      const shuffledOptions = shuffleArray(optionsWithStatus);
+      currentCorrectOptionIndex = shuffledOptions.findIndex(item => item.isCorrect);
+
+      // Render Shuffled Radio Options
+      const optionsContainer = document.getElementById('language-options');
+      optionsContainer.innerHTML = '';
+      shuffledOptions.forEach((optObj, idx) => {
+        const div = document.createElement('div');
+        div.className = "flex items-center gap-3 bg-slate-900/90 border border-slate-700 p-3 rounded-lg cursor-pointer hover:border-indigo-500 transition";
+        div.onclick = () => selectOption(idx, div);
+        div.innerHTML = `
+          <input type="radio" name="lang-opt" id="opt-${idx}" value="${idx}" class="text-indigo-600 focus:ring-indigo-500">
+          <label for="opt-${idx}" class="text-xs sm:text-sm text-slate-200 cursor-pointer w-full">${optObj.text}</label>
+        `;
+        optionsContainer.appendChild(div);
+      });
+
+      // Reset Language Status
+      document.getElementById('lang-status').textContent = "LOCKED";
+      document.getElementById('lang-status').className = "text-xs font-bold bg-indigo-900 text-indigo-300 px-2.5 py-0.5 rounded";
+      document.getElementById('lang-feedback').classList.add('hidden');
+      document.getElementById('verify-lang-btn').disabled = false;
+
+      // Lock Puzzle Box & Hide Speech Button
+      const puzzleBox = document.getElementById('puzzle-box');
+      puzzleBox.className = "bg-slate-900 border border-slate-700 rounded-xl p-5 mb-2 opacity-50 pointer-events-none";
+      document.getElementById('puzzle-status').textContent = "🔒 Complete Language Mission First";
+      document.getElementById('puzzle-status').className = "text-xs text-slate-500 font-bold";
+      document.getElementById('puzzle-desc').textContent = "Complete Step 1 to unlock this puzzle clue.";
+      document.getElementById('puzzle-answer').value = "";
+      document.getElementById('puzzle-answer').disabled = true;
+      document.getElementById('puzzle-answer').placeholder = "Locked";
+      document.getElementById('submit-puzzle-btn').disabled = true;
+      document.getElementById('puzzle-feedback').classList.add('hidden');
+      document.getElementById('tts-audio-btn').classList.add('hidden');
+
+      // Hide Revision Box
+      document.getElementById('remediation-box').classList.add('hidden');
+    }
+
+    function selectOption(index, el) {
+      selectedLangOption = index;
+      const radios = document.querySelectorAll('input[name="lang-opt"]');
+      radios.forEach((r, i) => r.checked = (i === index));
+    }
+
+    function verifyLanguageMission() {
+      const data = stages[currentStageIndex];
+      const feedback = document.getElementById('lang-feedback');
+      
+      if (selectedLangOption === null) {
+        feedback.textContent = "Please select an answer option first!";
+        feedback.className = "text-xs font-semibold mt-2 text-rose-400";
+        feedback.classList.remove('hidden');
+        return;
+      }
+
+      if (selectedLangOption === currentCorrectOptionIndex) {
+        // Correct Answer!
+        isLanguageVerified = true;
+        document.getElementById('lang-status').textContent = "UNLOCKED ✓";
+        document.getElementById('lang-status').className = "text-xs font-bold bg-emerald-900 text-emerald-300 px-2.5 py-0.5 rounded";
+        feedback.textContent = "Excellent! Mainline language mission verified. Stage puzzle is now unlocked.";
+        feedback.className = "text-xs font-semibold mt-2 text-emerald-400";
+        feedback.classList.remove('hidden');
+
+        // Unlock Puzzle Box
+        const puzzleBox = document.getElementById('puzzle-box');
+        puzzleBox.className = "bg-slate-900 border border-amber-500/50 rounded-xl p-5 mb-2 opacity-100 transition-all";
+        document.getElementById('puzzle-status').textContent = "🔓 UNLOCKED";
+        document.getElementById('puzzle-status').className = "text-xs text-amber-400 font-bold";
+        document.getElementById('puzzle-desc').textContent = data.puzzleDesc;
+        
+        // Show TTS Audio Clue button if SpeechSynthesis is supported
+        if ('speechSynthesis' in window) {
+          document.getElementById('tts-audio-btn').classList.remove('hidden');
+        }
+
+        const pInput = document.getElementById('puzzle-answer');
+        pInput.disabled = false;
+        pInput.placeholder = "Enter Digit or Word Solution";
+        document.getElementById('submit-puzzle-btn').disabled = false;
+
+      } else {
+        // Incorrect Answer -> Trigger Revision Loop on ANY Stage!
+        triggerRemediation(data.stageNum);
+      }
+    }
+
+    function triggerRemediation(stageNum) {
+      document.getElementById('language-mission-box').classList.add('hidden');
+      const remBox = document.getElementById('remediation-box');
+      remBox.classList.remove('hidden');
+
+      const questionsContainer = document.getElementById('remediation-questions');
+      questionsContainer.innerHTML = '';
+
+      const drills = remediationData[stageNum];
+      currentRemediationCorrectIndices = [];
+
+      drills.forEach((drill, dIdx) => {
+        // Map drill options (index 0 in raw data is correct)
+        const optsWithStatus = drill.options.map((text, idx) => ({ text, isCorrect: idx === 0 }));
+        const shuffledDrillOpts = shuffleArray(optsWithStatus);
+        currentRemediationCorrectIndices[dIdx] = shuffledDrillOpts.findIndex(o => o.isCorrect);
+
+        let optsHTML = shuffledDrillOpts.map((o, oIdx) => `
+          <label class="flex items-center gap-2 cursor-pointer mt-1 bg-slate-800/80 p-2 rounded border border-slate-700/60 hover:border-rose-500/50">
+            <input type="radio" name="rem-q-${dIdx}" value="${oIdx}" class="text-rose-600 focus:ring-rose-500">
+            <span class="text-xs text-slate-200">${o.text}</span>
+          </label>
+        `).join('');
+
+        questionsContainer.innerHTML += `
+          <div class="bg-slate-900/90 p-3.5 rounded-lg border border-rose-900/60">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[10px] font-bold uppercase tracking-wider bg-rose-900/40 text-rose-300 px-2 py-0.5 rounded">${drill.type}</span>
+            </div>
+            <p class="font-semibold text-rose-100 mb-2">${drill.q}</p>
+            <div class="space-y-1">${optsHTML}</div>
+          </div>
+        `;
+      });
+    }
+
+    function verifyRemediation() {
+      const stageNum = stages[currentStageIndex].stageNum;
+      const drills = remediationData[stageNum];
+      let allCorrect = true;
+
+      drills.forEach((drill, dIdx) => {
+        const selected = document.querySelector(`input[name="rem-q-${dIdx}"]:checked`);
+        if (!selected || parseInt(selected.value) !== currentRemediationCorrectIndices[dIdx]) {
+          allCorrect = false;
+        }
+      });
+
+      const fb = document.getElementById('remediation-feedback');
+      if (allCorrect) {
+        fb.textContent = "All 4 revision exercises completed successfully! Returning to Mainline Mission...";
+        fb.className = "text-xs font-semibold mt-2 text-emerald-400";
+        fb.classList.remove('hidden');
+
+        setTimeout(() => {
+          document.getElementById('remediation-box').classList.add('hidden');
+          document.getElementById('language-mission-box').classList.remove('hidden');
+          document.getElementById('lang-feedback').classList.add('hidden');
+        }, 1200);
+      } else {
+        fb.textContent = "Some answers in the revision loop are incorrect. Please review and check all 4 questions!";
+        fb.className = "text-xs font-semibold mt-2 text-rose-400";
+        fb.classList.remove('hidden');
+      }
+    }
+
+    function speakPuzzleClue() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const data = stages[currentStageIndex];
+        const utterance = new SpeechSynthesisUtterance(data.puzzleDesc);
+        utterance.rate = 0.9;
+        utterance.lang = 'en-US';
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    function submitStageAnswer() {
+      if (!isLanguageVerified) return;
+
+      const rawVal = document.getElementById('puzzle-answer').value.trim().toLowerCase();
+      const current = stages[currentStageIndex];
+      const feedback = document.getElementById('puzzle-feedback');
+
+      // Robust check: accepts either exact digit "6" or spelled word "six"
+      if (rawVal === current.expectedDigit || rawVal === current.expectedWord) {
+        unlockedDigits[currentStageIndex] = current.expectedDigit;
+        document.getElementById(`grid-d${currentStageIndex + 1}`).textContent = current.expectedDigit;
+        
+        feedback.textContent = `Correct! Passcode Digit #${current.stageNum} Unlocked: [ ${current.expectedDigit} ]`;
+        feedback.className = "text-xs font-semibold mt-2 text-emerald-400";
+        feedback.classList.remove('hidden');
+
+        setTimeout(() => {
+          currentStageIndex++;
+          if (currentStageIndex < stages.length) {
+            renderStage();
+          } else {
+            // Show 3x3 Keypad Screen
+            document.getElementById('game-card').classList.add('hidden');
+            document.getElementById('keypad-screen').classList.remove('hidden');
+          }
+        }, 1200);
+
+      } else {
+        feedback.textContent = "Incorrect digit or word solution. Check your calculations and try again!";
+        feedback.className = "text-xs font-semibold mt-2 text-rose-400";
+        feedback.classList.remove('hidden');
+      }
+    }
+
+    // KEYPAD FUNCTIONS
+    function pressKey(num) {
+      if (keypadInput.length < 9) {
+        keypadInput += num;
+        updateKeypadDisplay();
+      }
+    }
+
+    function clearKeypad() {
+      keypadInput = "";
+      updateKeypadDisplay();
+      document.getElementById('keypad-feedback').textContent = "";
+    }
+
+    function updateKeypadDisplay() {
+      document.getElementById('keypad-display').textContent = keypadInput.padEnd(9, '-');
+    }
+
+    function submitKeypad() {
+      const fb = document.getElementById('keypad-feedback');
+      const targetCode = unlockedDigits.join('');
+
+      if (keypadInput === "638194275" || keypadInput === targetCode) {
+        playPlaneChimeSound();
+        document.getElementById('keypad-screen').classList.add('hidden');
+        document.getElementById('win-screen').classList.remove('hidden');
+      } else {
+        fb.textContent = "ACCESS DENIED - INCORRECT PASSCODE SEQUENCE";
+        fb.className = "text-xs font-bold text-rose-500 animate-pulse";
+      }
+    }
+
+    // SYNTHESIZED AIRPORT CHIME SOUND (Web Audio API)
+    function playPlaneChimeSound() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        const now = audioCtx.currentTime;
+
+        // Classic Airport Announcement Chime (Ding-Dong)
+        const osc1 = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+        const gain1 = audioCtx.createGain();
+        const gain2 = audioCtx.createGain();
+
+        osc1.type = 'sine';
+        osc2.type = 'sine';
+
+        // First Note (High Ding: G5 ~ 783.99 Hz)
+        osc1.frequency.setValueAtTime(783.99, now);
+        gain1.gain.setValueAtTime(0.3, now);
+        gain1.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+
+        // Second Note (Low Dong: C5 ~ 523.25 Hz)
+        osc2.frequency.setValueAtTime(523.25, now + 0.4);
+        gain2.gain.setValueAtTime(0.3, now + 0.4);
+        gain2.gain.exponentialRampToValueAtTime(0.001, now + 1.8);
+
+        osc1.connect(gain1);
+        gain1.connect(audioCtx.destination);
+        osc2.connect(gain2);
+        gain2.connect(audioCtx.destination);
+
+        osc1.start(now);
+        osc2.start(now + 0.4);
+        osc1.stop(now + 1.2);
+        osc2.stop(now + 1.8);
+      } catch (e) {
+        console.log("Audio play error:", e);
+      }
+    }
+
+    function restartGame() {
+      currentStageIndex = 0;
+      unlockedDigits = Array(9).fill("?");
+      keypadInput = "";
+      for (let i = 1; i <= 9; i++) {
+        document.getElementById(`grid-d${i}`).textContent = "?";
+      }
+      document.getElementById('win-screen').classList.add('hidden');
+      document.getElementById('keypad-screen').classList.add('hidden');
+      document.getElementById('game-card').classList.remove('hidden');
+      document.getElementById('language-mission-box').classList.remove('hidden');
+      renderStage();
+    }
+
+    // Init Game
+    renderStage();
+  </script>
+</body>
+</html>
