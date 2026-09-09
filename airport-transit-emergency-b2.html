@@ -131,6 +131,12 @@
 
       <!-- Action Feedback -->
       <div id="action-feedback" class="hidden p-4 rounded-xl border text-xs sm:text-sm font-medium leading-relaxed"></div>
+
+      <!-- Continue Button -->
+      <button id="next-stage-btn" onclick="advanceStage()" class="hidden w-full mt-4 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3.5 rounded-xl transition text-sm flex items-center justify-center gap-2 shadow-lg">
+        <span>Continue to Next Stage</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      </button>
     </div>
 
     <!-- SEAT SWAP SCENARIO SCREEN (On Board Plane) -->
@@ -445,8 +451,10 @@
 
       const fb = document.getElementById('action-feedback');
       fb.classList.add('hidden');
+      document.getElementById('next-stage-btn').classList.add('hidden');
 
       const container = document.getElementById('options-container');
+      container.style.pointerEvents = 'auto';
       container.innerHTML = '';
 
       // Randomize the options presented each time
@@ -499,21 +507,23 @@
       const container = document.getElementById('options-container');
       container.style.pointerEvents = 'none';
 
+      // Show the continue button to let trainee read at their own pace
+      document.getElementById('next-stage-btn').classList.remove('hidden');
+    }
+
+    function advanceStage() {
       if (money < 0 || battery <= 0 || timeLeft <= 0) {
-        setTimeout(() => triggerResourceGameOver(), 1800);
+        triggerResourceGameOver();
         return;
       }
 
-      setTimeout(() => {
-        container.style.pointerEvents = 'auto';
-        currentStageIndex++;
-        if (currentStageIndex < stages.length) {
-          renderStage();
-        } else {
-          document.getElementById('game-card').classList.add('hidden');
-          renderSeatScenario();
-        }
-      }, 1800);
+      currentStageIndex++;
+      if (currentStageIndex < stages.length) {
+        renderStage();
+      } else {
+        document.getElementById('game-card').classList.add('hidden');
+        renderSeatScenario();
+      }
     }
 
     function renderSeatScenario() {
