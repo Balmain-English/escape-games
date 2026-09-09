@@ -83,14 +83,14 @@
 
           <!-- B2 Expressions -->
           <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-2">
-            <h3 class="font-bold text-amber-400 uppercase text-xs tracking-wider border-b border-slate-800 pb-1">Formal, Polite & Direct Expressions</h3>
+            <h3 class="font-bold text-amber-400 uppercase text-xs tracking-wider border-b border-slate-800 pb-1">Direct & Professional Expressions</h3>
             <ul class="space-y-1 text-slate-300 text-xs">
-              <li>• "Could you kindly direct me to the expedited transit lane?"</li>
-              <li>• "I am currently on a very tight connection for flight AP-88."</li>
-              <li>• "Would it be possible to utilize the fast-track security lane?"</li>
-              <li>• "I wish to declare personal effects within standard allowances."</li>
-              <li>• "I completely understand your request; however, I must respectfully decline."</li>
-              <li>• "I would be more than happy to accommodate your seat request."</li>
+              <li>• "Hi, I have a tight connection for flight AP-88—can I buy an express shuttle ticket here?"</li>
+              <li>• "Excuse me officer, my flight leaves in 20 minutes. Is there a fast-track lane I can use?"</li>
+              <li>• "Laptop and power bank are in separate trays. Does the tablet need to come out as well?"</li>
+              <li>• "Nothing to declare, officer—just standard personal belongings."</li>
+              <li>• "I appreciate your situation, but I specifically booked an aisle seat for a back condition."</li>
+              <li>• "Sure, no problem. I can take 26E so you two can sit together."</li>
             </ul>
           </div>
         </div>
@@ -147,18 +147,10 @@
         </p>
       </div>
 
-      <p class="text-xs text-slate-300 font-semibold">How do you respond using formal, polite, and direct B2 language?</p>
+      <p class="text-xs text-slate-300 font-semibold">How do you respond using direct, assertive, and professional B2 language?</p>
 
-      <div class="space-y-3">
-        <button onclick="handleSeatSwapChoice(false)" class="w-full text-left bg-slate-950 hover:bg-slate-800 border border-slate-700 hover:border-amber-500/50 p-4 rounded-xl transition space-y-1">
-          <p class="text-sm font-bold text-amber-300">Option A: Politely Decline the Request</p>
-          <p class="text-xs text-slate-300">"I completely understand your situation, but I specifically booked an aisle seat due to a medical back condition. Perhaps the cabin crew can assist in finding two adjacent seats?"</p>
-        </button>
-
-        <button onclick="handleSeatSwapChoice(true)" class="w-full text-left bg-slate-950 hover:bg-slate-800 border border-slate-700 hover:border-emerald-500/50 p-4 rounded-xl transition space-y-1">
-          <p class="text-sm font-bold text-emerald-300">Option B: Agree Courteously to Swap</p>
-          <p class="text-xs text-slate-300">"Of course, I would be happy to accommodate you so you can sit with your daughter. I'll gladly move to seat 26E."</p>
-        </button>
+      <div id="seat-options-container" class="space-y-3">
+        <!-- Dynamic Seat Swap Options -->
       </div>
     </div>
 
@@ -175,7 +167,7 @@
           "Excuse me, passenger. We overheard your generous gesture to unite the mother and daughter. However, seat 26E currently has an issue with its safety belt mechanism and cannot be occupied."
         </p>
         <p class="text-slate-200 italic text-sm leading-relaxed font-semibold text-amber-300">
-          "As a token of our appreciation for your flexibility and politeness, please follow me to Business Class seat 2F!"
+          "As a token of our appreciation for your flexibility and efficiency, please follow me to Business Class seat 2F!"
         </p>
       </div>
 
@@ -199,7 +191,7 @@
       <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-left max-w-md mx-auto text-xs space-y-2">
         <p class="font-bold text-rose-400 uppercase">Key Takeaway (B2 Register):</p>
         <p class="text-slate-300" id="game-over-lesson">
-          In high-pressure situations, directness must always be paired with formal politeness. Aggressive phrasing or ignoring border directives leads to immediate security escalation.
+          In high-pressure situations, directness must always be paired with professional clarity. Aggressive phrasing or ignoring border directives leads to immediate security escalation.
         </p>
       </div>
 
@@ -255,6 +247,16 @@
     let timeLeft = 32; // minutes
     let currentStageIndex = 0;
 
+    // Utility function: Fisher-Yates array shuffling
+    function shuffleArray(array) {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+
     // 5 INTER-TERMINAL TRANSIT STAGES
     const stages = [
       {
@@ -266,11 +268,11 @@
         heading: "Select your transit request to the desk agent:",
         options: [
           {
-            text: `"Excuse me. I have a tight 30-minute connection at Terminal 3. Could I purchase a ticket for the express airside transit shuttle?"`,
+            text: `"Hi, I have a tight 30-minute connection for flight AP-88 in Terminal 3. Can I buy an express airside shuttle ticket here?"`,
             moneyChange: -15,
             batteryChange: -5,
             timeChange: -6,
-            feedback: "Excellent! Direct and polite. You purchase an express airside shuttle pass and save valuable connection time.",
+            feedback: "Excellent! Direct, clear, and efficient. You purchase an express airside shuttle pass and save valuable connection time.",
             isArrest: false
           },
           {
@@ -300,11 +302,11 @@
         heading: "Choose your communication approach with Border Control:",
         options: [
           {
-            text: `"Good day, Officer. I am on a very tight connection departing shortly. Would it be possible to use the expedited clearance lane?"`,
+            text: `"Excuse me officer, my connecting flight leaves in 20 minutes. Is there an expedited lane I can use?"`,
             moneyChange: 0,
             batteryChange: -5,
             timeChange: -5,
-            feedback: "Proper B2 register! The officer verifies your boarding pass and politely ushers you through the priority lane.",
+            feedback: "Proper B2 register—direct and professional! The officer checks your boarding pass and ushers you into the priority line.",
             isArrest: false
           },
           {
@@ -335,11 +337,11 @@
         heading: "Select your interaction with security screeners:",
         options: [
           {
-            text: `"I have placed my laptop and spare power bank in separate trays. Could you confirm if my tablet can remain in the sleeve?"`,
+            text: `"Laptop and power bank are in separate trays. Does my tablet need to come out as well?"`,
             moneyChange: 0,
             batteryChange: -5,
             timeChange: -5,
-            feedback: "Clear and compliant communication! Security scans your trays smoothly with zero delays.",
+            feedback: "Clear, direct communication! Security scans your trays smoothly with zero delays.",
             isArrest: false
           },
           {
@@ -369,7 +371,7 @@
         heading: "Select your statement to the Customs Official:",
         options: [
           {
-            text: `"Good afternoon, Officer. I am carrying standard personal items and duty-free gifts within allowed allowances, with nothing commercial to declare."`,
+            text: `"Nothing to declare, officer—just personal belongings and standard duty-free items."`,
             moneyChange: 0,
             batteryChange: -3,
             timeChange: -3,
@@ -381,7 +383,7 @@
             moneyChange: 0,
             batteryChange: 0,
             timeChange: 0,
-            feedback: "ARRESTED BY CUSTOMS OFFICERS! Refusing lawful customs inspection orders results in immediate bag seizure and criminal detention under airport customs laws.",
+            feedback: "ARRESTED BY CUSTOMS OFFICERS! Refusing lawful customs inspection orders results in immediate bag seizure and criminal detention under aviation security laws.",
             isArrest: true,
             arrestType: "customs"
           },
@@ -404,7 +406,7 @@
         heading: "Select your final approach to the gate podium:",
         options: [
           {
-            text: `"Good day. I am here for final boarding on flight AP-88. Here is my digital boarding pass ready on screen."`,
+            text: `"Boarding for flight AP-88? Here is my mobile boarding pass ready to scan."`,
             moneyChange: 0,
             batteryChange: -5,
             timeChange: -2,
@@ -447,7 +449,10 @@
       const container = document.getElementById('options-container');
       container.innerHTML = '';
 
-      data.options.forEach((opt) => {
+      // Randomize the options presented each time
+      const randomizedOptions = shuffleArray(data.options);
+
+      randomizedOptions.forEach((opt) => {
         const btn = document.createElement('button');
         btn.className = "w-full text-left bg-slate-950 hover:bg-slate-800 border border-slate-800 hover:border-amber-500/50 p-4 rounded-xl transition space-y-2 group";
 
@@ -506,9 +511,47 @@
           renderStage();
         } else {
           document.getElementById('game-card').classList.add('hidden');
-          document.getElementById('seat-scenario-card').classList.remove('hidden');
+          renderSeatScenario();
         }
       }, 1800);
+    }
+
+    function renderSeatScenario() {
+      const container = document.getElementById('seat-options-container');
+      container.innerHTML = '';
+
+      const seatOptions = [
+        {
+          agreed: false,
+          label: "Option: Direct Refusal",
+          text: `"I appreciate your situation, but I specifically reserved an aisle seat for a back condition. You might want to ask the crew if they can reassign a pair."`,
+          borderClass: "hover:border-amber-500/50",
+          titleClass: "text-amber-300"
+        },
+        {
+          agreed: true,
+          label: "Option: Courteous Agreement",
+          text: `"Sure, no problem. I can take seat 26E so you two can sit together."`,
+          borderClass: "hover:border-emerald-500/50",
+          titleClass: "text-emerald-300"
+        }
+      ];
+
+      // Randomize seat swap options order
+      const randomizedSeatOptions = shuffleArray(seatOptions);
+
+      randomizedSeatOptions.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.onclick = () => handleSeatSwapChoice(opt.agreed);
+        btn.className = `w-full text-left bg-slate-950 hover:bg-slate-800 border border-slate-700 ${opt.borderClass} p-4 rounded-xl transition space-y-1`;
+        btn.innerHTML = `
+          <p class="text-sm font-bold ${opt.titleClass}">${opt.label}</p>
+          <p class="text-xs text-slate-300">${opt.text}</p>
+        `;
+        container.appendChild(btn);
+      });
+
+      document.getElementById('seat-scenario-card').classList.remove('hidden');
     }
 
     function updateStatsUI() {
@@ -533,11 +576,11 @@
       if (type === 'immigration') {
         title.textContent = "ARRESTED BY IMMIGRATION OFFICERS";
         desc.textContent = message;
-        lesson.textContent = "Bypassing international border control checkpoints or physical barriers without clearance is a severe criminal offense. Always use formal polite requests (e.g., 'Would it be possible to use the expedited lane?') when under tight time constraints.";
+        lesson.textContent = "Bypassing international border control checkpoints or physical barriers without clearance is a severe criminal offense. Direct B2 requests should remain professional and clear (e.g., 'Is there an expedited lane I can use?').";
       } else if (type === 'customs') {
         title.textContent = "ARRESTED BY CUSTOMS OFFICIALS";
         desc.textContent = message;
-        lesson.textContent = "Refusing lawful inspection orders from airport customs officials results in immediate baggage seizure and detention under aviation security laws. Compliant B2 declarations are mandatory.";
+        lesson.textContent = "Refusing lawful inspection orders from airport customs officials results in immediate baggage seizure and detention under aviation security laws. Direct, clear B2 declarations are required.";
       }
     }
 
@@ -584,11 +627,11 @@
 
       if (isUpgraded) {
         document.getElementById('debrief-title').textContent = "UPGRADED TO BUSINESS CLASS!";
-        document.getElementById('debrief-desc').textContent = "Your courteous accommodation of a fellow passenger was noticed by the purser! Due to a seat belt issue in economy row 26, you were rewarded with a full upgrade to Business Class seat 2F!";
+        document.getElementById('debrief-desc').textContent = "Your flexible attitude toward a fellow passenger was noticed by the purser! Due to a seat belt issue in economy row 26, you were rewarded with a full upgrade to Business Class seat 2F!";
         document.getElementById('debrief-seat').textContent = "Business 2F";
       } else {
         document.getElementById('debrief-title').textContent = "GREAT FLIGHT - CONNECTION SUCCESS!";
-        document.getElementById('debrief-desc').textContent = "You politely retained your booked aisle seat (12C), settled in comfortably, and enjoyed a smooth, well-deserved flight after a challenging airport connection!";
+        document.getElementById('debrief-desc').textContent = "You clearly and directly retained your booked aisle seat (12C), settled in comfortably, and enjoyed a smooth flight after a fast-paced airport connection!";
         document.getElementById('debrief-seat').textContent = "Aisle 12C";
       }
     }
