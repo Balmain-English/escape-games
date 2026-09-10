@@ -14,10 +14,10 @@
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between">
 
   <!-- TOP NAVIGATION & STATUS BAR -->
-  <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50 shadow-xl">
+  <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50 shadow-xl" role="banner">
     <div class="max-w-5xl mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
       <div class="flex items-center gap-3">
-        <div class="p-2 bg-amber-500/10 rounded-lg text-amber-400">
+        <div class="p-2 bg-amber-500/10 rounded-lg text-amber-400" aria-hidden="true">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
         </div>
         <div>
@@ -30,44 +30,44 @@
       </div>
 
       <!-- LIVE GAME RESOURCES -->
-      <div class="flex items-center gap-4 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 mono-font text-xs sm:text-sm">
+      <div class="flex items-center gap-4 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 mono-font text-xs sm:text-sm" aria-live="polite" aria-label="Game Statistics">
         <div class="flex items-center gap-2" title="Remaining Funds">
-          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           <span class="text-emerald-400 font-bold">Funds:</span>
           <span id="stat-money" class="text-white font-bold">$85</span>
         </div>
-        <div class="h-4 w-px bg-slate-800"></div>
+        <div class="h-4 w-px bg-slate-800" aria-hidden="true"></div>
         <div class="flex items-center gap-2" title="Phone Battery Level">
-          <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           <span class="text-sky-400 font-bold">Battery:</span>
-          <span id="stat-battery" class="text-white font-bold">70%</span>
+          <span id="stat-battery" class="text-white font-bold">75%</span>
         </div>
-        <div class="h-4 w-px bg-slate-800"></div>
+        <div class="h-4 w-px bg-slate-800" aria-hidden="true"></div>
         <div class="flex items-center gap-2" title="Minutes until Gate Closes">
-          <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           <span class="text-rose-400 font-bold">Time Left:</span>
-          <span id="stat-time" class="text-white font-bold">32 mins</span>
+          <span id="stat-time" class="text-white font-bold">45 mins</span>
         </div>
       </div>
     </div>
   </header>
 
   <!-- MAIN CONTENT CONTAINER -->
-  <main class="max-w-4xl mx-auto w-full px-4 py-6 flex-grow space-y-6">
+  <main class="max-w-4xl mx-auto w-full px-4 py-6 flex-grow space-y-6" id="main-content">
 
-    <!-- B2 REFERENCE GUIDE / REFERENCE PHRASEBOOK -->
+    <!-- B2 REFERENCE GUIDE -->
     <details class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-lg group">
-      <summary class="p-4 cursor-pointer font-bold text-amber-400 hover:text-amber-300 flex justify-between items-center text-sm md:text-base">
+      <summary class="p-4 cursor-pointer font-bold text-amber-400 hover:text-amber-300 flex justify-between items-center text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-amber-500">
         <span class="flex items-center gap-2">
-          <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
           B2 REFERENCE GUIDE: Professional & Direct Airport Register
         </span>
-        <span class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-full group-open:rotate-180 transition-transform">? Toggle Reference</span>
+        <span class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-full group-open:rotate-180 transition-transform flex items-center gap-1">
+          ? Toggle Reference
+        </span>
       </summary>
       <div class="p-5 text-xs sm:text-sm text-slate-300 border-t border-slate-800 space-y-4 bg-slate-950/60">
-        
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- B2 Vocabulary List -->
           <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-2">
             <h3 class="font-bold text-amber-400 uppercase text-xs tracking-wider border-b border-slate-800 pb-1">Essential B2 Airport Vocabulary</h3>
             <ul class="space-y-1 text-slate-300 text-xs">
@@ -77,11 +77,8 @@
               <li><strong class="text-white">Airside / Landside:</strong> Beyond security (airside) vs. public airport area (landside).</li>
               <li><strong class="text-white">Customs declaration:</strong> Official statement regarding carried goods and currency.</li>
               <li><strong class="text-white">Boarding priority:</strong> Right to board before general passengers.</li>
-              <li><strong class="text-white">Accommodate:</strong> To adjust or help meet someone's request.</li>
             </ul>
           </div>
-
-          <!-- B2 Expressions -->
           <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-2">
             <h3 class="font-bold text-amber-400 uppercase text-xs tracking-wider border-b border-slate-800 pb-1">Direct & Professional Expressions</h3>
             <ul class="space-y-1 text-slate-300 text-xs">
@@ -90,7 +87,6 @@
               <li>• "Laptop and power bank are in separate trays. Does the tablet need to come out as well?"</li>
               <li>• "Nothing to declare, officer—just standard personal belongings."</li>
               <li>• "I appreciate your situation, but I specifically booked an aisle seat for a back condition."</li>
-              <li>• "Sure, no problem. I can take 26E so you two can sit together."</li>
             </ul>
           </div>
         </div>
@@ -99,142 +95,91 @@
 
     <!-- GAMEPLAY STAGE CARD -->
     <div id="game-card" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl relative">
-      
-      <!-- Stage Header -->
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800 pb-4 mb-5 gap-2">
         <div>
-          <span id="stage-badge" class="text-xs font-bold text-amber-400 uppercase tracking-widest">STAGE 1 OF 5</span>
+          <span id="stage-badge" class="text-xs font-bold text-amber-400 uppercase tracking-widest">STAGE 1 OF 14</span>
           <h2 id="stage-title" class="text-xl md:text-2xl font-bold text-white mt-0.5">Terminal 1 Arrivals - Connection Corridor</h2>
         </div>
         <span id="stage-location" class="text-xs font-mono bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700">T1 International Transit</span>
       </div>
 
-      <!-- Narrative & Dialogue -->
       <div class="bg-slate-950/80 border-l-4 border-amber-500 rounded-r-xl p-4 mb-6 space-y-2">
         <p id="character-name" class="text-xs font-bold text-amber-400 uppercase tracking-wider">Airport Transit Monitor</p>
         <p id="character-dialogue" class="text-slate-200 italic text-sm leading-relaxed">
-          "Your incoming flight landed 20 minutes late. You have 32 minutes to cross from Terminal 1 to Terminal 3, Gate C18. The gate closes 10 minutes prior to departure!"
+          "Your incoming flight landed 20 minutes late. You have 45 minutes to cross from Terminal 1 to Terminal 3, Gate C18!"
         </p>
       </div>
 
-      <!-- Action Prompt -->
       <div class="mb-5">
         <h3 id="prompt-heading" class="text-sm font-bold text-slate-200 mb-3 flex items-center gap-2">
           Select your communication and navigation decision (B2 Register):
         </h3>
         
-        <!-- Options Container -->
-        <div id="options-container" class="space-y-3">
+        <div id="options-container" class="space-y-3" role="radiogroup" aria-label="Action options">
           <!-- Options rendered dynamically -->
         </div>
       </div>
 
-      <!-- Action Feedback -->
-      <div id="action-feedback" class="hidden p-4 rounded-xl border text-xs sm:text-sm font-medium leading-relaxed"></div>
+      <div id="action-feedback" class="hidden p-4 rounded-xl border text-xs sm:text-sm font-medium leading-relaxed" aria-live="polite"></div>
 
-      <!-- Continue Button -->
-      <button id="next-stage-btn" onclick="advanceStage()" class="hidden w-full mt-4 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3.5 rounded-xl transition text-sm flex items-center justify-center gap-2 shadow-lg">
-        <span>Continue to Next Stage</span>
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      <button id="next-stage-btn" onclick="advanceStage()" class="hidden w-full mt-4 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3.5 rounded-xl transition text-sm flex items-center justify-center gap-2 shadow-lg focus:outline-none focus:ring-2 focus:ring-amber-400">
+        <span id="next-stage-text">Continue to Next Stage</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
       </button>
     </div>
 
-    <!-- SEAT SWAP SCENARIO SCREEN (On Board Plane) -->
-    <div id="seat-scenario-card" class="hidden bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6">
-      <div class="border-b border-slate-800 pb-4">
-        <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest">FINAL SCENARIO • ONBOARD FLIGHT AP-88</span>
-        <h2 class="text-2xl font-bold text-white mt-1">Settled in Aisle Seat 12C</h2>
-      </div>
-
-      <div class="bg-slate-950/80 border-l-4 border-sky-500 rounded-r-xl p-4 space-y-2">
-        <p class="text-xs font-bold text-sky-400 uppercase tracking-wider">Passenger Requesting Assistance</p>
-        <p class="text-slate-200 italic text-sm leading-relaxed">
-          "Excuse me, I'm so sorry to bother you. My young daughter is seated in 12B next to you, but I was assigned middle seat 26E further back. Would you mind swapping your aisle seat with me so we can sit together?"
-        </p>
-      </div>
-
-      <p class="text-xs text-slate-300 font-semibold">How do you respond using direct, assertive, and professional B2 language?</p>
-
-      <div id="seat-options-container" class="space-y-3">
-        <!-- Dynamic Seat Swap Options -->
-      </div>
-    </div>
-
-    <!-- CABIN CREW UPGRADE SCENARIO (If Player Agreed to Swap) -->
-    <div id="crew-upgrade-card" class="hidden bg-slate-900 border-2 border-amber-500/80 rounded-2xl p-6 shadow-2xl space-y-6">
-      <div class="border-b border-slate-800 pb-4">
-        <span class="text-xs font-bold text-amber-400 uppercase tracking-widest">IN-FLIGHT INTERVENTION</span>
-        <h2 class="text-2xl font-bold text-white mt-1">Cabin Crew Approach</h2>
-      </div>
-
-      <div class="bg-slate-950/80 border-l-4 border-amber-500 rounded-r-xl p-4 space-y-2">
-        <p class="text-xs font-bold text-amber-400 uppercase tracking-wider">Flight Purser</p>
-        <p class="text-slate-200 italic text-sm leading-relaxed">
-          "Excuse me, passenger. We overheard your generous gesture to unite the mother and daughter. However, seat 26E currently has an issue with its safety belt mechanism and cannot be occupied."
-        </p>
-        <p class="text-slate-200 italic text-sm leading-relaxed font-semibold text-amber-300">
-          "As a token of our appreciation for your flexibility and efficiency, please follow me to Business Class seat 2F!"
-        </p>
-      </div>
-
-      <button onclick="showFinalDebriefing(true)" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl transition text-sm">
-        Proceed to Business Class Lounge & Debriefing
-      </button>
-    </div>
-
-    <!-- GAME OVER SCREEN (Arrest / Resources Exhausted) -->
-    <div id="game-over-card" class="hidden bg-slate-900 border-2 border-rose-600 rounded-2xl p-8 text-center space-y-6 shadow-2xl">
-      <div id="game-over-icon" class="flex justify-center text-rose-500">
+    <!-- GAME OVER SCREEN -->
+    <div id="game-over-card" class="hidden bg-slate-900 border-2 border-rose-600 rounded-2xl p-8 text-center space-y-6 shadow-2xl" role="alert">
+      <div id="game-over-icon" class="flex justify-center text-rose-500" aria-hidden="true">
         <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
       </div>
       <div>
-        <h2 id="game-over-title" class="text-2xl sm:text-3xl font-black text-rose-500 uppercase tracking-wide">ARRESTED AT BORDER CONTROL</h2>
+        <h2 id="game-over-title" class="text-2xl sm:text-3xl font-black text-rose-500 uppercase tracking-wide">INCIDENT ESCALATION - GAME OVER</h2>
         <p id="game-over-desc" class="text-slate-300 text-sm max-w-lg mx-auto mt-2 leading-relaxed">
-          Attempting to bypass immigration clearance or arguing aggressively with officers is a violation of international border laws. You were detained for questioning and missed your flight.
+          An emergency violation or severe boundary breach halted your journey immediately.
         </p>
       </div>
 
       <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-left max-w-md mx-auto text-xs space-y-2">
-        <p class="font-bold text-rose-400 uppercase">Key Takeaway (B2 Register):</p>
+        <p class="font-bold text-rose-400 uppercase">Key Takeaway (B2 Register & Safety):</p>
         <p class="text-slate-300" id="game-over-lesson">
-          In high-pressure situations, directness must always be paired with professional clarity. Aggressive phrasing or ignoring border directives leads to immediate security escalation.
+          In high-pressure situations, directness must always be paired with professional clarity and adherence to safety protocols.
         </p>
       </div>
 
-      <button onclick="restartGame()" class="bg-rose-600 hover:bg-rose-500 text-white font-bold px-8 py-3 rounded-xl text-sm transition">
+      <button onclick="restartGame()" class="bg-rose-600 hover:bg-rose-500 text-white font-bold px-8 py-3 rounded-xl text-sm transition focus:outline-none focus:ring-2 focus:ring-rose-400">
         Try Connection Challenge Again
       </button>
     </div>
 
     <!-- DEBRIEFING / VICTORY SCREEN -->
     <div id="debriefing-card" class="hidden bg-slate-900 border-2 border-emerald-500 rounded-2xl p-8 text-center space-y-6 shadow-2xl">
-      <div id="debrief-icon" class="flex justify-center text-emerald-400">
+      <div id="debrief-icon" class="flex justify-center text-emerald-400" aria-hidden="true">
         <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
       </div>
       <div>
         <h2 id="debrief-title" class="text-2xl sm:text-3xl font-black text-emerald-400 uppercase tracking-wide">GREAT FLIGHT! CONNECTION SUCCESSFUL</h2>
         <p id="debrief-desc" class="text-slate-300 text-sm max-w-xl mx-auto mt-2 leading-relaxed">
-          You navigated complex inter-terminal transfers, maintained your battery and budget, cleared security and customs efficiently, and boarded flight AP-88 right before doors closed!
+          You navigated complex inter-terminal transfers and emergency situations, maintained your resources, cleared security, and boarded flight AP-88!
         </p>
       </div>
 
-      <!-- Stats Summary -->
       <div class="grid grid-cols-3 gap-3 max-w-md mx-auto mono-font text-xs">
         <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
           <span class="text-slate-400 block mb-1">Funds Left</span>
-          <span id="debrief-money" class="text-emerald-400 font-bold text-sm">$45</span>
+          <span id="debrief-money" class="text-emerald-400 font-bold text-sm">$85</span>
         </div>
         <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
           <span class="text-slate-400 block mb-1">Battery Left</span>
-          <span id="debrief-battery" class="text-sky-400 font-bold text-sm">40%</span>
+          <span id="debrief-battery" class="text-sky-400 font-bold text-sm">75%</span>
         </div>
         <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
-          <span class="text-slate-400 block mb-1">Seating</span>
-          <span id="debrief-seat" class="text-amber-400 font-bold text-sm">Aisle 12C</span>
+          <span class="text-slate-400 block mb-1">Time Left</span>
+          <span id="debrief-time" class="text-amber-400 font-bold text-sm">15 mins</span>
         </div>
       </div>
 
-      <button onclick="restartGame()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-8 py-3 rounded-xl text-sm transition">
+      <button onclick="restartGame()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-8 py-3 rounded-xl text-sm transition focus:outline-none focus:ring-2 focus:ring-emerald-400">
         Replay Game Challenge
       </button>
     </div>
@@ -242,16 +187,17 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="bg-slate-950 border-t border-slate-900 py-4 text-center text-xs text-slate-500">
+  <footer class="bg-slate-950 border-t border-slate-900 py-4 text-center text-xs text-slate-500" role="contentinfo">
     Airport Deadline B2 • Upper-Intermediate Professional Language & Communication Simulation
   </footer>
 
   <script>
     // GAME STATE VARIABLES
     let money = 85;
-    let battery = 70;
-    let timeLeft = 32; // minutes
+    let battery = 75;
+    let timeLeft = 45; // minutes
     let currentStageIndex = 0;
+    let isChoiceSelected = false;
 
     // Utility function: Fisher-Yates array shuffling
     function shuffleArray(array) {
@@ -263,7 +209,7 @@
       return shuffled;
     }
 
-    // 5 INTER-TERMINAL TRANSIT STAGES
+    // 14 STAGES WITH BALANCED OPTIMIZATION PATHWAYS
     const stages = [
       {
         stageNum: 1,
@@ -274,68 +220,139 @@
         heading: "Select your transit request to the desk agent:",
         options: [
           {
-            text: `"Hi, I have a tight 30-minute connection for flight AP-88 in Terminal 3. Can I buy an express airside shuttle ticket here?"`,
-            moneyChange: -15,
-            batteryChange: -5,
-            timeChange: -6,
-            feedback: "Excellent! Direct, clear, and efficient. You purchase an express airside shuttle pass and save valuable connection time.",
-            isArrest: false
+            text: `"Hi, I'll use the official printed transit wall map to find the express shuttle stop."`,
+            moneyChange: 0, batteryChange: 0, timeChange: -2,
+            feedback: "Battery Preserved! Navigating via terminal wall signs uses zero phone battery.",
+            isGameOver: false
           },
           {
-            text: `"Where is the shuttle? I don't have time for this, I'll navigate using my phone GPS!"`,
-            moneyChange: 0,
-            batteryChange: -20,
-            timeChange: -14,
-            feedback: "The agent responds abruptly to your demanding tone and offers minimal help. You waste time and battery navigating on your phone.",
-            isArrest: false
+            text: `"Hi, I have a tight connection for flight AP-88—can I take the free inter-terminal transit shuttle?"`,
+            moneyChange: 0, batteryChange: -2, timeChange: -3,
+            feedback: "Budget Friendly! Direct and polite. You board the standard free inter-terminal shuttle.",
+            isGameOver: false
           },
           {
-            text: `"Could I hire a private VIP golf cart transport directly to Terminal 3 Gate C18?"`,
-            moneyChange: -45,
-            batteryChange: -2,
-            timeChange: -4,
-            feedback: "You hire a private golf cart driver. Highly efficient and fast, but severely drains your funds!",
-            isArrest: false
+            text: `"Hi, I need the fastest route for flight AP-88—I'd like to buy an express airside shuttle ticket."`,
+            moneyChange: -8, batteryChange: -1, timeChange: -1,
+            feedback: "Speed Priority! You purchase an express airside pass and gain critical connection time.",
+            isGameOver: false
+          },
+          {
+            text: `[Bypass the service counter and force open restricted transit doors]`,
+            feedback: "SECURITY DETENTION! Pushing through restricted access doors triggers an automatic alarm and airport security detains you immediately.",
+            isGameOver: true,
+            gameOverTitle: "DETAINED BY AIRPORT SECURITY",
+            gameOverLesson: "Never force entry through security doors or bypass official checkpoints regardless of flight urgency."
           }
         ]
       },
       {
         stageNum: 2,
-        title: "Inter-Terminal Passport Clearance",
-        location: "Border Control Checkpoint B",
-        character: "Immigration Clearance Officer",
-        dialogue: `"Passport Control ahead! The general transit line has over 80 passengers waiting. You must handle immigration clearance appropriately."`,
-        heading: "Choose your communication approach with Border Control:",
+        title: "Inter-Terminal Shuttle Bus Platform",
+        location: "Airside Transit Hub B",
+        character: "Shuttle Bus Conductor",
+        dialogue: `"The shuttle bus is crowded and doors close in 10 seconds! Only one passenger space remains on this express run."`,
+        heading: "Choose how to handle the closing shuttle bus:",
         options: [
           {
-            text: `"Excuse me officer, my connecting flight leaves in 20 minutes. Is there an expedited lane I can use?"`,
-            moneyChange: 0,
-            batteryChange: -5,
-            timeChange: -5,
-            feedback: "Proper B2 register—direct and professional! The officer checks your boarding pass and ushers you into the priority line.",
-            isArrest: false
+            text: `"Excuse me driver, I'm using paper directions—could you confirm if this shuttle stops directly at Terminal 3?"`,
+            moneyChange: 0, batteryChange: 0, timeChange: -2,
+            feedback: "Paper Route Saved Battery! The driver nods and allows you aboard.",
+            isGameOver: false
           },
           {
-            text: `"I don't have time to wait in this queue! Move out of my way, I am crossing now!" (Pushing past border gates)`,
-            moneyChange: 0,
-            batteryChange: 0,
-            timeChange: 0,
-            feedback: "ARRESTED BY IMMIGRATION OFFICERS! Forcible entry past border gates without clearance is a federal offense. You are immediately restrained.",
-            isArrest: true,
-            arrestType: "immigration"
+            text: `"Excuse me, I have a tight connection for AP-88—is there room for one more standing passenger on this free shuttle?"`,
+            moneyChange: 0, batteryChange: -2, timeChange: -3,
+            feedback: "Zero Cost! Polite and assertive. You squeeze onto the bus without paying extra.",
+            isGameOver: false
           },
           {
-            text: `"Excuse me! Is there any way to pay cash to skip this entire passport line right away?"`,
-            moneyChange: -10,
-            batteryChange: -10,
-            timeChange: -12,
-            feedback: "Offering cash at immigration raises suspicion. The officer subjects your documents to extra scrutiny, wasting valuable time.",
-            isArrest: false
+            text: `"I'll pay the $5 express priority boarding fee to take the front express seat immediately."`,
+            moneyChange: -5, batteryChange: -1, timeChange: -1,
+            feedback: "Express Speed! You pay a small fee to take the fast-track front seat.",
+            isGameOver: false
+          },
+          {
+            text: `[Force open the pneumatic closing doors and wedge yourself into the moving vehicle frame]`,
+            feedback: "SAFETY SHUTDOWN! Jamming the automated shuttle doors causes an emergency brake lock. Operations are suspended and you are removed by ground crews.",
+            isGameOver: true,
+            gameOverTitle: "GROUND OPERATIONS SUSPENDED",
+            gameOverLesson: "Interfering with operating transit equipment is a major safety violation causing immediate removal."
           }
         ]
       },
       {
         stageNum: 3,
+        title: "Inter-Terminal Passport Clearance",
+        location: "Border Control Checkpoint B",
+        character: "Immigration Clearance Officer",
+        dialogue: `"Passport Control ahead! The general transit line has over 80 passengers waiting. You must handle clearance appropriately."`,
+        heading: "Choose your communication approach with Border Control:",
+        options: [
+          {
+            text: `"Excuse me officer, my phone is stored away—here is my printed passport for manual check."`,
+            moneyChange: 0, batteryChange: 0, timeChange: -2,
+            feedback: "Zero Battery Drain! Printed documentation speeds up verification.",
+            isGameOver: false
+          },
+          {
+            text: `"Excuse me officer, my flight leaves in 20 minutes. Is there a fast-track lane I can use?"`,
+            moneyChange: 0, batteryChange: -2, timeChange: -3,
+            feedback: "Zero Cash Spent! The officer inspects your ticket and ushers you to the front.",
+            isGameOver: false
+          },
+          {
+            text: `"I'd like to pay the $8 expedited border processing fee for priority clearance."`,
+            moneyChange: -8, batteryChange: -1, timeChange: -1,
+            feedback: "Fast-Track Clearance! You clear immigration instantly via the express lane.",
+            isGameOver: false
+          },
+          {
+            text: `[Vault over border security turnstiles into the international corridor]`,
+            feedback: "ARRESTED AT BORDER CONTROL! Forcible entry past border turnstiles without passport inspection is a federal offense.",
+            isGameOver: true,
+            gameOverTitle: "ARRESTED AT BORDER CONTROL",
+            gameOverLesson: "Physical violations of border checkpoints result in immediate arrest and criminal record escalation."
+          }
+        ]
+      },
+      {
+        stageNum: 4,
+        title: "Transit Baggage Re-Check Desk",
+        location: "Concourse Transit Re-check",
+        character: "Baggage Service Agent",
+        dialogue: `"Your carry-on bag tag indicates an oversized dimension lock. We need to verify compliance or gate-check it."`,
+        heading: "How do you handle the baggage query?",
+        options: [
+          {
+            text: `"I have my physical bag dimensions ready—can we verify them right here in the sizing crate?"`,
+            moneyChange: 0, batteryChange: 0, timeChange: -2,
+            feedback: "Battery Saved! Quick physical verification resolves the lock.",
+            isGameOver: false
+          },
+          {
+            text: `"I'll adjust my carry-on bag straps manually to fit the standard overhead bin dimensions."`,
+            moneyChange: 0, batteryChange: -2, timeChange: -3,
+            feedback: "No Extra Fees! You adjust the straps yourself for free.",
+            isGameOver: false
+          },
+          {
+            text: `"I'll pay the $5 express bag-tagging fee to clear the baggage check immediately."`,
+            moneyChange: -5, batteryChange: -1, timeChange: -1,
+            feedback: "Instant Tagging! Express payment clears your bag in seconds.",
+            isGameOver: false
+          },
+          {
+            text: `[Abandon your oversized luggage in the middle of the crowded corridor and run toward the gate]`,
+            feedback: "SECURITY EVACUATION TRIGGERED! Unattended luggage in an airport terminal causes a bomb squad isolation alert.",
+            isGameOver: true,
+            gameOverTitle: "TERMINAL SECURITY EVACUATION",
+            gameOverLesson: "Leaving unattended bags in public airport spaces triggers security lockdowns and heavy fines."
+          }
+        ]
+      },
+      {
+        stageNum: 5,
         title: "Terminal 3 Concourse Security Check",
         location: "Concourse C Fast-Track Security",
         character: "Security Screening Lead",
@@ -343,106 +360,382 @@
         heading: "Select your interaction with security screeners:",
         options: [
           {
+            text: `"While you scan my trays, may I briefly plug my phone into this free USB charging station?"`,
+            moneyChange: 0, batteryChange: +15, timeChange: -2,
+            feedback: "Battery Boosted! You safely gain +15% battery charge at no cost while screening.",
+            isGameOver: false
+          },
+          {
             text: `"Laptop and power bank are in separate trays. Does my tablet need to come out as well?"`,
-            moneyChange: 0,
-            batteryChange: -5,
-            timeChange: -5,
-            feedback: "Clear, direct communication! Security scans your trays smoothly with zero delays.",
-            isArrest: false
+            moneyChange: 0, batteryChange: -2, timeChange: -3,
+            feedback: "Clear Communication! Standard screening completes smoothly without extra fees.",
+            isGameOver: false
           },
           {
-            text: `"Could I plug my phone into the paid rapid-charging kiosk here while you scan my bags?"`,
-            moneyChange: -15,
-            batteryChange: +25,
-            timeChange: -8,
-            feedback: "The guard points you to a rapid charging station before screening. You gain battery charge but lose extra time.",
-            isArrest: false
+            text: `"I'll use the $5 fast-track security lane to bypass the main screening queue."`,
+            moneyChange: -5, batteryChange: -1, timeChange: -1,
+            feedback: "Priority Lane! You zip through screening without standing in line.",
+            isGameOver: false
           },
           {
-            text: `"Leave devices inside bag and attempt to walk through without removing liquids or electronics."`,
-            moneyChange: 0,
-            batteryChange: -10,
-            timeChange: -15,
-            feedback: "Your bag triggers a manual search inspection. Security officers search every compartment, losing considerable time!",
-            isArrest: false
+            text: `[Refuse security screening and push past security officers onto the airside ramp]`,
+            feedback: "FEDERAL AVIATION VIOLATION! Bypassing security screening without authorization results in immediate federal custody.",
+            isGameOver: true,
+            gameOverTitle: "FEDERAL SECURITY CUSTODY",
+            gameOverLesson: "Screening compliance is non-negotiable under international civil aviation guidelines."
           }
         ]
       },
       {
-        stageNum: 4,
-        title: "Transit Customs Clearance Station",
-        location: "Customs Inspection Area",
-        character: "Customs Official",
-        dialogue: `"Customs spot-check! The official steps forward to inspect transit passenger luggage items and declarations."`,
-        heading: "Select your statement to the Customs Official:",
+        stageNum: 6,
+        title: "EMERGENCY: Fire Alarm in Transit Concourse",
+        location: "Connecting Skywalk Corridor",
+        character: "Emergency Safety Warden",
+        dialogue: `"EMERGENCY ANNOUNCEMENT: Sirens blare and strobes flash! Concourse B fire doors are closing automatically!"`,
+        heading: "Select your emergency communication and response:",
         options: [
           {
-            text: `"Nothing to declare, officer—just personal belongings and standard duty-free items."`,
-            moneyChange: 0,
-            batteryChange: -3,
-            timeChange: -3,
-            feedback: "Direct and legally compliant declaration. The official waives you through immediately.",
-            isArrest: false
+            text: `"Excuse me warden, what is the approved physical detour route to reach Terminal 3 Gate C18?"`,
+            moneyChange: 0, batteryChange: 0, timeChange: -2,
+            feedback: "Calm & Screen-Free! The warden points to an open emergency bypass walkway.",
+            isGameOver: false
           },
           {
-            text: `"I refuse to open my luggage for you! You have no legal right to search my sealed private bags!" (Refusing inspection order)`,
-            moneyChange: 0,
-            batteryChange: 0,
-            timeChange: 0,
-            feedback: "ARRESTED BY CUSTOMS OFFICERS! Refusing lawful customs inspection orders results in immediate bag seizure and criminal detention under aviation security laws.",
-            isArrest: true,
-            arrestType: "customs"
+            text: `"I will follow the marked emergency exit signage around the smoke door zone."`,
+            moneyChange: 0, batteryChange: -2, timeChange: -3,
+            feedback: "Zero Spent! You follow physical safety signs around the blocked section.",
+            isGameOver: false
           },
           {
-            text: `"I am not entirely sure what is inside this bag, my friend packed it for me this morning."`,
-            moneyChange: 0,
-            batteryChange: -10,
-            timeChange: -10,
-            feedback: "Uncertain statements raise immediate red flags. Officials conduct a full physical search of your luggage, costing time.",
-            isArrest: false
+            text: `"I'll pay $5 for a guided staff escort through the priority maintenance tunnel."`,
+            moneyChange: -5, batteryChange: -1, timeChange: -1,
+            feedback: "Rapid Escort! A staff member leads you straight through the emergency shortcut.",
+            isGameOver: false
+          },
+          {
+            text: `[Pull the emergency train stop lever on the automated transit shuttle in panic]`,
+            feedback: "CRITICAL INFRASTRUCTURE SHUTDOWN! Activating emergency transit stops without cause traps passengers and draws police detention.",
+            isGameOver: true,
+            gameOverTitle: "EMERGENCY SYSTEM TAMPERING",
+            gameOverLesson: "Emergency controls must only be used for genuine onboard disasters, not personal evacuation shortcuts."
           }
         ]
       },
       {
-        stageNum: 5,
-        title: "Gate C18 Boarding Corridor Sprint",
-        location: "Terminal 3 - Gate C18 Lounge",
+        stageNum: 7,
+        title: "High-Density Duty-Free Plaza",
+        location: "Terminal 3 Central Plaza",
+        character: "Information Kiosk Staff",
+        dialogue: `"The central plaza is packed with holiday shoppers. Signs for Gate C18 are obscured by major construction banners."`,
+        heading: "How do you navigate through the plaza crowd?",
+        options: [
+          {
+            text: `"Hello, could you direct me toward Gate C18 using the overhead plaza signs?"`,
+            moneyChange: 0, batteryChange: 0, timeChange: -2,
+            feedback: "Screen-Free Direction! Staff highlights an overhead shortcut.",
+            isGameOver: false
+          },
+          {
+            text: `"I'll walk directly through the central plaza walkway following the yellow floor markings."`,
+            moneyChange: 0, batteryChange: -2, timeChange: -3,
+            feedback: "Free Navigation! Following floor signs guides you through the crowd at zero cost.",
+            isGameOver: false
+          },
+          {
+            text: `"I'll purchase a $5 express concourse pass to use the priority elevator shortcut."`,
+            moneyChange: -5, batteryChange: -1, timeChange: -1,
+            feedback: "Elevator Shortcut! You skip the plaza crowd entirely.",
+            isGameOver: false
+          },
+          {
+            text: `[Jump onto an unattended electric staff cart and drive it through the crowded pedestrian plaza]`,
+            feedback: "ARREST FOR VEHICLE THEFT & RECKLESS ENDANGERMENT! Operating airport utility vehicles unlawfully ends in criminal charges.",
+            isGameOver: true,
+            gameOverTitle: "ARRESTED FOR VEHICLE THEFT",
+            gameOverLesson: "Unauthorized operation of airport equipment is a criminal offense."
+          }
+        ]
+      },
+      {
+        stageNum: 8,
+        title: "Gate Change Announcement Alert",
+        location: "Transit Concourse Hub",
+        character: "Gate Information Screen Monitor",
+        dialogue: `"ANNOUNCEMENT: Departure gate updated from Gate C18 to Remote Stand Gate D42!"`,
+        heading: "How do you handle the sudden gate change?",
+        options: [
+          {
+            text: `"Excuse me, could you confirm on your desk monitor if Gate D42 is accessible via the lower walkway?"`,
+            moneyChange: 0, batteryChange: 0, timeChange: -2,
+            feedback: "No Phone Needed! Desk staff confirms the direct lower corridor route.",
+            isGameOver: false
+          },
+          {
+            text: `"Excuse me, is the transfer shuttle to Gate D42 free for connecting passengers?"`,
+            moneyChange: 0, batteryChange: -2, timeChange: -3,
+            feedback: "Free Transit! You take the designated transfer shuttle at no cost.",
+            isGameOver: false
+          },
+          {
+            text: `"I'll hire a $5 motorized concourse cart to take me straight to Gate D42."`,
+            moneyChange: -5, batteryChange: -1, timeChange: -1,
+            feedback: "Fast Transit! Motorized cart drops you right at Gate D42.",
+            isGameOver: false
+          },
+          {
+            text: `[Open service exit door marked 'AUTHORIZED PERSONNEL ONLY' and run across the tarmac airfield]`,
+            feedback: "AIRFIELD SECURITY INTRUSION! Entering active aircraft taxiways triggers an immediate armed security interdiction.",
+            isGameOver: true,
+            gameOverTitle: "AIRFIELD SECURITY TRESPASS",
+            gameOverLesson: "Entering active airside tarmac zones breaches international aviation safety laws."
+          }
+        ]
+      },
+      {
+        stageNum: 9,
+        title: "EMERGENCY: Medical Collapse in Skybridge",
+        location: "Inter-Terminal Skybridge Corridor",
+        character: "Distressed Traveler",
+        dialogue: `"EMERGENCY SITUATION: A passenger collapses suddenly on the narrow skybridge ahead!"`,
+        heading: "Select your emergency reaction and protocol:",
+        options: [
+          {
+            text: `"I am pressing the wall emergency call button right now to request medical assistance!"`,
+            moneyChange: 0, batteryChange: 0, timeChange: -2,
+            feedback: "Civic Duty & Power Saved! Wall intercom summons medics quickly.",
+            isGameOver: false
+          },
+          {
+            text: `"I will notify the nearest skybridge guard verbally so they can direct medical personnel."`,
+            moneyChange: 0, batteryChange: -2, timeChange: -3,
+            feedback: "Free Assistance! Verbal report allows guards to clear the skybridge path.",
+            isGameOver: false
+          },
+          {
+            text: `"I'll pay $3 for express medical response coordination at the service desk ahead."`,
+            moneyChange: -3, batteryChange: -1, timeChange: -1,
+            feedback: "Rapid Medical Dispatch! Medics clear the corridor quickly.",
+            isGameOver: false
+          },
+          {
+            text: `[Step directly over the unconscious traveler while pushing aside bystanders to maintain your pace]`,
+            feedback: "DETAINED FOR RECKLESS INJURY & NEGLIGENCE! Disregarding an active medical emergency with bodily harm causes immediate police intervention.",
+            isGameOver: true,
+            gameOverTitle: "DETAINED FOR RECKLESS CONDUCT",
+            gameOverLesson: "Safety and basic human duty of care override transit speed in medical emergencies."
+          }
+        ]
+      },
+      {
+        stageNum: 10,
+        title: "Biometric Passport E-Gate Failure",
+        location: "Gate D Transit Security Portal",
+        character: "E-Gate System Monitor",
+        dialogue: `"SYSTEM ERROR: Biometric scanner failed to verify passport chip! Gate doors remain locked red."`,
+        heading: "How do you respond to the technical malfunction?",
+        options: [
+          {
+            text: `"Excuse me officer, my passport chip errored—could you perform a manual paper check?"`,
+            moneyChange: 0, batteryChange: 0, timeChange: -2,
+            feedback: "Battery Preserved! Officer checks physical passport manually.",
+            isGameOver: false
+          },
+          {
+            text: `"Excuse me, I'll step to the manual verification desk to clear my passport details."`,
+            moneyChange: 0, batteryChange: -2, timeChange: -3,
+            feedback: "No Fees Incurred! Manual desk confirms your pass for free.",
+            isGameOver: false
+          },
+          {
+            text: `"I'll pay the $5 instant agent assistance fee for immediate manual gate override."`,
+            moneyChange: -5, batteryChange: -1, timeChange: -1,
+            feedback: "Instant Override! Agent unlocks the E-gate in seconds.",
+            isGameOver: false
+          },
+          {
+            text: `[Physically pry open the acrylic electronic security doors using force]`,
+            feedback: "CRITICAL BREACH ALARM! Forcing biometric security barriers causes mechanical lock-down and immediate arrest.",
+            isGameOver: true,
+            gameOverTitle: "SECURITY BREACH ALARM",
+            gameOverLesson: "Attempting to force automated border doors triggers criminal property destruction charges."
+          }
+        ]
+      },
+      {
+        stageNum: 11,
+        title: "Battery Warning at Digital Pass Verification",
+        location: "Gate D Pre-Boarding Lounge",
+        character: "Document Inspection Officer",
+        dialogue: `"Your phone screen flickers with a 1% Battery Warning as you approach document verification!"`,
+        heading: "Select your action to preserve boarding access:",
+        options: [
+          {
+            text: `"May I plug into this free desk charging port for 60 seconds to show my digital boarding pass?"`,
+            moneyChange: 0, batteryChange: +20, timeChange: -2,
+            feedback: "Battery Restored! Desk charge gains +20% battery safely.",
+            isGameOver: false
+          },
+          {
+            text: `"Hello officer, my battery is low—can you verify my booking using my passport number?"`,
+            moneyChange: 0, batteryChange: -2, timeChange: -3,
+            feedback: "Budget Friendly! Passport verification requires zero extra cash.",
+            isGameOver: false
+          },
+          {
+            text: `"I'll buy an $8 pre-charged mini power bank from the quick-vending kiosk."`,
+            moneyChange: -8, batteryChange: +35, timeChange: -1,
+            feedback: "Instant Charging! Power bank restores battery to safe levels immediately.",
+            isGameOver: false
+          },
+          {
+            text: `[Plug your phone charger into an official customs workstation console without permission]`,
+            feedback: "UNAUTHORIZED NETWORK INFRASTRUCTURE TAMPERING! Plugging unknown devices into border control hardware triggers cyber-security detention.",
+            isGameOver: true,
+            gameOverTitle: "CYBER-SECURITY DETENTION",
+            gameOverLesson: "Never connect personal hardware to restricted aviation security equipment."
+          }
+        ]
+      },
+      {
+        stageNum: 12,
+        title: "Final Boarding Gate D42 Podium",
+        location: "Gate D42 Boarding Desk",
         character: "Gate Departure Attendant",
-        dialogue: `"Final call for flight AP-88! Gate C18 is closing in 3 minutes! Passengers must present electronic boarding passes now."`,
+        dialogue: `"Final call for flight AP-88! Gate D42 is closing in 2 minutes! Passengers must scan boarding passes now."`,
         heading: "Select your final approach to the gate podium:",
         options: [
           {
-            text: `"Boarding for flight AP-88? Here is my mobile boarding pass ready to scan."`,
-            moneyChange: 0,
-            batteryChange: -5,
-            timeChange: -2,
-            feedback: "Perfect execution! You present your pass cleanly and step through the jetbridge just as final call ends!",
-            isArrest: false
+            text: `"Boarding for flight AP-88? Here is my physical passport and printed pass ready."`,
+            moneyChange: 0, batteryChange: 0, timeChange: -2,
+            feedback: "Seamless Scan! Physical paper pass scans instantly with 0% battery used.",
+            isGameOver: false
           },
           {
-            text: `"Use phone to frantically search for email PDF receipt while standing at the desk."`,
-            moneyChange: 0,
-            batteryChange: -25,
-            timeChange: -5,
-            feedback: "Your phone battery drains severely while searching for documents, but you manage to scan in barely in time!",
-            isArrest: false
+            text: `"Hello, I'm ready to scan my mobile boarding pass for flight AP-88."`,
+            moneyChange: 0, batteryChange: -2, timeChange: -3,
+            feedback: "Standard Boarding! Clean digital scan at $0 extra cost.",
+            isGameOver: false
           },
           {
-            text: `"Could I pay the rush fee at the transit counter for an instant priority paper boarding pass reissue?"`,
-            moneyChange: -30,
-            batteryChange: -2,
-            timeChange: -1,
-            feedback: "You spend money for instant paper re-issue and sprint straight onto the plane!",
-            isArrest: false
+            text: `"I'll pay the $5 express priority jetbridge access fee to board immediately."`,
+            moneyChange: -5, batteryChange: -1, timeChange: -1,
+            feedback: "Priority Express! You walk straight down the jetbridge ahead of lines.",
+            isGameOver: false
+          },
+          {
+            text: `[Push past the gate attendant desk and run directly down the jetbridge without scanning]`,
+            feedback: "BOARDING GATE VIOLATION! Unlawfully entering the jetbridge without boarding authorization forces flight grounded isolation.",
+            isGameOver: true,
+            gameOverTitle: "UNAUTHORIZED BOARDING DETENTION",
+            gameOverLesson: "Entering an aircraft jetbridge without authorized scanning triggers immediate police intervention."
+          }
+        ]
+      },
+      {
+        stageNum: 13,
+        title: "Onboard Aircraft Seat Allocation Request",
+        location: "Flight AP-88 Cabin - Row 12",
+        character: "Seated Parent Passenger",
+        dialogue: `"Excuse me, my daughter is in 12B next to you, but I was assigned middle seat 26E. Would you mind swapping your aisle seat with me?"`,
+        heading: "How do you respond using direct, assertive B2 language?",
+        options: [
+          {
+            text: `"I appreciate your situation, but I specifically booked an aisle seat. Perhaps the crew can assist?"`,
+            moneyChange: 0, batteryChange: 0, timeChange: -1,
+            feedback: "Assertive Boundary! Professional B2 register maintains your preferred seat.",
+            isGameOver: false
+          },
+          {
+            text: `"I will switch seats with you if you cover my $15 seat reservation fee."`,
+            moneyChange: +15, batteryChange: 0, timeChange: -1,
+            feedback: "Profitable Arrangement! The passenger happily reimburses your $15 reservation fee.",
+            isGameOver: false
+          },
+          {
+            text: `"Sure, no problem! I can quickly take seat 26E so you two can sit together."`,
+            moneyChange: 0, batteryChange: -1, timeChange: -1,
+            feedback: "Courteous & Fast! You move swiftly to row 26E without hassle.",
+            isGameOver: false
+          },
+          {
+            text: `[Shout aggressively at the passenger and cause a loud cabin disturbance before takeoff]`,
+            feedback: "REMOVED FROM AIRCRAFT! Causing hostile disturbances onboard leads to immediate removal by federal marshals.",
+            isGameOver: true,
+            gameOverTitle: "REMOVED FOR UNRULY BEHAVIOR",
+            gameOverLesson: "Aggressive conduct on commercial aircraft violates international civil aviation laws."
+          }
+        ]
+      },
+      {
+        stageNum: 14,
+        title: "Overhead Luggage Compartment Capacity",
+        location: "Flight AP-88 Cabin Row 12 Overhead Bins",
+        character: "Flight Attendant",
+        dialogue: `"The overhead bins in Row 12 are completely full. Passengers must stow remaining carry-ons under seats or request gate checking."`,
+        heading: "Select your final onboard resolution:",
+        options: [
+          {
+            text: `"Excuse me, is there space in the forward coat closet for my carry-on?"`,
+            moneyChange: 0, batteryChange: 0, timeChange: -1,
+            feedback: "Clear B2 Request! The attendant stows your bag in the closet effortlessly.",
+            isGameOver: false
+          },
+          {
+            text: `"I will stow my carry-on bag beneath the seat in front of my feet."`,
+            moneyChange: 0, batteryChange: -1, timeChange: -1,
+            feedback: "Zero Extra Fees! Bag fits under the seat for departure.",
+            isGameOver: false
+          },
+          {
+            text: `"I'll pay $5 for premium cabin valet storage to stow my luggage instantly."`,
+            moneyChange: -5, batteryChange: 0, timeChange: -1,
+            feedback: "Instant Stowage! Valet handles your luggage immediately.",
+            isGameOver: false
+          },
+          {
+            text: `[Attempt to open the secure flight deck cockpit door to ask the captain for luggage storage space]`,
+            feedback: "HIGH-LEVEL SECURITY THREAT! Attempting to open flight deck doors during flight preparation results in immediate federal arrest.",
+            isGameOver: true,
+            gameOverTitle: "FLIGHT DECK SECURITY VIOLATION",
+            gameOverLesson: "Attempting access to the aircraft flight deck is a major security breach."
           }
         ]
       }
     ];
 
+    function clampStats() {
+      if (money < 0) money = 0;
+      if (battery < 0) battery = 0;
+      if (battery > 100) battery = 100;
+      if (timeLeft < 0) timeLeft = 0;
+    }
+
+    function updateStatsUI() {
+      clampStats();
+      
+      const moneyEl = document.getElementById('stat-money');
+      const batteryEl = document.getElementById('stat-battery');
+      const timeEl = document.getElementById('stat-time');
+
+      if (moneyEl) {
+        moneyEl.textContent = `$${money}`;
+        moneyEl.className = money < 15 ? "text-rose-400 font-bold" : "text-white font-bold";
+      }
+      if (batteryEl) {
+        batteryEl.textContent = `${battery}%`;
+        batteryEl.className = battery < 20 ? "text-rose-400 font-bold" : "text-white font-bold";
+      }
+      if (timeEl) {
+        timeEl.textContent = `${timeLeft} mins`;
+        timeEl.className = timeLeft < 8 ? "text-rose-400 font-bold" : "text-white font-bold";
+      }
+    }
+
     function renderStage() {
+      isChoiceSelected = false;
       const data = stages[currentStageIndex];
 
-      document.getElementById('stage-badge').textContent = `STAGE ${data.stageNum} OF 5`;
+      document.getElementById('stage-badge').textContent = `STAGE ${data.stageNum} OF 14`;
       document.getElementById('stage-title').textContent = data.title;
       document.getElementById('stage-location').textContent = data.location;
       document.getElementById('character-name').textContent = data.character;
@@ -451,20 +744,25 @@
 
       const fb = document.getElementById('action-feedback');
       fb.classList.add('hidden');
-      document.getElementById('next-stage-btn').classList.add('hidden');
+      
+      const nextBtn = document.getElementById('next-stage-btn');
+      nextBtn.classList.add('hidden');
 
       const container = document.getElementById('options-container');
       container.style.pointerEvents = 'auto';
       container.innerHTML = '';
 
-      // Randomize the options presented each time
+      // Randomize the options presented for stage variance
       const randomizedOptions = shuffleArray(data.options);
 
       randomizedOptions.forEach((opt) => {
         const btn = document.createElement('button');
-        btn.className = "w-full text-left bg-slate-950 hover:bg-slate-800 border border-slate-800 hover:border-amber-500/50 p-4 rounded-xl transition space-y-2 group";
+        btn.type = 'button';
+        btn.className = "w-full text-left bg-slate-950 hover:bg-slate-800 border border-slate-800 hover:border-amber-500/50 p-4 rounded-xl transition space-y-2 group focus:outline-none focus:ring-2 focus:ring-amber-400";
+        btn.setAttribute('role', 'radio');
+        btn.setAttribute('aria-checked', 'false');
 
-        btn.onclick = () => handleChoice(opt);
+        btn.onclick = () => handleChoice(opt, btn);
 
         btn.innerHTML = `
           <div class="flex justify-between items-center gap-2">
@@ -477,24 +775,33 @@
       updateStatsUI();
     }
 
-    function handleChoice(opt) {
-      if (opt.isArrest) {
-        triggerArrestGameOver(opt.arrestType, opt.feedback);
+    function handleChoice(opt, selectedBtn) {
+      if (isChoiceSelected) return;
+      isChoiceSelected = true;
+
+      const container = document.getElementById('options-container');
+      container.style.pointerEvents = 'none';
+
+      if (selectedBtn) {
+        selectedBtn.setAttribute('aria-checked', 'true');
+        selectedBtn.classList.add('border-amber-500', 'bg-slate-900');
+      }
+
+      if (opt.isGameOver) {
+        triggerGameOver(opt.gameOverTitle, opt.feedback, opt.gameOverLesson);
         return;
       }
 
-      money += opt.moneyChange;
-      battery += opt.batteryChange;
-      timeLeft += opt.timeChange;
-
-      if (battery > 100) battery = 100;
+      money += opt.moneyChange || 0;
+      battery += opt.batteryChange || 0;
+      timeLeft += opt.timeChange || 0;
 
       updateStatsUI();
 
       let impactText = [];
-      if (opt.moneyChange !== 0) impactText.push(`${opt.moneyChange > 0 ? '+' : ''}${opt.moneyChange}$`);
-      if (opt.batteryChange !== 0) impactText.push(`${opt.batteryChange > 0 ? '+' : ''}${opt.batteryChange}% Battery`);
-      if (opt.timeChange !== 0) impactText.push(`${opt.timeChange} mins`);
+      if (opt.moneyChange) impactText.push(`${opt.moneyChange > 0 ? '+' : ''}${opt.moneyChange}$`);
+      if (opt.batteryChange) impactText.push(`${opt.batteryChange > 0 ? '+' : ''}${opt.batteryChange}% Battery`);
+      if (opt.timeChange) impactText.push(`${opt.timeChange} mins`);
 
       const impactBadge = impactText.length > 0 
         ? `<div class="mt-2 text-[11px] font-mono font-bold text-amber-300">Consequences: ${impactText.join(' | ')}</div>` 
@@ -504,15 +811,21 @@
       fb.innerHTML = `<div>${opt.feedback}</div>${impactBadge}`;
       fb.className = "p-4 rounded-xl border text-xs sm:text-sm font-medium leading-relaxed bg-amber-500/10 border-amber-500/30 text-amber-200 mt-4 block";
 
-      const container = document.getElementById('options-container');
-      container.style.pointerEvents = 'none';
-
-      // Show the continue button to let trainee read at their own pace
-      document.getElementById('next-stage-btn').classList.remove('hidden');
+      const nextBtn = document.getElementById('next-stage-btn');
+      const nextText = document.getElementById('next-stage-text');
+      
+      if (currentStageIndex === stages.length - 1) {
+        nextText.textContent = "Complete Connection Challenge";
+      } else {
+        nextText.textContent = "Continue to Next Stage";
+      }
+      
+      nextBtn.classList.remove('hidden');
+      nextBtn.focus();
     }
 
     function advanceStage() {
-      if (money < 0 || battery <= 0 || timeLeft <= 0) {
+      if (battery <= 0 || timeLeft <= 0) {
         triggerResourceGameOver();
         return;
       }
@@ -521,77 +834,18 @@
       if (currentStageIndex < stages.length) {
         renderStage();
       } else {
-        document.getElementById('game-card').classList.add('hidden');
-        renderSeatScenario();
+        showFinalDebriefing();
       }
     }
 
-    function renderSeatScenario() {
-      const container = document.getElementById('seat-options-container');
-      container.innerHTML = '';
-
-      const seatOptions = [
-        {
-          agreed: false,
-          label: "Option: Direct Refusal",
-          text: `"I appreciate your situation, but I specifically reserved an aisle seat for a back condition. You might want to ask the crew if they can reassign a pair."`,
-          borderClass: "hover:border-amber-500/50",
-          titleClass: "text-amber-300"
-        },
-        {
-          agreed: true,
-          label: "Option: Courteous Agreement",
-          text: `"Sure, no problem. I can take seat 26E so you two can sit together."`,
-          borderClass: "hover:border-emerald-500/50",
-          titleClass: "text-emerald-300"
-        }
-      ];
-
-      // Randomize seat swap options order
-      const randomizedSeatOptions = shuffleArray(seatOptions);
-
-      randomizedSeatOptions.forEach(opt => {
-        const btn = document.createElement('button');
-        btn.onclick = () => handleSeatSwapChoice(opt.agreed);
-        btn.className = `w-full text-left bg-slate-950 hover:bg-slate-800 border border-slate-700 ${opt.borderClass} p-4 rounded-xl transition space-y-1`;
-        btn.innerHTML = `
-          <p class="text-sm font-bold ${opt.titleClass}">${opt.label}</p>
-          <p class="text-xs text-slate-300">${opt.text}</p>
-        `;
-        container.appendChild(btn);
-      });
-
-      document.getElementById('seat-scenario-card').classList.remove('hidden');
-    }
-
-    function updateStatsUI() {
-      document.getElementById('stat-money').textContent = `$${money}`;
-      document.getElementById('stat-battery').textContent = `${battery}%`;
-      document.getElementById('stat-time').textContent = `${timeLeft} mins`;
-
-      document.getElementById('stat-money').className = money < 15 ? "text-rose-400 font-bold" : "text-white font-bold";
-      document.getElementById('stat-battery').className = battery < 20 ? "text-rose-400 font-bold" : "text-white font-bold";
-      document.getElementById('stat-time').className = timeLeft < 8 ? "text-rose-400 font-bold" : "text-white font-bold";
-    }
-
-    function triggerArrestGameOver(type, message) {
+    function triggerGameOver(titleText, descText, lessonText) {
       document.getElementById('game-card').classList.add('hidden');
       const goCard = document.getElementById('game-over-card');
       goCard.classList.remove('hidden');
 
-      const title = document.getElementById('game-over-title');
-      const desc = document.getElementById('game-over-desc');
-      const lesson = document.getElementById('game-over-lesson');
-
-      if (type === 'immigration') {
-        title.textContent = "ARRESTED BY IMMIGRATION OFFICERS";
-        desc.textContent = message;
-        lesson.textContent = "Bypassing international border control checkpoints or physical barriers without clearance is a severe criminal offense. Direct B2 requests should remain professional and clear (e.g., 'Is there an expedited lane I can use?').";
-      } else if (type === 'customs') {
-        title.textContent = "ARRESTED BY CUSTOMS OFFICIALS";
-        desc.textContent = message;
-        lesson.textContent = "Refusing lawful inspection orders from airport customs officials results in immediate baggage seizure and detention under aviation security laws. Direct, clear B2 declarations are required.";
-      }
+      document.getElementById('game-over-title').textContent = titleText || "INCIDENT ESCALATION - GAME OVER";
+      document.getElementById('game-over-desc').textContent = descText || "An urgent violation halted your transit connection.";
+      document.getElementById('game-over-lesson').textContent = lessonText || "Maintain professional language and adhere to airport regulations.";
     }
 
     function triggerResourceGameOver() {
@@ -603,64 +857,42 @@
       const desc = document.getElementById('game-over-desc');
       const lesson = document.getElementById('game-over-lesson');
 
-      title.textContent = "CONNECTION MISSED - OUT OF RESOURCES";
+      title.textContent = "CONNECTION MISSED - EXHAUSTED RESOURCES";
       
       if (timeLeft <= 0) {
-        desc.textContent = "Time expired! Gate C18 closed its doors before you arrived at Terminal 3.";
-        lesson.textContent = "Poor navigation decisions or improper language register caused unnecessary delays at airport desks, resulting in a missed flight.";
+        desc.textContent = "Time expired! Departure doors closed before you reached your destination.";
+        lesson.textContent = "Inappropriate communication registers or inefficient route choices cause delays.";
       } else if (battery <= 0) {
-        desc.textContent = "Your phone battery completely died! You lost access to your digital boarding pass and airport transfer directions.";
-        lesson.textContent = "Resource management is vital during long transit connections. Keep phone battery reserved for critical boarding documentation.";
-      } else if (money < 0) {
-        desc.textContent = "You ran completely out of money to pay for required transit shuttle passes or fast-track fees.";
-        lesson.textContent = "Balance expensive shortcut options (like private golf carts) with efficient, direct communication.";
+        desc.textContent = "Your phone battery died completely! You lost access to mobile documentation.";
+        lesson.textContent = "Reserve phone battery power strictly for mandatory digital documents during transit.";
       }
     }
 
-    function handleSeatSwapChoice(agreedToSwap) {
-      document.getElementById('seat-scenario-card').classList.add('hidden');
-
-      if (agreedToSwap) {
-        document.getElementById('crew-upgrade-card').classList.remove('hidden');
-      } else {
-        showFinalDebriefing(false);
-      }
-    }
-
-    function showFinalDebriefing(isUpgraded) {
-      document.getElementById('crew-upgrade-card').classList.add('hidden');
+    function showFinalDebriefing() {
+      document.getElementById('game-card').classList.add('hidden');
       const debrief = document.getElementById('debriefing-card');
       debrief.classList.remove('hidden');
 
       document.getElementById('debrief-money').textContent = `$${money}`;
       document.getElementById('debrief-battery').textContent = `${battery}%`;
-
-      if (isUpgraded) {
-        document.getElementById('debrief-title').textContent = "UPGRADED TO BUSINESS CLASS!";
-        document.getElementById('debrief-desc').textContent = "Your flexible attitude toward a fellow passenger was noticed by the purser! Due to a seat belt issue in economy row 26, you were rewarded with a full upgrade to Business Class seat 2F!";
-        document.getElementById('debrief-seat').textContent = "Business 2F";
-      } else {
-        document.getElementById('debrief-title').textContent = "GREAT FLIGHT - CONNECTION SUCCESS!";
-        document.getElementById('debrief-desc').textContent = "You clearly and directly retained your booked aisle seat (12C), settled in comfortably, and enjoyed a smooth flight after a fast-paced airport connection!";
-        document.getElementById('debrief-seat').textContent = "Aisle 12C";
-      }
+      document.getElementById('debrief-time').textContent = `${timeLeft} mins`;
     }
 
     function restartGame() {
       money = 85;
-      battery = 70;
-      timeLeft = 32;
+      battery = 75;
+      timeLeft = 45;
       currentStageIndex = 0;
+      isChoiceSelected = false;
 
       document.getElementById('game-over-card').classList.add('hidden');
       document.getElementById('debriefing-card').classList.add('hidden');
-      document.getElementById('seat-scenario-card').classList.add('hidden');
-      document.getElementById('crew-upgrade-card').classList.add('hidden');
       document.getElementById('game-card').classList.remove('hidden');
 
       renderStage();
     }
 
+    // Initial render call on DOM ready
     renderStage();
   </script>
 </body>
